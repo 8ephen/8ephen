@@ -5,62 +5,47 @@
     <meta charset="utf-8">
     <meta name="description" content="&lt;model-viewer&gt; template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" href="./Cubeassets/styles.css" rel="stylesheet"/>
-    <link type="iotext/css" href="./styles.css" rel="stylesheet"/>
+    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <link type="iotext/css" href="ButtonModelStyles.css" rel="stylesheet"/>
   </head>
   <body>
-    <div class="l">
-<button class="button-26" role="button" class="l">
-            <div class="button-26__content" class="l">
-              <span class="button-26__text text" class="l">
-                 <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-    interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
-                A Cube
+    <!-- Button With 3D Model -->
+<div class="grid">
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Cube</h3>
+              <span class="button_model">
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                </model-viewer>
               </span>
-            </div>
-          </button>
-</div class="2">
-    <!-- <model-viewer> HTML element -->
-    <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-    interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1" class="l">
+    </button>
+  </div>  
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Brewer</h3>
+              <span class="button_model">
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                </model-viewer>
+              </span>
+    </button>
+  </div>  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Shaver</h3>
+              <span class="button_model" >
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
+                </model-viewer>
+              </span>
+    </button>
+  </div>
 
-    <button class="Hotspot" slot="hotspot-1" data-surface="0 0 9 18 21 0.416 0.557 0.027" data-visibility-attribute="visible">
-          <div class="HotspotAnnotation">Cube</div>
-      </button>
-
-      <button slot="ar-button" id="ar-button">
-          View in your space
-      </button>
-
-      <div id="ar-prompt">
-          <img src="./Cubeassets/ar_hand_prompt.png">
-
-      </div>
-
-
-    </model-viewer>  
-    <script src="./Cubeassets/script.js"></script>
 </div>
-    <!-- Loads <model-viewer> for browsers: -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-   <!-- <model-viewer> HTML element -->
-    <model-viewer src="./Cubeassets/Untitled.glb" interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" shadow-intensity="1">
 
-      <button class="Hotspot" slot="hotspot-1" data-surface="0 0 9 18 21 0.416 0.557 0.027" data-visibility-attribute="visible">
-          <div class="HotspotAnnotation">Cube</div>
-      </button>
-      <div class="progress-bar hide" slot="progress-bar">
-          <div class="update-bar"></div>
-      </div>
-      <button slot="ar-button" id="ar-button">
-          View in your space
-      </button>
-      <div id="ar-prompt">
-          <img src="./Cubeassets/ar_hand_prompt.png">
-      </div>
-    </model-viewer>  
     <script src="./Cubeassets/script.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   </body>
+</html>
 </html>
