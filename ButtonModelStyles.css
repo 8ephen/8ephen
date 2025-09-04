@@ -179,9 +179,9 @@ padding-bottom: 10px;
   border-radius: 10px;
   outline: none;
   display: flex;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15), 15px 14px 20px rgba(0, 0, 0, 0.15);
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15), -15px -14px 20px rgba(0, 0, 0, 0.15);
-  transition: ease-in 0.2s, ease-out 0.5s;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15), 10px 10px 1px rgba(0, 0, 0, 0.15);
+
+  transition: ease-in 0.2s, ease-out 0.3s;
 
 }
 
