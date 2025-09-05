@@ -1,14 +1,68 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; template</title>
+    <title>Elements</title>
     <meta charset="utf-8">
-    <meta name="description" content="&lt;model-viewer&gt; template">
+    <meta name="description" content="Elements">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
-    <link type="iotext/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <script src="./script.js"></script>
+
+
+    <style>
+      #resizable-boxa {
+        margin: 5px;
+        width: 10rem;
+       height: 10rem;
+       background-color: white;
+       transition: all 0.2s ease;
+     }
+           #resizable-boxb {
+        margin: 5px;
+        width: 10rem;
+       height: 10rem;
+       background-color: white;
+       transition: all 0.2s ease;
+     }
+           #resizable-boxc {
+        margin: 5px;
+        width: 10rem;
+       height: 10rem;
+       background-color: white;
+       transition: all 0.2s ease;
+     }
+
+     #slider-container {
+        position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:block; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000;
+        
+  
+      
+      }
+    </style>
+
   </head>
   <body>
+
+
+  <div ></div>
+
+  <div id="slider-container">
+    <label for="grid-size-slider" id="mslider">-</label>
+    <input type="range" id="size-slider" min="10" max="100" value="20">
+    <label for="grid-size-slider" id="pslider">+</label>
+  </div>
+
+
+
+
+    <!-- Header Text -->
+    <div class="container">
+      <div class="clip-text">
+        Designs
+      </div>
+    </div>
+
     <!-- Button With 3D Model -->
 <div class="grid">
   <div class="grid-btn">
@@ -16,7 +70,7 @@
         <h3 class="ButtonTitle">Cube</h3>
               <span class="button_model">
                 <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                interaction-prompt="none" class="model" id="resizable-boxa" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
                 </model-viewer>
               </span>
     </button>
@@ -26,26 +80,50 @@
         <h3 class="ButtonTitle">Brewer</h3>
               <span class="button_model">
                 <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                interaction-prompt="none" class="model" id="resizable-boxb" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
                 </model-viewer>
               </span>
     </button>
-  </div>  <div class="grid-btn">
+  </div>  
+  <div class="grid-btn">
     <button class="button" role="button">
         <h3 class="ButtonTitle">Shaver</h3>
               <span class="button_model" >
                 <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none"  disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
+                interaction-prompt="none"  class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
                 </model-viewer>
               </span>
     </button>
   </div>
 
 </div>
+<script src="./script.js"></script>
+
 
     <script src="./Cubeassets/script.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-  </body>
-</html>
+
+  <script>
+    const slider = document.getElementById('size-slider');
+    const boxa = document.getElementById('resizable-boxa');
+    const boxb = document.getElementById('resizable-boxb');
+    const boxc = document.getElementById('resizable-boxc');
+    const sizeValue = document.getElementById('size-value');
+
+    slider.addEventListener('input', function() {
+      const newSize = slider.value;
+      boxa.style.width = newSize + 'rem';
+      boxa.style.height = newSize + 'rem';
+      boxb.style.width = newSize + 'rem';
+      boxb.style.height = newSize + 'rem';
+      boxc.style.width = newSize + 'rem';
+      boxc.style.height = newSize + 'rem';
+
+      sizeValue.textContent = newSize + '%';
+    });
+  </script>
+
+
+</body>
 </html>
