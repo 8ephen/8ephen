@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Elements</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Elements">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <script src="./script.js"></script>
+
+<style>
+  .model
+  {
+    min-width: 300px;
+    width: 30vw;
+    height: 30vh;
+  }
+</style>
+  </head>
+  <body>
+
+
+  <div ></div>
+
+    <!-- Header Text -->
+    <div class="container" style="margin-bottom: 30px;">
+      <div class="clip-text">
+        Force Guage Models
+      </div>
+    </div>
+
+    <!-- Button With 3D Model -->
+<div class="grid" id="grid1">
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Push Tip</h3>
+              <span class="button_model">
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none" class="model" id="resizable-boxa" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                </model-viewer>
+              </span>
+    </button>
+  </div>  
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Pull Tip</h3>
+              <span class="button_model">
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none" class="model" id="resizable-boxb" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+                </model-viewer>
+              </span>
+    </button>
+  </div>  
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Push Tip /w Extension</h3>
+              <span class="button_model" >
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none"  class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
+                </model-viewer>
+              </span>
+    </button>
+  </div>
+  <div class="grid-btn">
+    <button class="button" role="button">
+        <h3 class="ButtonTitle">Pull Tip /w Extension</h3>
+              <span class="button_model" >
+                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                interaction-prompt="none"  class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
+                </model-viewer>
+              </span>
+    </button>
+  </div>
+</div>
+
+
+
+
+
+
+<script src="./script.js"></script>
+
+
+    <script src="./Cubeassets/script.js"></script>
+    <!-- Loads <model-viewer> for browsers: -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+</body>
+</html>
