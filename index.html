@@ -175,12 +175,12 @@
     slider.addEventListener('input', function() {
       const newSize = slider.value;
       boxa.style.width = newSize + 'vw';
-      boxa.style.height = newSize + 'vw';
+      boxa.style.height = newSize + 'vh';
   
       boxb.style.width = newSize + 'vw';
-      boxb.style.height = newSize + 'vw';
+      boxb.style.height = newSize + 'vh';
       boxc.style.width = newSize + 'vw';
-      boxc.style.height = newSize + 'vw';
+      boxc.style.height = newSize + 'vh';
 
       sizeValue.textContent = newSize + '%';
       gap.style.columnGap = (newSize / 2) + 'vw';
@@ -188,3 +188,4 @@
   </script>
 </body>
 </html>
+
