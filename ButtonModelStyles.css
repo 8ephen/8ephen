@@ -7,7 +7,7 @@ html {
 }
 
 .clip-text {
-  background: url(/Site_Photos/Site_Photos_ProjectTextBackground1.webp);
+  background: url(/Site_Photos/Site_Photos_ProjectTextBackground1.jpg);
   background-size: cover;
   background-attachment: fixed;
   position: sticky;
@@ -327,3 +327,4 @@ flex-grow: 1;
           .grid-item4:hover {
             transform: translateY(-5px);
         }
+
