@@ -34,11 +34,19 @@
      }
 
      #slider-container {
-        position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:block; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000;
-        
-  
-      
+        width: 160px; position:fixed; bottom:40px; 
+        left:50%; transform:translateX(-50%); display:block; 
+        background:#fff; padding:10px; border-radius:111px; 
+        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000;
+        height: 20px;
       }
+      #size-slider {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+
     </style>
 
   </head>
@@ -49,22 +57,18 @@
 
   <div id="slider-container">
     <label for="grid-size-slider" id="mslider">-</label>
-    <input type="range" id="size-slider" min="5" max="60" value="15">
+    <input type="range" id="size-slider" min="18" max="90" value="25" step="0.1">
     <label for="grid-size-slider" id="pslider">+</label>
   </div>
-
-
-
-
     <!-- Header Text -->
-    <div class="container">
+    <div class="container" style="margin-bottom: 30px;">
       <div class="clip-text">
         Designs
       </div>
     </div>
 
     <!-- Button With 3D Model -->
-<div class="grid">
+<div class="grid" id="grid1">
   <div class="grid-btn">
     <button class="button" role="button">
         <h3 class="ButtonTitle">Cube</h3>
@@ -97,6 +101,62 @@
   </div>
 
 </div>
+
+    <div class="container" style="margin-top: 50px;">
+      <div class="clip-text">
+        Tools
+      </div>
+    </div>
+
+
+  <section class="grid-container">
+        <a class="grid-item3" role="button" href="/Tools/Tools_Solidworks_DrawingsToPNG.swp" style="text-decoration: none;" download="Tools_Solidworks_DrawingsToPNG.swp">
+            <span class="grid2Title">Drawing 2 PNG</span>
+            <p>Solidworks _ Export all drawing sheets as PNGs. VBA macro code files</p>
+        </a>
+        <a class="grid-item3" role="button" href="/Tools/Tools_Solidworks_ORingGenerator.SLDPRT" style="text-decoration: none;" download="Tools_Solidworks_ORingGenerator.SLDPRT">
+            <span class="grid2Title">Custom O-Rings</span>
+            <p>Solidworks _ O-Ring rubber silicon Mold Generator from Diameter and thickness</p>
+        </a>
+        <a class="grid-item3" role="button" href="/ForceGuageModels.html" style="text-decoration: none;" >
+            <span class="grid2Title">Force Guage Models</span>
+            <p>Solidworks _ 3D model of personal force gauge for automation of specification documents</p>
+        </a>
+        <a class="grid-item3" role="button" href="/SpecDocDecals" style="text-decoration: none;" >
+            <span class="grid2Title">Spec Doc Decals</span>
+            <p>This is the first feature in our grid section. It's awesome and super useful.</p>
+        </a>
+
+    </section>
+
+
+
+
+    <div class="container" style="margin-top: 50px;">
+      <div class="clip-text"">
+        Web-tools
+      </div>
+    </div>
+
+ 
+  <section class="grid-container">
+        <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
+            <span class="grid2Title">Wolfram|Alpha</span>
+            <p>Mathematical Computation Analysis</p>
+        </a>
+                <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
+            <span class="grid2Title">Wolfram|Alpha</span>
+            <p>Mathematical Computation Analysis</p>
+        </a>
+             <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
+            <span class="grid2Title">Wolfram|Alpha</span>
+            <p>Mathematical Computation Analysis</p>
+        </a>
+
+    </section>
+
+
+
 <script src="./script.js"></script>
 
 
@@ -110,21 +170,21 @@
     const boxb = document.getElementById('resizable-boxb');
     const boxc = document.getElementById('resizable-boxc');
     const sizeValue = document.getElementById('size-value');
+    const gap = document.getElementById('grid1');
 
     slider.addEventListener('input', function() {
       const newSize = slider.value;
-      boxa.style.width = newSize + 'rem';
-      boxa.style.height = newSize + 'rem';
-      boxb.style.width = newSize + 'rem';
-      boxb.style.height = newSize + 'rem';
-      boxc.style.width = newSize + 'rem';
-      boxc.style.height = newSize + 'rem';
+      boxa.style.width = newSize + 'vw';
+      boxa.style.height = newSize + 'vw';
+  
+      boxb.style.width = newSize + 'vw';
+      boxb.style.height = newSize + 'vw';
+      boxc.style.width = newSize + 'vw';
+      boxc.style.height = newSize + 'vw';
 
       sizeValue.textContent = newSize + '%';
+      gap.style.columnGap = (newSize / 2) + 'vw';
     });
   </script>
-
-
 </body>
 </html>
-
