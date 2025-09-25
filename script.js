@@ -1,13 +1,299 @@
-// Handles loading the events for <model-viewer>'s slotted progress bar
-const onProgress = (event) => {
-  const progressBar = event.target.querySelector('.progress-bar');
-  const updatingBar = event.target.querySelector('.update-bar');
-  updatingBar.style.width = `${event.detail.totalProgress * 100}%`;
-  if (event.detail.totalProgress === 1) {
-    progressBar.classList.add('hide');
-    event.target.removeEventListener('progress', onProgress);
-  } else {
-    progressBar.classList.remove('hide');
+document.addEventListener('DOMContentLoaded', function() {
+  var slider = document.getElementById('size-slider');
+  var grid = document.getElementById('grid1');
+  var sliderContainer = document.getElementById('slider-container');
+
+  slider.addEventListener('input', function() {
+    var itemsPerRow = parseInt(slider.value);
+    var grid = document.getElementById('grid1');
+    
+    if (grid) {
+      // Calculate width per item based on items per row
+      // Account for gaps and padding to fit page width
+      var gapSpace = 20; // 20px gap between items
+      var totalGaps = (itemsPerRow - 1) * gapSpace;
+      var containerPadding = 40; // 20px padding on each side
+      var availableWidth = 100; // Use percentage for responsive design
+      
+      // Calculate item width as percentage
+      var itemWidthPercent = (availableWidth - ((totalGaps + containerPadding) / window.innerWidth * 100)) / itemsPerRow;
+      
+      // Calculate model size based on available space
+      var viewportWidth = window.innerWidth;
+      var availableWidthPx = (viewportWidth - containerPadding - totalGaps) / itemsPerRow;
+      var modelSize = availableWidthPx * 0.9; // 90% of available space
+      
+      // Apply width to all grid items to control ROW layout
+      var gridItems = grid.querySelectorAll('.grid-btn');
+      gridItems.forEach(function(item) {
+        item.style.flex = `0 0 ${itemWidthPercent}%`;
+        item.style.width = `${itemWidthPercent}%`;
+        item.style.maxWidth = `${itemWidthPercent}%`;
+        item.style.minWidth = `${itemWidthPercent}%`;
+        
+        // Adjust model-viewer size based on columns
+        var modelViewer = item.querySelector('model-viewer');
+        if (modelViewer) {
+          modelViewer.style.width = modelSize + 'px';
+          modelViewer.style.height = modelSize + 'px';
+          modelViewer.style.display = 'block';
+          modelViewer.style.margin = '0 auto';
+        }
+      });
+      
+      console.log('Items per row:', itemsPerRow, 'Model size:', modelSize + 'px', 'Item width:', itemWidthPercent.toFixed(1) + '%');
+    }
+  });
+
+  // Initialize grid layout on page load
+  function initializeGrid() {
+    var initialValue = parseInt(slider.value) || 3;
+    var grid = document.getElementById('grid1');
+    
+    if (grid) {
+      var gapSpace = 20;
+      var totalGaps = (initialValue - 1) * gapSpace;
+      var containerPadding = 40;
+      var availableWidth = 100;
+      var itemWidthPercent = (availableWidth - ((totalGaps + containerPadding) / window.innerWidth * 100)) / initialValue;
+      
+      // Calculate initial model size
+      var viewportWidth = window.innerWidth;
+      var availableWidthPx = (viewportWidth - containerPadding - totalGaps) / initialValue;
+      var modelSize = availableWidthPx * 0.9;
+      
+      var gridItems = grid.querySelectorAll('.grid-btn');
+      gridItems.forEach(function(item) {
+        item.style.flex = `0 0 ${itemWidthPercent}%`;
+        item.style.width = `${itemWidthPercent}%`;
+        item.style.maxWidth = `${itemWidthPercent}%`;
+        item.style.minWidth = `${itemWidthPercent}%`;
+        
+        // Set initial model size
+        var modelViewer = item.querySelector('model-viewer');
+        if (modelViewer) {
+          modelViewer.style.width = modelSize + 'px';
+          modelViewer.style.height = modelSize + 'px';
+          modelViewer.style.display = 'block';
+          modelViewer.style.margin = '0 auto';
+        }
+      });
+    }
   }
-};
-document.querySelector('model-viewer').addEventListener('progress', onProgress);
+
+  // Initialize grid layout
+  initializeGrid();
+
+  // Recalculate layout on window resize
+  window.addEventListener('resize', function() {
+    // Trigger slider event to recalculate sizes
+    slider.dispatchEvent(new Event('input'));
+  });
+
+  window.addEventListener('scroll', function() {
+    if (!grid || !sliderContainer) return;
+    var gridRect = grid.getBoundingClientRect();
+    var programBar = document.getElementById('program-bar');
+    var programKnowledge = document.querySelector('.programs-logo');
+    // Show slider only if any part of the grid is in view
+    if (gridRect.bottom > 0 && gridRect.top < window.innerHeight) {
+      sliderContainer.style.display = 'block';
+      if (programBar) programBar.style.display = 'none';
+    } else {
+      sliderContainer.style.display = 'none';
+      // Show program bar only when Program Knowledge heading is in view
+      if (programBar && programKnowledge) {
+        var pkRect = programKnowledge.getBoundingClientRect();
+        if (pkRect.top < window.innerHeight && pkRect.bottom > 0) {
+          programBar.style.display = 'flex';
+        } else {
+          programBar.style.display = 'none';
+        }
+      }
+    }
+  });
+
+  // Model selection functionality
+  let selectedModel = null;
+  let isExplainModeActive = false;
+  let isAnimationReversed = false; // Track animation direction
+
+  function initModelSelection() {
+    const modelButtons = document.querySelectorAll('.grid-btn .button');
+
+    modelButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Remove selected class from previously selected model
+        if (selectedModel) {
+          selectedModel.classList.remove('selected');
+        }
+        
+        // Select the new model
+        this.classList.add('selected');
+        selectedModel = this;
+        
+        // If explain mode is active, show explanation for the newly selected model
+        if (isExplainModeActive) {
+          const modelType = this.getAttribute('data-model');
+          console.log('Explain mode active, switching to model:', modelType); // Debug log
+          hideAllExplanations();
+          showExplanation(modelType);
+        } else {
+          // If explain mode is not active, hide all explanations
+          hideAllExplanations();
+        }
+      });
+    });
+  }
+
+  function hideAllExplanations() {
+    const allExplanations = document.querySelectorAll('.explanation-text');
+    allExplanations.forEach(explanation => {
+      explanation.style.display = 'none';
+      explanation.classList.remove('show');
+    });
+  }
+
+  function showExplanation(modelType) {
+    console.log('Attempting to show explanation for:', modelType); // Debug log
+    const explanationElement = document.getElementById(`explanation-${modelType}`);
+    console.log('Found explanation element:', explanationElement); // Debug log
+    if (explanationElement) {
+      explanationElement.style.display = 'block';
+      // Trigger animation after display is set
+      setTimeout(() => {
+        explanationElement.classList.add('show');
+      }, 10);
+    } else {
+      console.log('No explanation element found for:', modelType); // Debug log
+    }
+  }
+
+  function hideExplanation(modelType) {
+    const explanationElement = document.getElementById(`explanation-${modelType}`);
+    if (explanationElement) {
+      explanationElement.classList.remove('show');
+      // Hide element after animation completes
+      setTimeout(() => {
+        explanationElement.style.display = 'none';
+      }, 300);
+    }
+  }
+
+  function initExplainButton() {
+    const explainButton = document.getElementById('explain-it-btn');
+    
+    explainButton.addEventListener('click', function() {
+      if (!selectedModel) {
+        // No model selected, maybe show a tooltip or alert
+        alert('Please select a model first to see its explanation.');
+        return;
+      }
+
+      if (isExplainModeActive) {
+        // Turn off explain mode - hide all explanations
+        hideAllExplanations();
+        isExplainModeActive = false;
+        // Optional: Change button appearance to show it's inactive
+        explainButton.style.background = '';
+      } else {
+        // Turn on explain mode - show explanation for currently selected model
+        isExplainModeActive = true;
+        const modelType = selectedModel.getAttribute('data-model');
+        hideAllExplanations();
+        showExplanation(modelType);
+        // Optional: Change button appearance to show it's active
+        explainButton.style.background = '#e3f2fd';
+      }
+    });
+  }
+
+  // Function to trigger animation for the brewer model
+  function triggerBrewerAnimation() {
+    if (selectedModel && selectedModel.getAttribute('data-model') === 'brewer') {
+      const modelViewer = document.querySelector("#resizable-boxb");
+      
+      if (modelViewer) {
+        console.log('Triggering brewer animation, reversed:', isAnimationReversed);
+        
+        // Set timeScale based on current state
+        modelViewer.timeScale = isAnimationReversed ? -1 : 1;
+        
+        // Play the animation once
+        modelViewer.play({repetitions: 1});
+        
+        // Toggle the state for next time
+        isAnimationReversed = !isAnimationReversed;
+      }
+    } else if (selectedModel) {
+      console.log('Selected model does not have animation:', selectedModel.getAttribute('data-model'));
+    } else {
+      console.log('No model selected. Please select the animated model (Brewer) first.');
+    }
+  }
+
+  // Initialize "Take it Apart" button
+  function initTakeApartButton() {
+    const takeApartButton = document.getElementById('take-apart-btn');
+    
+    if (takeApartButton) {
+      takeApartButton.addEventListener('click', function() {
+        console.log('Take it apart button clicked, current state reversed:', isAnimationReversed);
+        
+        // Only proceed if brewer model is selected
+        if (selectedModel && selectedModel.getAttribute('data-model') === 'brewer') {
+          triggerBrewerAnimation();
+          
+          // Update button text and appearance based on animation state
+          if (isAnimationReversed) {
+            takeApartButton.textContent = 'Put it Back';
+            takeApartButton.style.background = '#ffcdd2'; // Light red background
+          } else {
+            takeApartButton.textContent = 'Take it Apart';
+            takeApartButton.style.background = ''; // Reset background
+          }
+        } else {
+          console.log('Please select the animated model (Brewer) first.');
+        }
+      });
+    }
+  }
+
+  // Initialize model selection and explain button
+  initModelSelection();
+  initExplainButton();
+  initTakeApartButton();
+
+  // Animation setup for the brewer model
+  const modelViewer = document.querySelector("#resizable-boxb");
+  
+  if (modelViewer) {
+    modelViewer.addEventListener("load", (ev) => {
+      console.log('Available animations:', modelViewer.availableAnimations);
+    });
+
+    // Removed automatic reverse animation - now controlled by button toggle
+  }
+
+  // Timeline scroll animation
+  const timelineObserverOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const timelineObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, timelineObserverOptions);
+
+  // Observe timeline items when they exist
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  timelineItems.forEach(item => {
+    timelineObserver.observe(item);
+  });
+});
