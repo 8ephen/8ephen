@@ -1,0 +1,1 @@
+<model-viewer src="mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="65.52deg 76.52deg 17.83m" field-of-view="30deg"> </model-viewer>
