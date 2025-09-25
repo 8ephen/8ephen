@@ -1,0 +1,1 @@
+<model-viewer src="take2.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="-22.5deg 70.26deg 7.027m" field-of-view="30deg"> </model-viewer>
