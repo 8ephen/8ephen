@@ -6,44 +6,58 @@
     <meta name="description" content="Elements">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
-    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
+    <link type="text/css" href="ProfileStyles.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="./script.js"></script>
+    
 
 
     <style>
       #resizable-boxa {
-        margin: 5px;
+        margin: -10px;
         width: 10rem;
        height: 10rem;
-       background-color: white;
+       
        transition: all 0.2s ease;
      }
            #resizable-boxb {
-        margin: 5px;
+            margin: -10px;
         width: 10rem;
        height: 10rem;
-       background-color: white;
+       
        transition: all 0.2s ease;
      }
            #resizable-boxc {
-        margin: 5px;
+            margin: -10px;
         width: 10rem;
        height: 10rem;
-       background-color: white;
+       
        transition: all 0.2s ease;
      }
 
      #slider-container {
-        width: 160px; position:fixed; bottom:40px; 
-        left:50%; transform:translateX(-50%); display:block; 
+        width: auto; position:fixed; bottom:60px; 
+        left:50%; transform:translateX(-50%); 
         background:#fff; padding:10px; border-radius:111px; 
         box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000;
-        height: 20px;
-      }
+        height: Auto;
+      } 
       #size-slider {
-        position: relative;
+        justify-content: center;
         left: 50%;
-        transform: translateX(-50%);
+        
+      }
+
+      /* Fade-in on scroll animation */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
 
@@ -52,115 +66,463 @@
   </head>
   <body>
 
+<!-- Hero Section from Portfolio -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Stephen Yoshida</h1>
+        <p>Mechanical Engineer & Full-Stack Developer</p>
+    
+    </div>
+</section>
 
-  <div ></div>
-
-  <div id="slider-container">
-    <label for="grid-size-slider" id="mslider">-</label>
-    <input type="range" id="size-slider" min="18" max="90" value="25" step="0.1">
-    <label for="grid-size-slider" id="pslider">+</label>
+<!-- Hero/Landing Section -->
+<section class="hero-section">
+  
+  <div id="slider-container" style="display: table-row;">
+    <div style="display: flex; align-items: center; width: 100%; gap: 0;">
+      <button class="slideButton1" id="take-apart-btn" style="min-width:120px;">Take it Apart</button>
+      <div style="display: flex; align-items: center; justify-content: center; flex: 1; gap: 8px; margin: 0 24px;">
+        
+        <input type="range" id="size-slider" min="1" max="4" value="4" step="1">
+       
+      </div>
+      <button class="slideButton2" id="explain-it-btn" style="min-width:120px;">Explain it</button>
+    </div>
+    <!-- Removed slider percentage display -->
   </div>
+  <div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
+    <button class="program-btn">SolidWorks</button>
+    <button class="program-btn">Matlab</button>
+    <button class="program-btn">Visual Studio Code</button>
+    <button class="program-btn">Creality Scan</button>
+    <button class="program-btn">Arduino</button>
+    <button class="program-btn">Bambu Labs</button>
+    <button class="program-btn">Microsoft</button>
+
+  </div>
+</section>
+
+<!-- Programming/Applications Section -->
+<section class="programming-section">
+      <!-- Header Text -->
+      <div class="container fade-in" style="margin-top: 60px; margin-bottom: -220px;">
+        <div class="clip-text">
+          Programs
+        </div>
+      </div>
+
+  <div id="Applications" class="fade-in">  
+      <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
+          interaction-prompt="none" loading="eager" Class="computer" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 16m" >
+      </model-viewer>
+      <div class="programs-card">
+        <img src="./Site_Photos/SolidworksLogo.png" alt="SolidWorks Logo" class="programs-logo">
+        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
+        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
+        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
+      </div>
+  </div>
+</section>
+
+<!-- My Journey Section -->
+<section id="experience" class="section">
     <!-- Header Text -->
-    <div class="container" style="margin-bottom: 30px;">
-      <div class="clip-text">
-        Designs
-      </div>
+    <div class="container fade-in" style="margin-bottom: 30px;">
+        <div class="clip-text">
+            My Journey
+        </div>
     </div>
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-date">2024 - Present</div>
+                    <div class="timeline-title">Full-Stack Developer</div>
+                    <div class="timeline-company">Freelance / Personal Projects</div>
+                    <div class="timeline-description">
+                        Developing interactive 3D web applications, creating custom engineering tools, and building modern user interfaces. Specializing in combining engineering precision with creative design.
+                    </div>
+                    <div class="timeline-skills">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Three.js</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">CSS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Button With 3D Model -->
-<div class="grid" id="grid1">
-  <div class="grid-btn">
-    <button class="button" role="button">
-        <h3 class="ButtonTitle">Cube</h3>
-              <span class="button_model">
-                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none" class="model" id="resizable-boxa" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-date">2022 - 2024</div>
+                    <div class="timeline-title">Engineering Tools Developer</div>
+                    <div class="timeline-company">Custom Solutions</div>
+                    <div class="timeline-description">
+                        Built custom engineering tools including O-Ring generators, CAD automation scripts, and specification document templates. Bridged the gap between engineering and software development.
+                    </div>
+                    <div class="timeline-skills">
+                        <span class="skill-tag">VBA</span>
+                        <span class="skill-tag">SolidWorks API</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Automation</span>
+                        <span class="skill-tag">CAD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-date">2020 - 2022</div>
+                    <div class="timeline-title">Mechanical Engineer</div>
+                    <div class="timeline-company">Engineering Firm</div>
+                    <div class="timeline-description">
+                        Specialized in precision manufacturing and CAD design. Developed innovative solutions for complex engineering challenges while maintaining high standards of quality and efficiency.
+                    </div>
+                    <div class="timeline-skills">
+                        <span class="skill-tag">SolidWorks</span>
+                        <span class="skill-tag">AutoCAD</span>
+                        <span class="skill-tag">Manufacturing</span>
+                        <span class="skill-tag">Quality Control</span>
+                        <span class="skill-tag">Project Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-date">2018 - 2022</div>
+                    <div class="timeline-title">Bachelor of Science</div>
+                    <div class="timeline-company">Mechanical Engineering</div>
+                    <div class="timeline-description">
+                        Comprehensive education in mechanical engineering principles, with focus on CAD design, manufacturing processes, and problem-solving methodologies. Graduated with strong foundation in both theoretical and practical applications.
+                    </div>
+                    <div class="timeline-skills">
+                        <span class="skill-tag">Engineering Fundamentals</span>
+                        <span class="skill-tag">Mathematics</span>
+                        <span class="skill-tag">Physics</span>
+                        <span class="skill-tag">Design</span>
+                        <span class="skill-tag">Analysis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-icon">
+                <i class="fas fa-school"></i>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-date">2014 - 2018</div>
+                    <div class="timeline-title">High School Diploma</div>
+                    <div class="timeline-company">Local High School</div>
+                    <div class="timeline-description">
+                        Strong academic foundation with emphasis on STEM subjects. Participated in robotics club and engineering competitions, sparking initial interest in combining technology with engineering.
+                    </div>
+                    <div class="timeline-skills">
+                        <span class="skill-tag">STEM</span>
+                        <span class="skill-tag">Robotics</span>
+                        <span class="skill-tag">Mathematics</span>
+                        <span class="skill-tag">Science</span>
+                        <span class="skill-tag">Leadership</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Designs Section -->
+<section class="designs-section">
+      <!-- Header Text -->
+      <div class="container fade-in" id="design-section" style="margin-bottom: 30px;">
+        <div class="clip-text">
+          Designs
+        </div>
+      </div>
+
+      <!-- Button With 3D Model -->
+  <div class="grid" id="grid1">
+    <div class="grid-btn fade-in">
+      <button class="button" role="button" data-model="cube">
+          <h3 class="ButtonTitle">Cube</h3>
+                <span class="button_model">
+                  <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
+                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxa" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 17.83m" field-of-view="30deg">
+                  </model-viewer>
+                </span>
+          <div class="explanation-text" id="explanation-cube" style="display: none;">
+            <p>This innovative cube design showcases advanced geometric modeling techniques using precision CAD software. The structure demonstrates optimal material distribution while maintaining structural integrity across all six faces. Perfect for architectural applications and geometric studies.</p>
+          </div>
+      </button>
+    </div>  
+    
+    <div class="grid-btn fade-in">
+      <button class="button" role="button" data-model="brewer">
+          <h3 class="ButtonTitle">Brewer</h3>
+                <span class="button_model">
+                  <model-viewer src="./TestCubeAnime/take2.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./TestCubeAnime/poster.webp" 
+                  interaction-prompt="none"  animation-name="CubeAction" alt="Gates" loading="eager" class="model" id="resizable-boxb" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
                 </model-viewer>
-              </span>
-    </button>
-  </div>  
-  <div class="grid-btn">
-    <button class="button" role="button">
-        <h3 class="ButtonTitle">Brewer</h3>
-              <span class="button_model">
-                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none" class="model" id="resizable-boxb" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
-                </model-viewer>
-              </span>
-    </button>
-  </div>  
-  <div class="grid-btn">
-    <button class="button" role="button">
-        <h3 class="ButtonTitle">Shaver</h3>
-              <span class="button_model" >
-                <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                interaction-prompt="none"  class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
-                </model-viewer>
-              </span>
-    </button>
+                </span>
+          <div class="explanation-text" id="explanation-brewer" style="display: none;">
+            <p>The coffee brewer design incorporates ergonomic principles with thermal efficiency optimization. Features include precision temperature control mechanisms, optimal flow dynamics, and user-friendly interface elements. This design balances functionality with aesthetic appeal for the modern kitchen.</p>
+          </div>
+      </button>
+    </div>  
+    <div class="grid-btn fade-in">
+      <button class="button" role="button" data-model="shaver">
+          <h3 class="ButtonTitle">Shaver</h3>
+                <span class="button_model" >
+                  <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
+                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
+                  </model-viewer>
+                </span>
+          <div class="explanation-text" id="explanation-shaver" style="display: none;">
+            <p>This electric shaver design prioritizes user comfort and cutting efficiency. The ergonomic grip reduces hand fatigue during use, while the precision cutting head adapts to facial contours. Advanced motor technology ensures consistent performance with minimal noise generation.</p>
+          </div>
+      </button>
+    </div>
+    <div class="grid-btn fade-in">
+      <button class="button" role="button" data-model="laptop">
+          <h3 class="ButtonTitle">laptop</h3>
+                <span class="button_model">
+                  <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
+                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxd" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 17.83m" field-of-view="30deg">
+                  </model-viewer>
+                </span>
+          <div class="explanation-text" id="explanation-laptop" style="display: none;">
+            <p>This innovative laptop design showcases advanced geometric modeling techniques using precision CAD software. The structure demonstrates optimal material distribution while maintaining structural integrity across all six faces. Perfect for architectural applications and geometric studies.</p>
+          </div>
+      </button>
+    </div>  
+
   </div>
+</section>
 
-</div>
-
-    <div class="container" style="margin-top: 50px;">
-      <div class="clip-text">
-        Tools
+<!-- Tools Section -->
+<section class="tools-section">
+      <div class="container fade-in" style="margin-top: 20px;">
+        <div class="clip-text">
+          Tools
+        </div>
       </div>
-    </div>
 
-
-  <section class="grid-container">
-        <a class="grid-item3" role="button" href="/Tools/Tools_Solidworks_DrawingsToPNG.swp" style="text-decoration: none;" download="Tools_Solidworks_DrawingsToPNG.swp">
+    <section class="grid-container fade-in">
+        <a class="grid-item3 fade-in" role="button" href="/websiteCat.html" style="text-decoration: none;" >
+            <span class="grid2Title">Web-Tools</span>
+            <p>Cataloge of useful websites for design and. All free to use</p>
+        </a>    
+        <a class="grid-item3 fade-in" role="button" href="/Tools/Tools_Solidworks_DrawingsToPNG.swp" style="text-decoration: none;" download="Tools_Solidworks_DrawingsToPNG.swp">
             <span class="grid2Title">Drawing 2 PNG</span>
             <p>Solidworks _ Export all drawing sheets as PNGs. VBA macro code files</p>
         </a>
-        <a class="grid-item3" role="button" href="/Tools/Tools_Solidworks_ORingGenerator.SLDPRT" style="text-decoration: none;" download="Tools_Solidworks_ORingGenerator.SLDPRT">
+        <a class="grid-item3 fade-in" role="button" href="/Tools/Tools_Solidworks_ORingGenerator.SLDPRT" style="text-decoration: none;" download="Tools_Solidworks_ORingGenerator.SLDPRT">
             <span class="grid2Title">Custom O-Rings</span>
             <p>Solidworks _ O-Ring rubber silicon Mold Generator from Diameter and thickness</p>
         </a>
-        <a class="grid-item3" role="button" href="/ForceGuageModels.html" style="text-decoration: none;" >
+        <a class="grid-item3 fade-in" role="button" href="/ForceGuageModels.html" style="text-decoration: none;" >
             <span class="grid2Title">Force Guage Models</span>
-            <p>Solidworks _ 3D model of personal force gauge for automation of specification documents</p>
+            <p>Solidworks _ 3D model of personal force gauge for animation of product documents</p>
         </a>
-        <a class="grid-item3" role="button" href="/SpecDocDecals" style="text-decoration: none;" >
+        <a class="grid-item3 fade-in" role="button" href="/SpecDocDecals" style="text-decoration: none;" >
             <span class="grid2Title">Spec Doc Decals</span>
             <p>This is the first feature in our grid section. It's awesome and super useful.</p>
         </a>
+        <a class="grid-item3 fade-in" role="button" href="/StyleColorCode.html" style="text-decoration: none;" >
+            <span class="grid2Title">Color Palette</span>
+            <p>Personal color palette for clothing reference</p>
+        </a>
 
     </section>
+</section>
 
-
-
-
-    <div class="container" style="margin-top: 50px;">
-      <div class="clip-text"">
-        Web-tools
+<!-- Social Media Section -->
+<section class="social-section">
+  <div class="social-container fade-in">
+    <h2 class="fade-in" style="background: linear-gradient(45deg, #764ba2, #764ba2, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Connect With Me!</h2>
+    <div class="social-grid">
+      <div class="tooltip-containerd fade-in">
+  <div class="tooltipd">
+    <div class="profiled">
+      <div class="userd">
+        <div class="imgd">DI</div>
+        <div class="detailsd">
+          <div class="named">8ephen</div>
+          <div class="usernamed">@8ephen</div>
+        </div>
       </div>
+      
     </div>
+  </div>
+  <div class="textd">
+    <a href="https://freecodez.com/" class="icond">
+      <div class="layerd">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="discord-icon">
+          <svg
+            preserveAspectRatio="xMidYMid"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -3.117 28 28"
+            height="28"
+            width="28"
+          >
+            <path
+              fill="#764ba2"
+              d="M23.719 1.815A22.8 22.8 0 0 0 17.942 0c-.249.45-.54 1.055-.74 1.536q-3.231-.486-6.402 0C10.6 1.055 10.302.45 10.051 0A22.7 22.7 0 0 0 4.27 1.82C.614 7.344-.377 12.731.119 18.042c2.425 1.811 4.775 2.911 7.085 3.63a17.6 17.6 0 0 0 1.517-2.499 15 15 0 0 1-2.389-1.163 12 12 0 0 0 .586-.463c4.607 2.155 9.613 2.155 14.165 0a14 14 0 0 0 .586.463 15 15 0 0 1-2.394 1.165c.438.877.945 1.714 1.517 2.499 2.312-.72 4.664-1.82 7.089-3.633.581-6.156-.993-11.494-4.162-16.227M9.349 14.776c-1.383 0-2.517-1.291-2.517-2.863s1.11-2.866 2.517-2.866 2.541 1.291 2.517 2.866c.002 1.572-1.11 2.863-2.517 2.863m9.302 0c-1.383 0-2.517-1.291-2.517-2.863s1.11-2.866 2.517-2.866 2.541 1.291 2.517 2.866c0 1.572-1.11 2.863-2.517 2.863"
+            ></path>
+          </svg>
+        </span>
+      </div>
+      <div class="textd">Discord</div>
+    </a>
+  </div>
+</div>
 
- 
-  <section class="grid-container">
-        <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
-            <span class="grid2Title">Wolfram|Alpha</span>
-            <p>Mathematical Computation Analysis</p>
-        </a>
-                <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
-            <span class="grid2Title">Wolfram|Alpha</span>
-            <p>Mathematical Computation Analysis</p>
-        </a>
-             <a class="grid-item4" role="button" href="https://www.wolframalpha.com/" style="text-decoration: none;">
-            <span class="grid2Title">Wolfram|Alpha</span>
-            <p>Mathematical Computation Analysis</p>
-        </a>
 
-    </section>
+<div class="tooltip-containeri fade-in">
+  <div class="tooltipi">
+    <div class="profilei">
+      <div class="useri">
+        <div class="imgi">Ui</div>
+        <div class="detailsi">
+          <div class="namei">8ephen</div>
+          <div class="usernamei">@8ephen</div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  <div class="texti">
+    <a class="iconi" href="#">
+      <div class="layeri">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="instagramSVG">
+          <svg
+            fill="#764ba2"
+            class="svgIcon"
+            viewBox="0 0 448 512"
+            height="1.5em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
+            ></path>
+          </svg>
+        </span>
+      </div>
+      <div class="texti">Instagram</div>
+    </a>
+  </div>
+</div>
+
+<!-- From Uiverse.io by vikas7754 --> 
+<div class="tooltip-container fade-in">
+  <div class="tooltip">
+    <div class="profile">
+      <div class="user">
+        <div class="img">Ui</div>
+        <div class="details">
+          <div class="name">8ephen</div>
+          <div class="username">@8ephen</div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="text">
+    <a class="icon" href="https://freecodez.com/">
+      <div class="layer">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="linkedin-icon">
+          <svg viewBox="0 0 448 512" height="1em">
+            <path
+              d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+            ></path>
+          </svg>
+        </span>
+      </div>
+      <div class="text">LinkedIn</div>
+    </a>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<div style="height: 170px;" ></div>
 
 
+
+<!-- JavaScript and Scripts Section -->
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Simple horizontal scroll with mouse wheel
+        var bar = document.getElementById('program-bar');
+        if (bar) {
+          // Mouse wheel horizontal scroll
+          bar.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            bar.scrollLeft += e.deltaY;
+          }, { passive: false });
+        }
+
+        // Fade-in scroll animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, observerOptions);
+
+        // Observe all elements with fade-in class
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach(element => {
+          observer.observe(element);
+        });
+      });
+    </script>
 
 <script src="./script.js"></script>
 
 
     <script src="./Cubeassets/script.js"></script>
+    <script src="./Laptop/script.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
@@ -169,23 +531,46 @@
     const boxa = document.getElementById('resizable-boxa');
     const boxb = document.getElementById('resizable-boxb');
     const boxc = document.getElementById('resizable-boxc');
+    const boxd = document.getElementById('resizable-boxd');
     const sizeValue = document.getElementById('size-value');
     const gap = document.getElementById('grid1');
 
     slider.addEventListener('input', function() {
       const newSize = slider.value;
       boxa.style.width = newSize + 'vw';
-      boxa.style.height = newSize + 'vh';
+      boxa.style.height = newSize + 'vw';
   
       boxb.style.width = newSize + 'vw';
-      boxb.style.height = newSize + 'vh';
+      boxb.style.height = newSize + 'vw';
       boxc.style.width = newSize + 'vw';
-      boxc.style.height = newSize + 'vh';
+      boxc.style.height = newSize + 'vw';
+      boxd.style.width = newSize + 'vw';
+      boxd.style.height = newSize + 'vw';
 
       sizeValue.textContent = newSize + '%';
       gap.style.columnGap = (newSize / 2) + 'vw';
     });
+
+    // Scroll animation for Designs and Tools headers
+    const headers = document.querySelectorAll('.clip-text');
+    
+    function checkScroll() {
+      headers.forEach(header => {
+        const headerRect = header.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Trigger animation when bottom of screen reaches the top of the header
+        if (headerRect.top <= windowHeight && headerRect.bottom > 0) {
+          header.classList.add('animate-in');
+        }
+      });
+    }
+    
+    // Check on scroll and on page load
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
+
   </script>
+
 </body>
 </html>
-
