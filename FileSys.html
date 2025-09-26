@@ -269,6 +269,9 @@
             color: #fd7e14;
         }
 
+        .photo-icon{
+            height:28px;
+        };
         .video-icon {
             color: #6f42c1;
         }
@@ -355,29 +358,29 @@
             
             <div class="tab-bar-wrapper">
                 <div class="tab-bar" id="tabBar">
-                    <div class="tab active" data-tab="documents">
-                        <span class="tab-text">Documents</span>
-                        <span class="tab-close" onclick="closeTab(event, 'documents')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab active" data-tab="Web-Dev">
+                        <span class="tab-text">Web-Dev</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Web-Dev')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="downloads">
-                        <span class="tab-text">Downloads</span>
-                        <span class="tab-close" onclick="closeTab(event, 'downloads')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Solidworks">
+                        <span class="tab-text">Solidworks</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="pictures">
-                        <span class="tab-text">Pictures</span>
-                        <span class="tab-close" onclick="closeTab(event, 'pictures')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Graphics">
+                        <span class="tab-text">Graphics</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Graphics')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="videos">
-                        <span class="tab-text">Videos</span>
-                        <span class="tab-close" onclick="closeTab(event, 'videos')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Analysis">
+                        <span class="tab-text">Analysis</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Analysis')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="music">
-                        <span class="tab-text">Music</span>
-                        <span class="tab-close" onclick="closeTab(event, 'music')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Reference">
+                        <span class="tab-text">Reference</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Reference')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="desktop">
-                        <span class="tab-text">Desktop</span>
-                        <span class="tab-close" onclick="closeTab(event, 'desktop')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Software">
+                        <span class="tab-text">Software</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
                 </div>
             </div>
@@ -394,20 +397,20 @@
         <!-- Content Area -->
         <div class="content-area">
             <!-- Documents Tab Content -->
-            <div class="tab-content active" id="documents">
+            <div class="tab-content active" id="Web-Dev">
                 <div class="file-list">
-                    <div class="file-item" data-type="folder" onclick="selectFile(this)">
-                        <div class="file-icon folder-icon">📁</div>
+                    <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://uiverse.io">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/uiverse.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">My Folder</div>
+                            <div class="file-name">Uiverse.io</div>
                             <div class="file-info">
-                                <span class="file-date">9/26/2025 2:30 PM</span>
-                                <span class="file-type">File folder</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">HTML/CSS UI Library</span>
                             </div>
                         </div>
                         <div class="file-size">—</div>
-                    </div>
-                    
+                    </a>
+
                     <div class="file-item" data-type="docx" onclick="selectFile(this)">
                         <div class="file-icon document-icon">📄</div>
                         <div class="file-details">
@@ -459,31 +462,32 @@
             </div>
 
             <!-- Downloads Tab Content -->
-            <div class="tab-content" id="downloads">
+            <div class="tab-content" id="Solidworks">
                 <div class="file-list">
-                    <div class="file-item" data-type="exe" onclick="selectFile(this)">
-                        <div class="file-icon exe-icon">⚙️</div>
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/Tools/Tools_Solidworks_ORingGenerator.SLDPRT" style="text-decoration: none;" download="Tools_Solidworks_ORingGenerator.SLDPRT">
+                        <div class="file-icon ring">💍</div>
                         <div class="file-details">
-                            <div class="file-name">installer.exe</div>
+                            <div class="file-name">O-Ring</div>
                             <div class="file-info">
-                                <span class="file-date">9/26/2025 1:00 PM</span>
-                                <span class="file-type">Application</span>
+                                <span class="file-date">SLDPRT</span>
+                                <span class="file-type">O-Ring Mold Generator For Silicone Rubber</span>
                             </div>
                         </div>
-                        <div class="file-size">15.3 MB</div>
-                    </div>
-                    
-                    <div class="file-item" data-type="zip" onclick="selectFile(this)">
-                        <div class="file-icon archive-icon">🗜️</div>
+                        <div class="file-size">285 KB</div>
+                    </a>
+          
+
+                   <a class="file-item" data-type="sldprt" onclick="selectFile(this)" href="/Tools/Solidworks_WaterBottleSeal.SLDPRT" style="text-decoration: none;" download="Solidworks_WaterBottleSeal.SLDPRT">
+                        <div class="file-icon archive-icon">🚰</div>
                         <div class="file-details">
-                            <div class="file-name">archive.zip</div>
+                            <div class="file-name">Water Bottle Seal</div>
                             <div class="file-info">
-                                <span class="file-date">9/25/2025 3:45 PM</span>
-                                <span class="file-type">Compressed Archive</span>
+                                <span class="file-date">SLDPRT</span>
+                                <span class="file-type">Mold for Generic Water Bottle Seal</span>
                             </div>
                         </div>
                         <div class="file-size">8.7 MB</div>
-                    </div>
+                    </a>
 
                     <div class="file-item" data-type="msi" onclick="selectFile(this)">
                         <div class="file-icon exe-icon">📦</div>
@@ -499,20 +503,21 @@
                 </div>
             </div>
 
-            <!-- Pictures Tab Content -->
-            <div class="tab-content" id="pictures">
+            <!-- Graphics Tab Content -->
+            <div class="tab-content" id="Graphics">
                 <div class="file-list">
-                    <div class="file-item" data-type="jpg" onclick="selectFile(this)">
-                        <div class="file-icon image-icon">🖼️</div>
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://uiverse.io" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/pacdora.ico" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">vacation.jpg</div>
+                            <div class="file-name">Pacdora.com</div>
                             <div class="file-info">
-                                <span class="file-date">9/20/2025 6:30 PM</span>
-                                <span class="file-type">JPEG Image</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Product and Packaging Renders</span>
                             </div>
                         </div>
                         <div class="file-size">3.2 MB</div>
-                    </div>
+                    </a>
+                
                     
                     <div class="file-item" data-type="png" onclick="selectFile(this)">
                         <div class="file-icon image-icon">🖼️</div>
@@ -540,8 +545,8 @@
                 </div>
             </div>
 
-            <!-- Videos Tab Content -->
-            <div class="tab-content" id="videos">
+            <!-- Analysis Tab Content -->
+            <div class="tab-content" id="Analysis">
                 <div class="file-list">
                     <div class="file-item" data-type="mp4" onclick="selectFile(this)">
                         <div class="file-icon video-icon">🎬</div>
@@ -569,9 +574,20 @@
                 </div>
             </div>
 
-            <!-- Music Tab Content -->
-            <div class="tab-content" id="music">
+            <!-- Reference Tab Content -->
+            <div class="tab-content" id="Reference">
                 <div class="file-list">
+                    <a class="file-item" data-type="docx" onclick="selectFile(this)" href="/Reference/BlankReport.docx" style="text-decoration: none;" download="BlankReport.docx">
+                        <div class="file-icon archive-icon">📄</div>
+                        <div class="file-details">
+                            <div class="file-name">Report Template</div>
+                            <div class="file-info">
+                                <span class="file-date">docx</span>
+                                <span class="file-type">Report Template for ARM Enterprises</span>
+                            </div>
+                        </div>
+                        <div class="file-size">8.7 MB</div>
+                    </a>
                     <div class="file-item" data-type="mp3" onclick="selectFile(this)">
                         <div class="file-icon audio-icon">🎵</div>
                         <div class="file-details">
@@ -598,8 +614,20 @@
                 </div>
             </div>
 
-            <!-- Desktop Tab Content -->
-            <div class="tab-content" id="desktop">
+            <!-- Software Tab Content -->
+            <div class="tab-content" id="Software">
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.solidworks.com/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/Solidworks" alt="Product and Packaging Renders"></div>
+                        <div class="file-details">
+                            <div class="file-name">Solidworks.com</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Product and Packaging Renders</span>
+                            </div>
+                        </div>
+                        <div class="file-size">3.2 MB</div>
+                    </a>
+
                 <div class="file-list">
                     <div class="file-item" data-type="lnk" onclick="selectFile(this)">
                         <div class="file-icon shortcut-icon">🔗</div>
@@ -624,6 +652,7 @@
                         </div>
                         <div class="file-size">2 KB</div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -827,7 +856,7 @@
             
             tooltipTimeout = setTimeout(() => {
                 showTooltip(e, fileItem);
-            }, 2000); // 2 seconds delay
+            }, 1500); // 1.2 seconds delay
         }
 
         function showTooltip(e, fileItem) {
