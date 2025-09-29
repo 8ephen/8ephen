@@ -39,8 +39,9 @@
             background: #f8f9fa;
             border-bottom: 1px solid #dee2e6;
             border-radius: 8px 8px 0 0;
-            padding: 0 8px;
+            padding: 5px 8px 0px 8px;
             height: 40px;
+            
         }
 
         .tab-scroll-left,
@@ -106,7 +107,7 @@
         .tab.active {
             background: white;
             border-color: #0078d4;
-            border-bottom: 2px solid white;
+            border-bottom: 0px solid white;
             z-index: 1;
         }
 
@@ -362,13 +363,9 @@
                         <span class="tab-text">Web-Dev</span>
                         <span class="tab-close" onclick="closeTab(event, 'Web-Dev')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="Solidworks">
-                        <span class="tab-text">Solidworks</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div>
-                    <div class="tab" data-tab="Graphics">
-                        <span class="tab-text">Graphics</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Graphics')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Product-Dev">
+                        <span class="tab-text">Product-Dev</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Product-Dev')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
                     <div class="tab" data-tab="Analysis">
                         <span class="tab-text">Analysis</span>
@@ -382,6 +379,11 @@
                         <span class="tab-text">Software</span>
                         <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
+                    <div class="tab" data-tab="Solidworks">
+                        <span class="tab-text">Solidworks</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
+
                 </div>
             </div>
             
@@ -402,7 +404,7 @@
                     <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://uiverse.io">
                         <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/uiverse.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">Uiverse.io</div>
+                            <div class="file-name">Uiverse .io</div>
                             <div class="file-info">
                                 <span class="file-date">Website</span>
                                 <span class="file-type">HTML/CSS UI Library</span>
@@ -411,53 +413,31 @@
                         <div class="file-size">—</div>
                     </a>
 
-                    <div class="file-item" data-type="docx" onclick="selectFile(this)">
-                        <div class="file-icon document-icon">📄</div>
+                    <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://uiverse.io">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/getbootstrap.ico" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">Report.docx</div>
+                            <div class="file-name">GetBootStrap .com</div>
                             <div class="file-info">
-                                <span class="file-date">9/25/2025 11:45 AM</span>
-                                <span class="file-type">Microsoft Word Document</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">HTML/CSS/Javascript UI Library</span>
                             </div>
                         </div>
-                        <div class="file-size">245 KB</div>
-                    </div>
-                    
-                    <div class="file-item" data-type="pdf" onclick="selectFile(this)">
-                        <div class="file-icon pdf-icon">📕</div>
-                        <div class="file-details">
-                            <div class="file-name">Manual.pdf</div>
-                            <div class="file-info">
-                                <span class="file-date">9/24/2025 4:20 PM</span>
-                                <span class="file-type">Adobe Acrobat Document</span>
-                            </div>
-                        </div>
-                        <div class="file-size">1.2 MB</div>
-                    </div>
-                    
-                    <div class="file-item" data-type="txt" onclick="selectFile(this)">
-                        <div class="file-icon text-icon">📝</div>
-                        <div class="file-details">
-                            <div class="file-name">Notes.txt</div>
-                            <div class="file-info">
-                                <span class="file-date">9/23/2025 9:15 AM</span>
-                                <span class="file-type">Text Document</span>
-                            </div>
-                        </div>
-                        <div class="file-size">2 KB</div>
-                    </div>
+                        <div class="file-size">—</div>
+                    </a>
 
-                    <div class="file-item" data-type="xlsx" onclick="selectFile(this)">
-                        <div class="file-icon document-icon">📊</div>
+                    <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://www.flaticon.com/">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/Flaticon.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">Spreadsheet.xlsx</div>
+                            <div class="file-name">Flaticon .com</div>
                             <div class="file-info">
-                                <span class="file-date">9/22/2025 3:10 PM</span>
-                                <span class="file-type">Microsoft Excel Worksheet</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Icons (Credit section in additional tabs)</span>
                             </div>
                         </div>
-                        <div class="file-size">156 KB</div>
-                    </div>
+                        <div class="file-size">—</div>
+                    </a>
+
+
                 </div>
             </div>
 
@@ -465,7 +445,7 @@
             <div class="tab-content" id="Solidworks">
                 <div class="file-list">
                     <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/Tools/Tools_Solidworks_ORingGenerator.SLDPRT" style="text-decoration: none;" download="Tools_Solidworks_ORingGenerator.SLDPRT">
-                        <div class="file-icon ring">💍</div>
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/O-Ring.png" alt="Modeling and Simulations"></div>
                         <div class="file-details">
                             <div class="file-name">O-Ring</div>
                             <div class="file-info">
@@ -478,38 +458,27 @@
           
 
                    <a class="file-item" data-type="sldprt" onclick="selectFile(this)" href="/Tools/Solidworks_WaterBottleSeal.SLDPRT" style="text-decoration: none;" download="Solidworks_WaterBottleSeal.SLDPRT">
-                        <div class="file-icon archive-icon">🚰</div>
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Waterbottle.jpg" alt="Modeling and Simulations"></div>
                         <div class="file-details">
                             <div class="file-name">Water Bottle Seal</div>
                             <div class="file-info">
                                 <span class="file-date">SLDPRT</span>
-                                <span class="file-type">Mold for Generic Water Bottle Seal</span>
+                                <span class="file-type">Mold Generator for Generic Water Bottle Seals</span>
                             </div>
                         </div>
-                        <div class="file-size">8.7 MB</div>
+                        <div class="file-size">135 MB</div>
                     </a>
 
-                    <div class="file-item" data-type="msi" onclick="selectFile(this)">
-                        <div class="file-icon exe-icon">📦</div>
-                        <div class="file-details">
-                            <div class="file-name">setup.msi</div>
-                            <div class="file-info">
-                                <span class="file-date">9/24/2025 11:20 AM</span>
-                                <span class="file-type">Windows Installer Package</span>
-                            </div>
-                        </div>
-                        <div class="file-size">22.1 MB</div>
-                    </div>
                 </div>
             </div>
 
             <!-- Graphics Tab Content -->
-            <div class="tab-content" id="Graphics">
+            <div class="tab-content" id="Product-Dev">
                 <div class="file-list">
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://uiverse.io" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/pacdora.ico" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">Pacdora.com</div>
+                            <div class="file-name">Pacdora .com</div>
                             <div class="file-info">
                                 <span class="file-date">Website</span>
                                 <span class="file-type">Product and Packaging Renders</span>
@@ -518,59 +487,25 @@
                         <div class="file-size">3.2 MB</div>
                     </a>
                 
-                    
-                    <div class="file-item" data-type="png" onclick="selectFile(this)">
-                        <div class="file-icon image-icon">🖼️</div>
-                        <div class="file-details">
-                            <div class="file-name">screenshot.png</div>
-                            <div class="file-info">
-                                <span class="file-date">9/26/2025 10:15 AM</span>
-                                <span class="file-type">PNG Image</span>
-                            </div>
-                        </div>
-                        <div class="file-size">856 KB</div>
-                    </div>
-
-                    <div class="file-item" data-type="gif" onclick="selectFile(this)">
-                        <div class="file-icon image-icon">🎭</div>
-                        <div class="file-details">
-                            <div class="file-name">animation.gif</div>
-                            <div class="file-info">
-                                <span class="file-date">9/19/2025 4:45 PM</span>
-                                <span class="file-type">GIF Image</span>
-                            </div>
-                        </div>
-                        <div class="file-size">2.1 MB</div>
-                    </div>
+                   
                 </div>
             </div>
 
             <!-- Analysis Tab Content -->
             <div class="tab-content" id="Analysis">
                 <div class="file-list">
-                    <div class="file-item" data-type="mp4" onclick="selectFile(this)">
-                        <div class="file-icon video-icon">🎬</div>
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.wolframalpha.com/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/wolframalpha.png" alt="Modeling and Simulations"></div>
                         <div class="file-details">
-                            <div class="file-name">movie.mp4</div>
+                            <div class="file-name">Wolframalpha .com</div>
                             <div class="file-info">
-                                <span class="file-date">9/18/2025 8:45 PM</span>
-                                <span class="file-type">MP4 Video</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Mathematical derivations
+                                </span>
                             </div>
                         </div>
-                        <div class="file-size">125 MB</div>
-                    </div>
-
-                    <div class="file-item" data-type="avi" onclick="selectFile(this)">
-                        <div class="file-icon video-icon">🎞️</div>
-                        <div class="file-details">
-                            <div class="file-name">old_video.avi</div>
-                            <div class="file-info">
-                                <span class="file-date">9/15/2025 2:20 PM</span>
-                                <span class="file-type">AVI Video</span>
-                            </div>
-                        </div>
-                        <div class="file-size">89.3 MB</div>
-                    </div>
+                        <div class="file-size">-</div>
+                    </a>
                 </div>
             </div>
 
@@ -578,80 +513,143 @@
             <div class="tab-content" id="Reference">
                 <div class="file-list">
                     <a class="file-item" data-type="docx" onclick="selectFile(this)" href="/Reference/BlankReport.docx" style="text-decoration: none;" download="BlankReport.docx">
-                        <div class="file-icon archive-icon">📄</div>
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/WordDoc.png" alt="Quality Inspection"></div>
                         <div class="file-details">
                             <div class="file-name">Report Template</div>
                             <div class="file-info">
                                 <span class="file-date">docx</span>
-                                <span class="file-type">Report Template for ARM Enterprises</span>
+                                <span class="file-type">Report Template</span>
                             </div>
                         </div>
-                        <div class="file-size">8.7 MB</div>
+                        <div class="file-size">73.7 KB</div>
                     </a>
-                    <div class="file-item" data-type="mp3" onclick="selectFile(this)">
-                        <div class="file-icon audio-icon">🎵</div>
-                        <div class="file-details">
-                            <div class="file-name">song.mp3</div>
-                            <div class="file-info">
-                                <span class="file-date">9/15/2025 7:20 PM</span>
-                                <span class="file-type">MP3 Audio</span>
-                            </div>
-                        </div>
-                        <div class="file-size">4.5 MB</div>
-                    </div>
 
-                    <div class="file-item" data-type="wav" onclick="selectFile(this)">
-                        <div class="file-icon audio-icon">🎶</div>
+                    <a class="file-item" data-type="xlsx" onclick="selectFile(this)" href="/Reference/QualityInspection_(Product)_(Batch)_(Box) (Date M-D-Y).xlsx" style="text-decoration: none;" download="QualityInspection_(Product)_(Batch)_(Box) (Date M-D-Y).xlsx">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Excel.png" alt="Quality Inspection"></div>
                         <div class="file-details">
-                            <div class="file-name">recording.wav</div>
+                            <div class="file-name">Quality Inspection Template</div>
                             <div class="file-info">
-                                <span class="file-date">9/14/2025 11:30 AM</span>
-                                <span class="file-type">WAV Audio</span>
+                                <span class="file-date">xlsx</span>
+                                <span class="file-type">Quality Inspection Template</span>
                             </div>
                         </div>
-                        <div class="file-size">12.8 MB</div>
-                    </div>
+                        <div class="file-size">10.0 KB</div>
+                    </a>
+
+
                 </div>
             </div>
 
             <!-- Software Tab Content -->
             <div class="tab-content" id="Software">
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.solidworks.com/" style="text-decoration: none;">
-                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/Solidworks" alt="Product and Packaging Renders"></div>
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/solidworks.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
-                            <div class="file-name">Solidworks.com</div>
+                            <div class="file-name">Solidworks</div>
                             <div class="file-info">
                                 <span class="file-date">Website</span>
-                                <span class="file-type">Product and Packaging Renders</span>
+                                <span class="file-type">Modeling and Simulations</span>
                             </div>
                         </div>
-                        <div class="file-size">3.2 MB</div>
+                        <div class="file-size">-</div>
                     </a>
 
-                <div class="file-list">
-                    <div class="file-item" data-type="lnk" onclick="selectFile(this)">
-                        <div class="file-icon shortcut-icon">🔗</div>
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.plasticity.xyz/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><svg class="size-6 text-(--base) md:size-9 base-color-white mr-2" viewBox="0 0 44 42" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="14.4844" width="41.9443" height="26.6507" fill="black" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></rect><rect x="11.2712" y="1" width="27.9271" height="29.2394" fill="white" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></rect><path d="M20.4859 1L20.6748 1.00124C28.659 1.10238 35.1003 7.60613 35.1003 15.6144C35.1003 23.6856 28.5572 30.2287 20.4859 30.2287H10.743V41.1388H1V1H20.4859Z" fill="black" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></path><path d="M20.4859 1L20.6748 1.00124C28.659 1.10238 35.1003 7.60613 35.1003 15.6144C35.1003 23.6856 28.5572 30.2287 20.4859 30.2287H10.743V41.1388H1V1H20.4859Z" fill="black" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></path><ellipse cx="39.0182" cy="15.6197" rx="3.92202" ry="14.6197" fill="black" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></ellipse><path d="M10.7397 30.2344V41.1338" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></path><path d="M21.4741 30.2344V41.1338" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></path><path d="M32.2083 30.2344V41.1338" stroke="white" stroke-width="1.39491" stroke-linejoin="round"></path><path d="M42.9426 30.2344V41.1338" stroke="white" stroke-width="1.39491" stroke-linejoin="round"</path></svg></div>
+                       
                         <div class="file-details">
-                            <div class="file-name">Chrome.lnk</div>
+                            <div class="file-name">Plasticity</div>
                             <div class="file-info">
-                                <span class="file-date">9/10/2025 2:15 PM</span>
-                                <span class="file-type">Shortcut</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Cad Modeling for Artists</span>
                             </div>
                         </div>
-                        <div class="file-size">2 KB</div>
-                    </div>
+                        <div class="file-size">-</div>
+                    </a>
 
-                    <div class="file-item" data-type="lnk" onclick="selectFile(this)">
-                        <div class="file-icon shortcut-icon">🔗</div>
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.mathworks.com/products/matlab.html" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/matlab.ico" alt="MatLab Logo"></div>                       
                         <div class="file-details">
-                            <div class="file-name">VS Code.lnk</div>
+                            <div class="file-name">MatLab</div>
                             <div class="file-info">
-                                <span class="file-date">9/8/2025 9:45 AM</span>
-                                <span class="file-type">Shortcut</span>
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Data Analysis</span>
                             </div>
                         </div>
-                        <div class="file-size">2 KB</div>
-                    </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.blender.org/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: auto;" src="/Site_Photos/Blender.png" alt="Blender Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">Blender</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Digital Animation</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://code.visualstudio.com/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/VSCode.ico" alt="Visual Studio Code Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">Visual Studio Code</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">HTML, CSS, JavaScript Code Editor</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.crealitycloud.com/downloads/software/creality-scan/Windows" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/CrealityScan.jfif" alt="Creality Scan Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">Creality Scan</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">3D Scanning / Mesh Generation Software</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.crealitycloud.com/downloads/software/creality-scan/Windows" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabs.ico" alt="Bambu Studio Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">Bambu Studio</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Fused Deposition Printing on Bambu Labs Printers</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.arduino.cc/en/software/" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Arduino.jfif" alt="Arduino IDE Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">Arduino IDE</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">MicroController Integrated Development Environment</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://formlabs.com/software/preform/?srsltid=AfmBOoqwL5DY-zzM4n4P1uqR_THfq7XIv9pGkmto6fb9_sPJERWhzTGr" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/FormLabs.jfif" alt="Arduino IDE Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">PreForm</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Selective Laser Sintering on FormLabs Printers</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
 
                 </div>
             </div>
@@ -746,7 +744,7 @@
         function addNewTab() {
             tabCounter++;
             const newTabId = `newtab${tabCounter}`;
-            const tabName = `New Tab ${tabCounter}`;
+            const tabName = `Credit Section`;
 
             // Create new tab
             const newTab = document.createElement('div');
@@ -771,17 +769,23 @@
             newContent.id = newTabId;
             newContent.innerHTML = `
                 <div class="file-list">
+
                     <div class="file-item" data-type="folder" onclick="selectFile(this)">
-                        <div class="file-icon folder-icon">📁</div>
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/WordDoc.png" alt="Excel Icon"></div>                       
                         <div class="file-details">
-                            <div class="file-name">Empty Folder</div>
-                            <div class="file-info">
-                                <span class="file-date">${new Date().toLocaleString()}</span>
-                                <span class="file-type">File folder</span>
-                            </div>
+                            <a href="https://www.flaticon.com/free-icons/docx" title="docx icons">Docx icons created by Hopstarter - Flaticon</a>
                         </div>
                         <div class="file-size">—</div>
                     </div>
+
+                    <div class="file-item" data-type="folder" onclick="selectFile(this)">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Excel.png" alt="Excel Icon"></div>                       
+                        <div class="file-details">
+                            <a href="https://www.flaticon.com/free-icons/spreadsheet" title="spreadsheet icons">Spreadsheet icons created by Hopstarter - Flaticon</a>
+                        </div>
+                        <div class="file-size">—</div>
+                    </div>
+
                 </div>
             `;
 
