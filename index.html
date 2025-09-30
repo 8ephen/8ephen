@@ -384,7 +384,11 @@
                         <span class="tab-text">Solidworks</span>
                         <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
                     </div> 
-
+                    <div class="tab" data-tab="BambuLabs">
+                        <span class="tab-text">Bambu Labs</span>
+                        <span class="tab-close" onclick="closeTab(event, 'BambuLabs')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
+                    
                 </div>
             </div>
             
@@ -737,7 +741,49 @@
                 
                 </div>
             </div>
-        </div>
+
+      <!-- Downloads Tab Content -->
+            <div class="tab-content" id="BambuLabs">
+                <div class="file-list">
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabs.ico" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Location _ Printer _ Material _ LayerHeight _ Feature</div>
+                            <div class="file-info">
+                                <span class="file-date">N/A</span>
+                                <span class="file-type">Calibrated Profiles For Print Dimensions and Quality</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/BambuLabs/Arm_X1E_Abs.zip" style="text-decoration: none;" download="Arm_X1E_Abs.zip">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabsProfile.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Arm_X1E_Abs</div>
+                            <div class="file-info">
+                                <span class="file-date">json</span>
+                                <span class="file-type">ABS Profiles for X1E Printer at Arm Enterprises</span>
+                            </div>
+                        </div>
+                        <div class="file-size">2 KB</div>
+                    </a>
+
+
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/BambuLabs/Arm_X1E_Petg.zip" style="text-decoration: none;" download="Arm_X1E_Petg.zip">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabsProfile.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Arm_X1E_Petg</div>
+                            <div class="file-info">
+                                <span class="file-date">json</span>
+                                <span class="file-type">PETG Profiles for X1E Printer at Arm Enterprises</span>
+                            </div>
+                        </div>
+                        <div class="file-size">2 KB</div>
+                    </a>
+                </div>
+            </div>
+        
     </div>
 
     <script>
