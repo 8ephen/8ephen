@@ -1,0 +1,23 @@
+{
+    "bottom_surface_pattern": "alignedrectilinear",
+    "enable_support": "1",
+    "from": "User",
+    "inherits": "0.08mm High Quality @BBL X1C",
+    "internal_solid_infill_pattern": "alignedrectilinear",
+    "name": "0.08-T2CAD-ABS",
+    "print_extruder_id": [
+        "1"
+    ],
+    "print_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "print_settings_id": "0.08-T2CAD-ABS",
+    "skeleton_infill_density": "100%",
+    "skin_infill_density": "100%",
+    "sparse_infill_density": "100%",
+    "sparse_infill_pattern": "alignedrectilinear",
+    "top_surface_pattern": "alignedrectilinear",
+    "version": "2.1.0.15",
+    "xy_contour_compensation": "0.113",
+    "xy_hole_compensation": "0.046"
+}
