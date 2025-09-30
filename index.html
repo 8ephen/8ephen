@@ -893,21 +893,32 @@
             </div>
 
 
-                    <!-- MatLab Tab Content -->
+            <!-- MatLab Tab Content -->
             <div class="tab-content" id="MatLab">
                 <div class="file-list">
-                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.wolframalpha.com/" target="_blank" style="text-decoration: none;">
+                    <div class="file-item copy-btn" data-file="MatLab/rendo.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/wolframalpha.png" alt="Modeling and Simulations"></div>
                         <div class="file-details">
-                            <div class="file-name">Wolframalpha .com</div>
+                            <div class="file-name">Copy Text File to Clipboard</div>
                             <div class="file-info">
                                 <span class="file-date">Text to ClipBoard</span>
-                                <span class="file-type">Mathematical derivations
-                                </span>
+                                <span class="file-type">Copies content from MatLab/text.txt file</span>
                             </div>
                         </div>
-                        <div class="file-size">-</div>
-                    </a>
+                        <div class="file-size">Click</div>
+                    </div>
+                    
+                    <div class="file-item copy-btn" data-file="MatLab/dnetext.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/wolframalpha.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Copy DNE Text to Clipboard</div>
+                            <div class="file-info">
+                                <span class="file-date">Text to ClipBoard</span>
+                                <span class="file-type">Copies content from MatLab/dnetext.txt file</span>
+                            </div>
+                        </div>
+                        <div class="file-size">Click</div>
+                    </div>
                 </div>
             </div>
 
@@ -1283,7 +1294,47 @@
                 currentTooltip.remove();
                 currentTooltip = null;
             }
+        };
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all buttons with class 'copy-btn'
+        const copyButtons = document.querySelectorAll('.copy-btn');
+
+        // Add click handler to each button
+        copyButtons.forEach(button => {
+    button.onclick = async function() {
+      // Get the filename from data-file attribute
+      const filename = this.getAttribute('data-file');
+      const buttonText = this.textContent;
+      
+      if (!filename) {
+        alert('No file specified!');
+        return;
+      }
+      
+      try {
+        // Fetch the text file content
+        const response = await fetch(filename);
+        
+        if (!response.ok) {
+          throw new Error(`File not found: ${filename}`);
         }
+        
+        const text = await response.text();
+        
+        // Copy to clipboard
+        await navigator.clipboard.writeText(text);
+        alert(buttonText + ' - Copied!');
+        
+      } catch (error) {
+        // Fallback - try to read from same directory or show error
+        console.error('Error reading file:', error);
+        alert(`Error: Could not read ${filename}. Make sure the file exists in the same directory.`);
+      }
+    };
+  });
+});
     </script>
 </body>
 </html>
