@@ -1386,7 +1386,16 @@
         
         // Copy to clipboard
         await navigator.clipboard.writeText(text);
-        alert(buttonText + ' - Copied!');
+               
+        // Flash button green instead of alert
+        const originalStyle = this.style.cssText;
+        this.style.backgroundColor = '#28a745';
+        this.style.color = 'white';
+        this.style.transition = 'all 0.3s ease';
+        
+        setTimeout(() => {
+          this.style.cssText = originalStyle;
+        }, 1000);
         
       } catch (error) {
         // Fallback - try to read from same directory or show error
