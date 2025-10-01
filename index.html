@@ -396,6 +396,10 @@
                         <span class="tab-text">Bambu Labs</span>
                         <span class="tab-close" onclick="closeTab(event, 'BambuLabs')"><span style="position: relative; top: -2px;">×</span></span>
                     </div> 
+                    <div class="tab" data-tab="Zephyr">
+                        <span class="tab-text">Zephyr</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Zephyr')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
                     
                 </div>
             </div>
@@ -953,6 +957,26 @@
                 </div>
             </div>
 
+
+        <!-- Zephyr Tab Content -->
+            <div class="tab-content" id="Zephyr">
+                <div class="file-list">
+                    <button class="file-item"  style="cursor: pointer;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Code Snippet</div>
+                            <div class="file-info">
+                                <span class="file-date">Text</span>
+                                <span class="file-type">"Purpose"</span>
+                            </div>
+                        </div>
+                        <div class="file-size copy-btninb" data-copy="hello world">Click</div>
+                    </button>
+                    
+           
+                </div>
+            </div>
+
       <!-- Downloads Tab Content -->
             <div class="tab-content" id="BambuLabs">
                 <div class="file-list">
@@ -1373,6 +1397,42 @@
     };
   });
 });
+                // Single event listener using event delegation for all copy buttons
+        document.addEventListener('click', async function(event) {
+            // Check if the clicked element has the copy-btninb class
+            if (event.target.classList.contains('copy-btninb')) {
+                const textToCopy = event.target.dataset.copy;
+                const messageEl = document.getElementById('message');
+                
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    showMessage(`Successfully copied "${textToCopy}" to clipboard!`, 'success');
+                } catch (err) {
+                    // Fallback for older browsers
+                    try {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = textToCopy;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showMessage(`Successfully copied "${textToCopy}" to clipboard!`, 'success');
+                    } catch (fallbackErr) {
+                        showMessage('Failed to copy to clipboard. Please try again.', 'error');
+                    }
+                }
+            }
+        });
+        
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type} show`;
+            
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
