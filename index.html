@@ -294,6 +294,100 @@
             color: #0dcaf0;
         }
 
+        /* Simple Expandable Content */
+        .expandable-content {
+            display: none;
+            background: #f8f9fa;
+            margin-left: 44px;
+            padding: 12px;
+            border-left: 2px solid #0078d4;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .expandable-content.show {
+            display: block;
+        }
+
+        .file-item.expandable {
+            cursor: pointer;
+        }
+
+        .file-item.expanded {
+            background: #e7f3ff;
+        }
+
+        /* Large Image Gallery Styles */
+        .gallery-container {
+            margin: 12px 0;
+            padding: 0 44px;
+            position: relative;
+        }
+
+        .gallery-viewer {
+            position: relative;
+            width: 60vw;
+            height: auto;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            background: #fff;
+        }
+
+        .gallery-image.active {
+            display: block;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 10;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .gallery-nav-left {
+            left: 0;
+        }
+
+        .gallery-nav-right {
+            right: 0;
+        }
+
+
+        .gallery-info {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            pointer-events: none;
+        }
+
+        .gallery-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
         /* Scrollbar Styling */
         .tab-content::-webkit-scrollbar {
             width: 12px;
@@ -346,6 +440,19 @@
             border-right: 6px solid transparent;
             border-bottom: 6px solid #2b2b2b;
         }
+        /* Photo Tutorials */
+        .circular-gallery {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        cursor: grab;
+        }
+
+        .circular-gallery:active {
+        cursor: grabbing;
+        }
+
+
     </style>
 </head>
 <body>
@@ -389,6 +496,10 @@
                         <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
                     </div> 
 
+                    <div class="tab" data-tab="Blender">
+                        <span class="tab-text">Blender</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Blender')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
                     <div class="tab" data-tab="BambuLabs">
                         <span class="tab-text">Bambu Labs</span>
                         <span class="tab-close" onclick="closeTab(event, 'BambuLabs')"><span style="position: relative; top: -2px;">×</span></span>
@@ -937,6 +1048,36 @@
             </div>
 
 
+            
+            <!-- Blender Tab Content -->
+            <div class="tab-content" id="Blender">
+                <div class="file-list">
+                    
+                   <div class="file-item expandable" onclick="toggleItem(this)">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Blender.png" alt="Texture Baking"></div>
+                        <div class="file-details">
+                            <div class="file-name">Texture Baking</div>
+                            <div class="file-info">
+                                <span class="file-date">Images</span>
+                                <span class="file-type">Baked Texture Samples</span>
+                            </div>
+                        </div>
+                        <div class="file-size">Gallery</div>
+                    </div>
+                    <div class="expandable-content" data-folder="./TextureBaking/" data-max-images="10"></div>
+
+
+                    
+
+
+
+
+                    
+
+                </div>
+            </div>
+
+
             <!-- MatLab Tab Content -->
             <div class="tab-content" id="MatLab">
                 <div class="file-list">
@@ -1364,7 +1505,243 @@
                 currentTooltip.remove();
                 currentTooltip = null;
             }
-        };
+        }
+
+        // Simple toggle function for expandable content
+        function toggleItem(item) {
+            const content = item.nextElementSibling;
+            const isExpanded = item.classList.contains('expanded');
+            
+            // Close all expanded items in current tab
+            const fileList = item.closest('.file-list');
+            fileList.querySelectorAll('.file-item.expanded').forEach(el => el.classList.remove('expanded'));
+            fileList.querySelectorAll('.expandable-content.show').forEach(el => el.classList.remove('show'));
+            
+            // Toggle current item if it wasn't already expanded
+            if (!isExpanded) {
+                item.classList.add('expanded');
+                content.classList.add('show');
+                
+                // Check if this expandable content has a gallery (data-folder attribute)
+                const folderPath = content.getAttribute('data-folder');
+                if (folderPath) {
+                    const fileName = item.querySelector('.file-name').textContent;
+                    console.log('Loading gallery for:', fileName);
+                    loadGallery(content);
+                }
+            }
+            
+            // Handle copy functionality if present
+            if (item.classList.contains('copy-btn')) {
+                const filename = item.getAttribute('data-file');
+                if (filename) copyFile(filename, item);
+            }
+        }
+
+        // Gallery system - scalable for any expandable item
+        let galleries = {}; // Store multiple galleries by ID
+
+        // Load images from folder specified in HTML data attribute
+        // Works with any expandable item that has data-folder attribute
+        async function loadGallery(contentElement) {
+            // Generate unique gallery ID based on folder path
+            const folderPath = contentElement.getAttribute('data-folder') || './Images/';
+            const maxImages = parseInt(contentElement.getAttribute('data-max-images')) || 5;
+            const galleryId = 'gallery_' + folderPath.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            // Find or create gallery viewer in this content
+            let gallery = contentElement.querySelector('.gallery-viewer');
+            if (!gallery) {
+                // Create gallery structure if it doesn't exist
+                const galleryContainer = document.createElement('div');
+                galleryContainer.className = 'gallery-container';
+                galleryContainer.innerHTML = `
+                    <div class="gallery-viewer" id="${galleryId}">
+                        <div class="gallery-placeholder">Click to load gallery</div>
+                        <div class="gallery-nav gallery-nav-left" onclick="previousImage('${galleryId}')"></div>
+                        <div class="gallery-nav gallery-nav-right" onclick="nextImage('${galleryId}')"></div>
+                        <div class="gallery-info" id="${galleryId}_info" style="display: none;">Loading...</div>
+                    </div>
+                `;
+                contentElement.insertBefore(galleryContainer, contentElement.firstChild);
+                gallery = document.getElementById(galleryId);
+            }
+            
+            // Initialize gallery data if not exists
+            if (!galleries[galleryId]) {
+                galleries[galleryId] = {
+                    images: [],
+                    currentIndex: 0
+                };
+            }
+            
+            if (galleries[galleryId].images.length > 0) return; // Already loaded
+            
+            console.log(`Loading gallery from: ${folderPath}`);
+            
+            // Update folder display if exists
+            const folderDisplay = contentElement.querySelector('#currentFolder');
+            if (folderDisplay) folderDisplay.textContent = folderPath;
+            
+            // Generate image file names (1.png, 2.png, etc.)
+            const imageFiles = [];
+            for (let i = 1; i <= maxImages; i++) {
+                imageFiles.push(`${i}.png`);
+            }
+            
+            // Clear placeholder
+            gallery.innerHTML = `
+                <div class="gallery-nav gallery-nav-left" onclick="previousImage('${galleryId}')"></div>
+                <div class="gallery-nav gallery-nav-right" onclick="nextImage('${galleryId}')"></div>
+                <div class="gallery-info" id="${galleryId}_info">Loading from ${folderPath}...</div>
+            `;
+            
+            // Track loaded images with their index to maintain order
+            const loadedImages = {};
+            let loadedCount = 0;
+            
+            for (let i = 0; i < imageFiles.length; i++) {
+                const filename = imageFiles[i];
+                const img = new Image();
+                img.onload = function() {
+                    console.log(`Loaded: ${folderPath}${filename}`);
+                    
+                    // Store image with its index to maintain numerical order
+                    loadedImages[i] = {
+                        src: `${folderPath}${filename}`,
+                        filename: filename
+                    };
+                    loadedCount++;
+                    
+                    // Once all images are loaded or we've checked all possibilities, build gallery in order
+                    buildOrderedGallery(galleryId, loadedImages, gallery, folderPath);
+                };
+                
+                img.onerror = function() {
+                    console.log(`File not found: ${folderPath}${filename}`);
+                    loadedCount++;
+                    
+                    // Check if we've tried all images
+                    buildOrderedGallery(galleryId, loadedImages, gallery, folderPath);
+                };
+                
+                img.src = `${folderPath}${filename}`;
+            }
+        }
+        
+        // Build gallery in numerical order
+        function buildOrderedGallery(galleryId, loadedImages, gallery, folderPath) {
+            // Clear existing images from arrays
+            galleries[galleryId].images = [];
+            
+            // Remove any existing image elements (keep nav elements)
+            const existingImages = gallery.querySelectorAll('.gallery-image');
+            existingImages.forEach(img => img.remove());
+            
+            // Add images in numerical order (0, 1, 2, 3...)
+            for (let i = 0; i < Object.keys(loadedImages).length + 10; i++) {
+                if (loadedImages[i]) {
+                    galleries[galleryId].images.push(loadedImages[i].src);
+                    
+                    // Create image element
+                    const imgElement = document.createElement('img');
+                    imgElement.src = loadedImages[i].src;
+                    imgElement.alt = `Image ${loadedImages[i].filename}`;
+                    imgElement.className = 'gallery-image';
+                    imgElement.ondblclick = () => openImageModal(loadedImages[i].src);
+                    
+                    gallery.appendChild(imgElement);
+                }
+            }
+            
+            // Show first image and update info if we have any images
+            if (galleries[galleryId].images.length > 0) {
+                showImage(galleryId, 0);
+                updateGalleryInfo(galleryId);
+            } else {
+                // No images found
+                const info = gallery.querySelector('.gallery-info');
+                if (info) info.textContent = 'No images found';
+            }
+        }
+
+        // Show specific image in gallery
+        function showImage(galleryId, index) {
+            const gallery = document.getElementById(galleryId);
+            if (!gallery) return;
+            
+            const images = gallery.querySelectorAll('.gallery-image');
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+            });
+            galleries[galleryId].currentIndex = index;
+            updateGalleryInfo(galleryId);
+        }
+
+        // Navigate to next image
+        function nextImage(galleryId) {
+            if (!galleries[galleryId] || galleries[galleryId].images.length === 0) return;
+            const currentIndex = galleries[galleryId].currentIndex;
+            const newIndex = (currentIndex + 1) % galleries[galleryId].images.length;
+            showImage(galleryId, newIndex);
+        }
+
+        // Navigate to previous image
+        function previousImage(galleryId) {
+            if (!galleries[galleryId] || galleries[galleryId].images.length === 0) return;
+            const currentIndex = galleries[galleryId].currentIndex;
+            const newIndex = (currentIndex - 1 + galleries[galleryId].images.length) % galleries[galleryId].images.length;
+            showImage(galleryId, newIndex);
+        }
+
+        // Update gallery info display
+        function updateGalleryInfo(galleryId) {
+            const info = document.getElementById(`${galleryId}_info`);
+            if (info && galleries[galleryId] && galleries[galleryId].images.length > 0) {
+                const current = galleries[galleryId].currentIndex + 1;
+                const total = galleries[galleryId].images.length;
+                info.textContent = `${current} / ${total}`;
+                info.style.display = 'block';
+            }
+        }
+
+        // Open image in modal (simple version)
+        function openImageModal(src) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8); display: flex; align-items: center;
+                justify-content: center; z-index: 10000; cursor: pointer;
+            `;
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.cssText = 'max-width: 90%; max-height: 90%; object-fit: contain;';
+            
+            modal.appendChild(img);
+            modal.onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
+        // Simplified copy function
+        async function copyFile(filename, element) {
+            try {
+                const response = await fetch(filename);
+                const text = await response.text();
+                await navigator.clipboard.writeText(text);
+                
+                const sizeEl = element.querySelector('.file-size');
+                const original = sizeEl.textContent;
+                sizeEl.textContent = 'Copied!';
+                sizeEl.style.color = '#28a745';
+                setTimeout(() => {
+                    sizeEl.textContent = original;
+                    sizeEl.style.color = '';
+                }, 1500);
+            } catch (error) {
+                console.log('Copy failed:', error);
+            }
+        }
 
 
     document.addEventListener('DOMContentLoaded', function() {
