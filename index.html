@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f0f0;
+            background: white;
             padding: 5vh 5vw;
             margin: 0;
             min-height: 100vh;
@@ -42,7 +42,6 @@
             border-radius: 8px 8px 0 0;
             padding: 5px 8px 0px 8px;
             height: 40px;
-            
         }
 
         .tab-scroll-left,
@@ -58,6 +57,7 @@
             cursor: pointer;
             color: #6c757d;
             transition: all 0.2s;
+
         }
 
         .tab-scroll-left:hover,
@@ -99,6 +99,7 @@
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
+           
         }
 
         .tab:hover {
@@ -197,6 +198,7 @@
             transition: all 0.2s;
             margin-bottom: 2px;
             min-height: 48px;
+           
         }
 
         .file-item:hover {
@@ -451,7 +453,28 @@
         .circular-gallery:active {
         cursor: grabbing;
         }
-
+        @media (max-width: 800px) {
+            .tab-bar-container {
+                display: flex;
+                align-items: center;
+                background: #f8f9fa;
+                border-bottom: 1px solid #dee2e6;
+                border-radius: 8px 8px 0 0;
+                padding: 5px 8px 0px 8px;
+                height: 40px;
+                position: fixed;
+                top: 80vh;
+                left: 6vw;
+                right: 5vw;
+                width: calc(90vw - 10px);
+                z-index: 1000;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .content-area {
+                padding-bottom: 60px;
+            }
+        }
 
     </style>
 </head>
@@ -479,13 +502,10 @@
                         <span class="tab-text">HTML/CSS</span>
                         <span class="tab-close" onclick="closeTab(event, 'HTML/CSS')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="Graphics">
-                        <span class="tab-text">Graphics</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Graphics')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div>
-                    <div class="tab" data-tab="Learn">
-                        <span class="tab-text">Learn</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Learn')"><span style="position: relative; top: -2px;">×</span></span>
+                  
+                    <div class="tab" data-tab="Academy">
+                        <span class="tab-text">Academy</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Academy')"><span style="position: relative; top: -2px;">×</span></span>
                     </div> 
                     <div class="tab" data-tab="Word">
                         <span class="tab-text">Word</span>
@@ -495,10 +515,6 @@
                         <span class="tab-text">Python</span>
                         <span class="tab-close" onclick="closeTab(event, 'Python')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="Solidworks">
-                        <span class="tab-text">Solidworks</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div> 
                     <div class="tab" data-tab="Solidworks">
                         <span class="tab-text">Solidworks</span>
                         <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
@@ -531,7 +547,7 @@
         <!-- Content Area -->
         <div class="content-area">
             <!-- Documents Tab Content -->
-            <div class="tab-content active" id="HTML/CSS">
+            <div class="tab-content" id="HTML/CSS">
                 <div class="file-list">
 
                     <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://uiverse.io" target="_blank" >
@@ -654,10 +670,10 @@
                 </div>
             </div>
 
-            <!-- Graphics Tab Content -->
-            <div class="tab-content" id="Graphics">
+            <!-- Blender Tab Content -->
+            <div class="tab-content" id="Blender">
                 <div class="file-list">
-                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://uiverse.io" target="_blank" style="text-decoration: none;">
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.pacdora.com/" target="_blank" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/pacdora.ico" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
                             <div class="file-name">Pacdora .com</div>
@@ -714,13 +730,25 @@
                         </div>
                         <div class="file-size">—</div>
                     </a>
-                    
+                    <div class="file-item expandable" onclick="toggleItem(this)">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Blender.png" alt="Texture Baking"></div>
+                        <div class="file-details">
+                            <div class="file-name">Texture Baking</div>
+                            <div class="file-info">
+                                <span class="file-date">Images</span>
+                                <span class="file-type">Baked Texture Samples</span>
+                            </div>
+                        </div>
+                        <div class="file-size">Gallery</div>
+                    </div>
+                    <div class="expandable-content" data-folder="./TextureBaking/" data-max-images="10"></div>
+
                    
                 </div>
             </div>
 
                <!-- LLM (Ai) Tab Content -->
-            <div class="tab-content" id="Ai">
+            <div class="tab-content active" id="Ai">
                 <div class="file-list">
                     
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://chatgpt.com/" target="_blank" style="text-decoration: none;">
@@ -787,9 +815,8 @@
                 </div>
             </div>
 
-            
-            <!-- Learn Tab Content -->
-            <div class="tab-content" id="Learn">
+            <!-- Academy Tab Content -->
+            <div class="tab-content" id="Academy">
                 <div class="file-list">
                  
                     
@@ -936,6 +963,7 @@
 
             <!-- Software Tab Content -->
             <div class="tab-content" id="Software">
+                <div class="file-list">
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.solidworks.com/" target="_blank" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/solidworks.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
@@ -1070,42 +1098,15 @@
                 
                 </div>
             </div>
-
-
-            
-            <!-- Blender Tab Content -->
-            <div class="tab-content" id="Blender">
-                <div class="file-list">
-                    
-                   <div class="file-item expandable" onclick="toggleItem(this)">
-                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Blender.png" alt="Texture Baking"></div>
-                        <div class="file-details">
-                            <div class="file-name">Texture Baking</div>
-                            <div class="file-info">
-                                <span class="file-date">Images</span>
-                                <span class="file-type">Baked Texture Samples</span>
-                            </div>
-                        </div>
-                        <div class="file-size">Gallery</div>
-                    </div>
-                    <div class="expandable-content" data-folder="./TextureBaking/" data-max-images="10"></div>
-
-
-                    
-
-
-
-
-                    
-
-                </div>
             </div>
 
 
-            <!-- Python Tab Content -->
+
+
+               <!-- Reference Tab Word -->
             <div class="tab-content" id="Python">
                 <div class="file-list">
-                    <div class="file-item copy-btn" data-file="MatLab/rendo.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
+                     <div class="file-item copy-btn" data-file="MatLab/rendo.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Modeling and Simulations"></div>
                         <div class="file-details">
                             <div class="file-name">Code Snippet</div>
@@ -1130,6 +1131,7 @@
                     </div>
                 </div>
             </div>
+
 
 
         <!-- Zephyr Tab Content -->
