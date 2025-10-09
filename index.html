@@ -467,9 +467,17 @@
             
             <div class="tab-bar-wrapper">
                 <div class="tab-bar" id="tabBar">
-                    <div class="tab active" data-tab="Web-Dev">
-                        <span class="tab-text">Web-Dev</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Web-Dev')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Ai">
+                        <span class="tab-text">AI (LLM)</span>
+                        <span class="tab-close" onclick="closeTab(event, 'AI')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div>
+                    <div class="tab" data-tab="Software">
+                        <span class="tab-text">Software</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div>
+                    <div class="tab active" data-tab="HTML/CSS">
+                        <span class="tab-text">HTML/CSS</span>
+                        <span class="tab-close" onclick="closeTab(event, 'HTML/CSS')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
                     <div class="tab" data-tab="Graphics">
                         <span class="tab-text">Graphics</span>
@@ -478,24 +486,23 @@
                     <div class="tab" data-tab="Learn">
                         <span class="tab-text">Learn</span>
                         <span class="tab-close" onclick="closeTab(event, 'Learn')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
+                    <div class="tab" data-tab="Word">
+                        <span class="tab-text">Word</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Word')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    <div class="tab" data-tab="Ai">
-                        <span class="tab-text">AI (LLM)</span>
-                        <span class="tab-close" onclick="closeTab(event, 'AI')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div>
-                    <div class="tab" data-tab="Reference">
-                        <span class="tab-text">Reference</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Reference')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div>
-                    <div class="tab" data-tab="Software">
-                        <span class="tab-text">Software</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
+                    <div class="tab" data-tab="Python">
+                        <span class="tab-text">Python</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Python')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
                     <div class="tab" data-tab="Solidworks">
                         <span class="tab-text">Solidworks</span>
                         <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
                     </div> 
-
+                    <div class="tab" data-tab="Solidworks">
+                        <span class="tab-text">Solidworks</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Solidworks')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div> 
                     <div class="tab" data-tab="Blender">
                         <span class="tab-text">Blender</span>
                         <span class="tab-close" onclick="closeTab(event, 'Blender')"><span style="position: relative; top: -2px;">×</span></span>
@@ -524,7 +531,7 @@
         <!-- Content Area -->
         <div class="content-area">
             <!-- Documents Tab Content -->
-            <div class="tab-content active" id="Web-Dev">
+            <div class="tab-content active" id="HTML/CSS">
                 <div class="file-list">
 
                     <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" href="https://uiverse.io" target="_blank" >
@@ -763,7 +770,19 @@
                         </div>
                         <div class="file-size">-</div>
                     </a>
-
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://math-gpt.ai/" target="_blank" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Math-gpt.ico" alt="Cooking app Logo"></div>
+                        <div class="file-details">
+                            <div class="file-name">Math-GPT .ai</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">AI Step by Step Guide Through Physics
+                                </span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+                    
                    
                 </div>
             </div>
@@ -825,27 +844,28 @@
                         </div>
                         <div class="file-size">-</div>
                     </a>
-                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://math-gpt.ai/" target="_blank" style="text-decoration: none;">
-                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/Math-gpt.ico" alt="Cooking app Logo"></div>
+                    
+
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://builditapp.com/" target="_blank" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BuildItApp.png" alt="BuildItApp Logo"></div>
                         <div class="file-details">
-                            <div class="file-name">Math-GPT .ai</div>
+                            <div class="file-name">BuildItApp .com</div>
                             <div class="file-info">
                                 <span class="file-date">Website</span>
-                                <span class="file-type">AI Step by Step Guide Through Physics
+                                <span class="file-type">Minecraft Build Templates
                                 </span>
                             </div>
                         </div>
                         <div class="file-size">-</div>
                     </a>
 
-
                     
                     
                 </div>
             </div>
 
-            <!-- Reference Tab References -->
-            <div class="tab-content" id="Reference">
+            <!-- Reference Tab Word -->
+            <div class="tab-content" id="Word">
                 <div class="file-list">
                     <a class="file-item" data-type="docx" onclick="selectFile(this)" href="/Reference/BlankReport.docx" style="text-decoration: none;" download="BlankReport.docx">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/WordDoc.png" alt="Quality Inspection"></div>
@@ -907,18 +927,7 @@
                         <div class="file-size">73.7 KB</div>
                     </a>
 
-                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://builditapp.com/" target="_blank" style="text-decoration: none;">
-                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BuildItApp.png" alt="BuildItApp Logo"></div>
-                        <div class="file-details">
-                            <div class="file-name">BuildItApp .com</div>
-                            <div class="file-info">
-                                <span class="file-date">Website</span>
-                                <span class="file-type">Minecraft Build Templates
-                                </span>
-                            </div>
-                        </div>
-                        <div class="file-size">-</div>
-                    </a>
+                    
                     
 
                     
@@ -1093,8 +1102,8 @@
             </div>
 
 
-            <!-- MatLab Tab Content -->
-            <div class="tab-content" id="MatLab">
+            <!-- Python Tab Content -->
+            <div class="tab-content" id="Python">
                 <div class="file-list">
                     <div class="file-item copy-btn" data-file="MatLab/rendo.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Modeling and Simulations"></div>
