@@ -40,7 +40,7 @@
             background: #f8f9fa;
             border-bottom: 1px solid #dee2e6;
             border-radius: 8px 8px 0 0;
-            padding: 5px 8px 0px 8px;
+            padding: 9px 8px 0px 8px;
             height: 40px;
         }
 
@@ -453,28 +453,105 @@
         .circular-gallery:active {
         cursor: grabbing;
         }
-        @media (max-width: 800px) {
-            .tab-bar-container {
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            /* Reorganize the window layout for mobile - use display: flex with column-reverse */
+            .window {
                 display: flex;
-                align-items: center;
-                background: #f8f9fa;
-                border-bottom: 1px solid #dee2e6;
-                border-radius: 8px 8px 0 0;
-                padding: 5px 8px 0px 8px;
-                height: 40px;
-                position: fixed;
-                top: 80vh;
-                left: 6vw;
-                right: 5vw;
-                width: calc(90vw - 10px);
-                z-index: 1000;
-                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                flex-direction: column-reverse; /* This puts tab-bar-container at the bottom */
+                height: 90vh;
+                width: 95vw;
             }
-            
+
+            /* Tab bar styling for bottom position */
+            .tab-bar-container {
+                border-bottom: 1px solid #dee2e6;
+                border-top: none;
+                border-radius: 0 0 8px 8px;
+                padding: 0px 8px 2px 8px;
+            }
+
+            /* Content area adjustments for mobile */
             .content-area {
-                padding-bottom: 60px;
+                flex: 1;
+                border-radius: 8px 8px 0 0;
+                /* Remove any order properties that might interfere */
+            }
+
+            /* Tab styling adjustments for bottom position */
+            .tab {
+                border-top: 1px solid #dee2e6;
+                border-bottom: none;
+                border-radius: 0 0 8px 8px;
+                min-width: 100px;
+                max-width: 150px;
+                height: 36px;
+                padding: 0 8px;
+            }
+
+            .tab.active {
+                border-top:none ;
+                border-bottom: 1px solid #0078d4;
+            }
+
+            .tab-text {
+                font-size: 11px;
+            }
+
+            /* Adjust padding for mobile */
+            body {
+                padding: 2vh 2vw;
+            }
+
+            /* Adjust button sizes for mobile */
+            .tab-scroll-left,
+            .tab-scroll-right,
+            .new-tab-button {
+                width: 32px;
+                height: 32px;
+            }
+
+            /* Adjust file list padding for mobile */
+            .file-list {
+                padding: 6px;
+            }
+
+            .file-item {
+                padding: 6px 8px;
+                min-height: 44px;
+            }
+
+            .file-icon {
+                width: 28px;
+                height: 28px;
+                margin-right: 8px;
+                font-size: 16px;
+            }
+
+            .file-name {
+                font-size: 12px;
+            }
+
+            .file-info {
+                font-size: 10px;
+            }
+
+            .file-size {
+                font-size: 10px;
+                min-width: 50px;
+            }
+
+            /* Gallery adjustments for mobile */
+            .gallery-viewer {
+                width: 85vw;
+            }
+
+            .gallery-container {
+                padding: 0 20px;
             }
         }
+
 
     </style>
 </head>
