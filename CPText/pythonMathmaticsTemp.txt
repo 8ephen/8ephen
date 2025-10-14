@@ -1,0 +1,7 @@
+import sympy as sy
+import numpy as nu
+import scipy as sc
+import matplotlib.pyplot as ma
+import control as co
+sy.init_printing()   #enable latex printing
+x, y, z = sy.symbols('x y z')   # Define symbolic variable
