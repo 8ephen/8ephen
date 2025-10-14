@@ -8,6 +8,9 @@
     <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
     <link type="text/css" href="ProfileStyles.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <script src="./script.js"></script>
     
 
@@ -36,10 +39,10 @@
      }
 
      #slider-container {
-        width: auto; position:fixed; bottom:60px; 
+        width: auto; position:fixed; bottom:120px; 
         left:50%; transform:translateX(-50%); 
         background:#fff; padding:10px; border-radius:111px; 
-        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000;
+        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1001;
         height: Auto;
       } 
       #size-slider {
@@ -69,8 +72,9 @@
 <!-- Hero Section from Portfolio -->
 <section class="hero">
     <div class="hero-content">
-        <h1>Stephen Yoshida</h1>
-        <p>Mechanical Engineer & Full-Stack Developer</p>
+        <h1 style="font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-style: normal;">Stephen Yoshida</h1>
+
+        <p>Mechanical Engineer</p>
     
     </div>
 </section>
@@ -92,11 +96,16 @@
   </div>
   <div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
     <button class="program-btn">SolidWorks</button>
+    <button class="program-btn">Plasticity</button>
     <button class="program-btn">Matlab</button>
+    <button class="program-btn">Blender</button>
     <button class="program-btn">Visual Studio Code</button>
     <button class="program-btn">Creality Scan</button>
-    <button class="program-btn">Arduino</button>
     <button class="program-btn">Bambu Labs</button>
+    <button class="program-btn">Arduino</button>
+    <button class="program-btn">PreForm</button>
+    <button class="program-btn">KiCad</button>
+    <button class="program-btn">FreeCad</button>
     <button class="program-btn">Microsoft</button>
 
   </div>
@@ -105,18 +114,18 @@
 <!-- Programming/Applications Section -->
 <section class="programming-section">
       <!-- Header Text -->
-      <div class="container fade-in" style="margin-top: 60px; margin-bottom: -220px;">
-        <div class="clip-text">
+      <div class="container fade-in" style=" margin-top: 60px; margin-bottom: -220px;">
+        <div class="clip-text Programs" >
           Programs
         </div>
       </div>
 
-  <div id="Applications" class="fade-in">  
+  <div id="Applications" class="fade-in" style="justify-content: center; display: flex;">  
       <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
           interaction-prompt="none" loading="eager" Class="computer" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 16m" >
       </model-viewer>
       <div class="programs-card">
-        <img src="./Site_Photos/SolidworksLogo.png" alt="SolidWorks Logo" class="programs-logo">
+        <h1 style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Solidworks</h1>
         <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
         <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
         <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
@@ -328,8 +337,8 @@
         </div>
       </div>
 
-    <section class="grid-container fade-in">
-        <iframe src="index.html" style="width: 100vw; height: 80vh; position: relative; left: -5vw;" frameborder="0"></iframe>
+    <section class="grid-container fade-in" style="padding: 0px; justify-content: center;">
+        <iframe src="index.html" style="width: 90vw; padding:0; height: 80vh; position: relative; top: -50px;" frameborder="0"></iframe>
 
     </section>
 </section>
@@ -465,6 +474,9 @@
       document.addEventListener('DOMContentLoaded', function() {
         // Simple horizontal scroll with mouse wheel
         var bar = document.getElementById('program-bar');
+        var sliderContainer = document.getElementById('slider-container');
+        var computerModel = document.querySelector('.computer');
+        
         if (bar) {
           // Mouse wheel horizontal scroll
           bar.addEventListener('wheel', function(e) {
@@ -472,6 +484,30 @@
             bar.scrollLeft += e.deltaY;
           }, { passive: false });
         }
+
+        // Programming bar visibility based on computer model visibility
+        function checkProgrammingBarVisibility() {
+          if (computerModel && bar && sliderContainer) {
+            const rect = computerModel.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Show programming bar only when the bottom of the computer model is visible on screen
+            const isBottomVisible = rect.bottom > 0 && rect.bottom <= windowHeight;
+            
+            if (isBottomVisible) {
+              bar.style.display = 'flex';
+              sliderContainer.style.display = 'block';
+            } else {
+              bar.style.display = 'none';
+              sliderContainer.style.display = 'none';
+            }
+          }
+        }
+
+        // Check on scroll and initial load
+        window.addEventListener('scroll', checkProgrammingBarVisibility);
+        window.addEventListener('resize', checkProgrammingBarVisibility);
+        checkProgrammingBarVisibility(); // Initial check
 
         // Fade-in scroll animations
         const observerOptions = {
