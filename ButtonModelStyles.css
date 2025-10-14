@@ -1,12 +1,15 @@
 /* Program bar button styles matching site theme */
 .program-btn {
   background-color: white;
-  color: #1565c0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   border-radius: 10em;
   font-size: 14px;
   font-weight: 600;
   padding: 0.5em 0.5em;
-  border: 1px solid black;
+  border: 1px solid #b98f59;
   box-shadow: 0 0 0 0 #1565c0;
   margin-right: 8px;
   cursor: pointer;
@@ -14,9 +17,11 @@
   letter-spacing: 1px;
 }
 .program-btn:hover {
-  background: linear-gradient(45deg, #FFF8DC, #F5DEB3, #DEB887);
-  color: linear-gradient(45deg, #FFF8DC, #F5DEB3, #DEB887);
-  border-color: #1565c0;
+  background: linear-gradient(45deg, #deb66c, #b98f59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-color: #764ba2;
   transform: translateY(-2px) scale(1.05);
 }
 .program-btn:active {
@@ -81,18 +86,25 @@ input[type=range]#size-slider::-ms-fill-upper {
 }
 
 .clip-text {
+  font-family: 'Nanum Myeongjo', serif; 
+  font-weight: 400; 
+  font-style: normal; 
   background: linear-gradient(135deg, #8B4513 0%, #180c50 100%);
   background-size: cover;
   background-attachment: fixed;
-  position: sticky;
   -webkit-background-clip: text;
-  color: transparent; 
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
   box-sizing: border-box;
-  font-size: 10vw;
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: bold;
   position: relative;
-  line-height: 100px;
+  line-height: 1.2;
   flex-shrink: 0;
+  z-index: 4;
+  width: 100%;
+  padding: 40px 0px 40px 0px;
   
   /* Animation setup */
   transform: translateX(-100%);
@@ -103,10 +115,6 @@ input[type=range]#size-slider::-ms-fill-upper {
 .clip-text.animate-in {
   transform: translateX(0);
   opacity: 1;
-}
-  z-index: 4;
-  width: 100%;
-  padding: 80px 0px 0px 0px
 }
 
 
@@ -332,14 +340,14 @@ box-sizing: border-box;
   position: absolute;
   bottom: 7px;
   font-size: 25px;
-  alignment: left;
+  text-align: left;
   left: 7%;
 }
 
 #pslider {
   position: absolute;
   bottom: 11px;
-  alignment: right;
+  text-align: right;
   left: 90%;
   font-weight: bold;
 } 
@@ -482,7 +490,9 @@ box-sizing: border-box;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 0px;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
 }
 .LapAppsTitle {
@@ -494,12 +504,13 @@ box-sizing: border-box;
   margin:auto;
 }
 .computer{
-  height: 50vw; 
-  width: 50vw; 
+  height: 45vw; 
+  width: 45vw; 
   position: relative; 
   max-width:600px; 
   max-height:600px;
   flex-shrink: 0;
+  margin: 0 auto;
 }
 .Description{
   position:relative;
@@ -558,6 +569,7 @@ h4{
     transition: all 0.3s ease;
     border: 1px solid rgba(102, 126, 234, 0.1);
     text-align: center;
+    margin: 0 auto;
 }
 
 .programs-card:hover {
@@ -662,6 +674,30 @@ h4{
   box-shadow: 0 0 0 0 black;
 }
 
+/* slideButton2 class for consistency */
+.slideButton2 {
+  background-color: white;
+  color:  #1565c0;
+  border-radius: 10em;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  border: 1px solid black;
+  box-shadow: 0 0 0 0 black;
+}
+
+.slideButton2:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 0 0 black;
+}
+
+.slideButton2:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+}
+
 /* Selected model styles */
 .button.selected {
   background: linear-gradient(135deg, #EEE2B5 0%, #D7B26D 100%) !important;
@@ -741,10 +777,10 @@ h4{
 /* Hero Section from Portfolio */
 .hero {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    min-height: 110vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     text-align: center;
     color: white;
     position: relative;
@@ -766,6 +802,7 @@ h4{
     z-index: 2;
     max-width: 800px;
     padding: 0 20px;
+    top:-10vh;
 }
 
 .hero h1 {
@@ -824,8 +861,8 @@ h4{
 
 /* Programming Section - Light blue background */
 .programming-section {
-  background: radial-gradient(circle, rgba(29,161,242,0.1) 0%, transparent 70%);;
-  padding: 80px 20px;
+  background: radial-gradient(circle, rgba(29,161,242,0.1) 0%, transparent 70%);
+  padding-top: 100px;
   position: relative;
 }
 
@@ -937,7 +974,7 @@ h4{
 
 /* Social Section - Dark elegant background */
 .social-section {
-  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+
   padding: 1px 42px 50px 40px;
   position: relative;
 }
@@ -972,7 +1009,7 @@ h4{
 
 .social-container h2 {
   font-size: 3rem;
-  background: linear-gradient(135deg, #EEE2B5 0%, #D7B26D 100%) !important;
+  background: #764ba2 !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
@@ -1007,12 +1044,13 @@ h4{
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   .transition-container {
     flex-direction: column;
     gap: 40px;
     text-align: center;
   }
-  
+
   .transition-content {
     text-align: center;
   }
@@ -1043,9 +1081,10 @@ h4{
   .programming-section,
   .designs-section,
   .tools-section {
-    padding: 40px 10px;
+    padding: 4000px 10px;
   }
   
+
   .transition-section,
   .social-section {
     padding: 60px 10px;
@@ -1187,7 +1226,6 @@ h4{
 /* My Journey Section Styles */
 #experience {
     background: white;
-    padding: 80px 20px;
     position: relative;
 }
 
@@ -1198,6 +1236,7 @@ h4{
         transform: none;
     }
 
+ 
     .timeline-item:nth-child(odd) .timeline-content,
     .timeline-item:nth-child(even) .timeline-content {
         justify-content: flex-start;
@@ -1213,4 +1252,95 @@ h4{
     .timeline-card {
         max-width: 100%;
     }
+}
+
+
+/* ===========================================
+   RESPONSIVE BREAKPOINTS - BLANK SECTIONS
+   =========================================== */
+
+/* Extra Large Screens (1400px and up) */
+@media (min-width: 1400px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:-220px
+     }
+
+}
+
+/* Large Screens (1200px to 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:-100px
+     }
+
+}
+
+/* Desktop Screens (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:-50px
+     }
+}
+
+/* Tablet Landscape (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:0px
+     }
+}
+
+/* Tablet Portrait (576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:0px;
+    padding-bottom: 50px;
+     }
+}
+
+/* Mobile Landscape (480px to 575px) */
+@media (min-width: 480px) and (max-width: 575px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:0px;
+    padding-bottom: 50px;
+     }
+}
+
+/* Mobile Portrait (320px to 479px) */
+@media (min-width: 320px) and (max-width: 479px) {
+  .Programs {
+    top:-120px
+     }
+     #Applications {
+    top:0px;
+    padding-bottom: 50px;
+     }
+}
+
+/* Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .Programs {
+    top:-120px;
+  }
+  #Applications {
+    top:0px;
+    padding-bottom: 50px;
+  }
 }
