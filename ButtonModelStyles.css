@@ -499,30 +499,29 @@ box-sizing: border-box;
 #Applications{
   position:relative;
   height: auto;
-  min-height: 60vw;
+  min-height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 30px;
-  max-width: 1200px;
+  gap: 0px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 20px;
 }
 .LapAppsTitle {
-  Position: relative;
+  position: relative;
   color: #1da1f2;
   font-size: clamp(1px, 8vw, 77px);
   text-align:center;
   top:clamp(5px, 8vw, 60px);
   margin:auto;
-}
+} 
 .computer{
-  height: 45vw; 
-  width: 45vw; 
+  height: 40vw; 
+  width: 40vw; 
   position: relative; 
-  max-width:600px; 
-  max-height:600px;
+  max-width:700px; 
+  max-height:800px;
   flex-shrink: 0;
   margin: 0 auto;
 }
@@ -1276,7 +1275,7 @@ h4{
   .programming-section,
   .designs-section,
   .tools-section {
-    padding: 4000px 10px;
+    padding: 100px 10px 0 0;
   }
   
 
@@ -1479,15 +1478,20 @@ h4{
 /* Extra Large Screens (1400px and up) */
 @media (min-width: 1400px) {
   .Programs {
-    top:60px
+    top:-30px
      }
-    
+    #Applications {
+    padding-bottom:100px;
+     }
 }
-
+ 
 /* Large Screens (1200px to 1399px) */
 @media (min-width: 1200px) and (max-width: 1399px) {
   .Programs {
-    top:20px;
+    top:-70px;
+     }
+     #Applications {
+    padding-bottom:120px;
      }
  
 }
@@ -1497,7 +1501,9 @@ h4{
   .Programs {
     top:-20px
      }
-
+#Applications {
+    padding-bottom:100px;
+     }
 
 }
 
@@ -1506,7 +1512,10 @@ h4{
   .Programs {
     top:-20px
      }
-
+     #Applications {
+    top:40px;
+    padding-bottom: 50px;
+     }
 }
 
 /* Tablet Portrait (576px to 767px) */
@@ -1516,39 +1525,39 @@ h4{
      }
      #Applications {
     top:40px;
-    padding-bottom: 50px;
+    padding-bottom: 100px;
      }
 }
 
 /* Mobile Landscape (480px to 575px) */
 @media (min-width: 480px) and (max-width: 575px) {
   .Programs {
-    top:-40px
+    top:-90px
      }
      #Applications {
     top:50px;
-    padding-bottom: 90px;
+    padding-bottom: 130px;
      }
 }
-
+ 
 /* Mobile Portrait (320px to 479px) */
 @media (min-width: 320px) and (max-width: 479px) {
   .Programs {
-    top:-120px
+    top:-140px
      }
      #Applications {
     top:0px;
-    padding-bottom: 50px;
+    padding-bottom: 80px;
      }
 }
 
 /* Small Mobile (below 320px) */
 @media (max-width: 319px) {
   .Programs {
-    top:-120px;
+    top:-145px;
   }
   #Applications {
     top:0px;
-    padding-bottom: 50px;
+    padding-bottom: 90px;
   }
 }
