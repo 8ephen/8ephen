@@ -63,6 +63,20 @@
         transform: translateY(0);
       }
 
+      /* Background Transition Section */
+      .background-transition {
+        height: 200px;
+        background: linear-gradient(to bottom, #764ba2 40%, #ffffff);
+        width: 100vw;
+        position: absolute;
+      }
+ 
+      @media (max-width: 768px) {
+        .background-transition {
+          height: 150px;
+        }
+      }
+
 
     </style>
 
@@ -87,7 +101,7 @@
       <button class="slideButton1" id="take-apart-btn" style="min-width:120px;">Take it Apart</button>
       <div style="display: flex; align-items: center; justify-content: center; flex: 1; gap: 8px; margin: 0 24px;">
         
-        <input type="range" id="size-slider" min="1" max="4" value="4" step="1">
+        <input type="range" id="size-slider" min="1" max="4" value="3" step="1">
        
       </div>
       <button class="slideButton2" id="explain-it-btn" style="min-width:120px;">Explain it</button>
@@ -110,6 +124,9 @@
 
   </div>
 </section>
+
+<!-- Background Transition Section -->
+<section class="background-transition"></section>
 
 <!-- Programming/Applications Section -->
 <section class="programming-section">
@@ -345,128 +362,33 @@
 
 <!-- Social Media Section -->
 <section class="social-section">
-  <div class="social-container fade-in">
-    <h2 class="fade-in" style="background: linear-gradient(45deg, #764ba2, #764ba2, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Connect With Me!</h2>
-    <div class="social-grid">
-      <div class="tooltip-containerd fade-in">
-  <div class="tooltipd">
-    <div class="profiled">
-      <div class="userd">
-        <div class="imgd">DI</div>
-        <div class="detailsd">
-          <div class="named">8ephen</div>
-          <div class="usernamed">@8ephen</div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  <div class="textd">
-    <a href="https://freecodez.com/" class="icond">
-      <div class="layerd">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="discord-icon">
-          <svg
-            preserveAspectRatio="xMidYMid"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -3.117 28 28"
-            height="28"
-            width="28"
-          >
-            <path
-              fill="#764ba2"
-              d="M23.719 1.815A22.8 22.8 0 0 0 17.942 0c-.249.45-.54 1.055-.74 1.536q-3.231-.486-6.402 0C10.6 1.055 10.302.45 10.051 0A22.7 22.7 0 0 0 4.27 1.82C.614 7.344-.377 12.731.119 18.042c2.425 1.811 4.775 2.911 7.085 3.63a17.6 17.6 0 0 0 1.517-2.499 15 15 0 0 1-2.389-1.163 12 12 0 0 0 .586-.463c4.607 2.155 9.613 2.155 14.165 0a14 14 0 0 0 .586.463 15 15 0 0 1-2.394 1.165c.438.877.945 1.714 1.517 2.499 2.312-.72 4.664-1.82 7.089-3.633.581-6.156-.993-11.494-4.162-16.227M9.349 14.776c-1.383 0-2.517-1.291-2.517-2.863s1.11-2.866 2.517-2.866 2.541 1.291 2.517 2.866c.002 1.572-1.11 2.863-2.517 2.863m9.302 0c-1.383 0-2.517-1.291-2.517-2.863s1.11-2.866 2.517-2.866 2.541 1.291 2.517 2.866c0 1.572-1.11 2.863-2.517 2.863"
-            ></path>
-          </svg>
-        </span>
-      </div>
-      <div class="textd">Discord</div>
-    </a>
-  </div>
-</div>
-
-
-<div class="tooltip-containeri fade-in">
-  <div class="tooltipi">
-    <div class="profilei">
-      <div class="useri">
-        <div class="imgi">Ui</div>
-        <div class="detailsi">
-          <div class="namei">8ephen</div>
-          <div class="usernamei">@8ephen</div>
-        </div>
-      </div>
+<!-- From Uiverse.io by adarshpatel111 --> 
+<div class="holographic-stack">
+  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
+    <div class="holographic-ring" style="top:-20px; animation: rotate 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
     
-    </div>
-  </div>
-  <div class="texti">
-    <a class="iconi" href="#">
-      <div class="layeri">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="instagramSVG">
-          <svg
-            fill="#764ba2"
-            class="svgIcon"
-            viewBox="0 0 448 512"
-            height="1.5em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-            ></path>
-          </svg>
-        </span>
-      </div>
-      <div class="texti">Instagram</div>
-    </a>
-  </div>
-</div>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <image href="/Site_Photos/Github.ico" height="24" width="24" />
+    </svg>
+    <div class="holographic-pulse"></div>
+     <h4 class="socialName" >github  </h4>
+  </a>
+   
+<a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
+    <div class="holographic-ring" style="top:-20px; animation: rotate reverse 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
+    
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <image href="/Site_Photos/Github.ico" height="24" width="24" />
+    </svg>
+    <div class="holographic-pulse"></div>
+     <h4 class="socialName" >github  </h4>
+  </a>
+   
 
-<!-- From Uiverse.io by vikas7754 --> 
-<div class="tooltip-container fade-in">
-  <div class="tooltip">
-    <div class="profile">
-      <div class="user">
-        <div class="img">Ui</div>
-        <div class="details">
-          <div class="name">8ephen</div>
-          <div class="username">@8ephen</div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  <div class="text">
-    <a class="icon" href="https://freecodez.com/">
-      <div class="layer">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span class="linkedin-icon">
-          <svg viewBox="0 0 448 512" height="1em">
-            <path
-              d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-            ></path>
-          </svg>
-        </span>
-      </div>
-      <div class="text">LinkedIn</div>
-    </a>
-  </div>
-</div>
-    </div>
-  </div>
+
+
+
 </section>
-
-<div style="height: 170px;" ></div>
-
 
 
 <!-- JavaScript and Scripts Section -->
@@ -551,14 +473,14 @@
     slider.addEventListener('input', function() {
       const newSize = slider.value;
       boxa.style.width = newSize + 'vw';
-      boxa.style.height = newSize + 'vw';
+      boxa.style.height = newSize + 'vh';
   
       boxb.style.width = newSize + 'vw';
-      boxb.style.height = newSize + 'vw';
+      boxb.style.height = newSize + 'vh';
       boxc.style.width = newSize + 'vw';
-      boxc.style.height = newSize + 'vw';
+      boxc.style.height = newSize + 'vh';
       boxd.style.width = newSize + 'vw';
-      boxd.style.height = newSize + 'vw';
+      boxd.style.height = newSize + 'vh';
 
       sizeValue.textContent = newSize + '%';
       gap.style.columnGap = (newSize / 2) + 'vw';
