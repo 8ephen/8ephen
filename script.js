@@ -204,8 +204,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const modelType = selectedModel.getAttribute('data-model');
         hideAllExplanations();
         showExplanation(modelType);
-        // Optional: Change button appearance to show it's active
-        explainButton.style.background = '#e3f2fd';
+        // Optional: Change button appearance to show it's active/*
+        //explainButton.style.background = '#e3f2fd';
+        
       }
     });
   }
@@ -249,10 +250,10 @@ document.addEventListener('DOMContentLoaded', function() {
           // Update button text and appearance based on animation state
           if (isAnimationReversed) {
             takeApartButton.textContent = 'Put it Back';
-            takeApartButton.style.background = '#ffcdd2'; // Light red background
+            //takeApartButton.style.background = '#ffcdd2'; // Light red background
           } else {
             takeApartButton.textContent = 'Take it Apart';
-            takeApartButton.style.background = ''; // Reset background
+            //takeApartButton.style.background = ''; // Reset background
           }
         } else {
           console.log('Please select the animated model (Brewer) first.');
