@@ -1485,7 +1485,7 @@ h4{
 /* Tablet Landscape (768px to 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
   .Programs {
-    top:-120px
+    top:-20px
      }
 
 }
@@ -1493,10 +1493,10 @@ h4{
 /* Tablet Portrait (576px to 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
   .Programs {
-    top:-120px;
+    top:-60px;
      }
      #Applications {
-    top:0px;
+    top:40px;
     padding-bottom: 50px;
      }
 }
@@ -1504,11 +1504,11 @@ h4{
 /* Mobile Landscape (480px to 575px) */
 @media (min-width: 480px) and (max-width: 575px) {
   .Programs {
-    top:-120px
+    top:-40px
      }
      #Applications {
-    top:0px;
-    padding-bottom: 50px;
+    top:50px;
+    padding-bottom: 90px;
      }
 }
 
