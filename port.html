@@ -65,12 +65,13 @@
 
       /* Background Transition Section */
       .background-transition {
-        height: 200px;
-        background: linear-gradient(to bottom, #764ba2 40%, #ffffff);
-        width: 100vw;
+        height: 1vh;
+        background: #5a2c0b;
+        width: 100%;
         position: absolute;
+        top: 110vh;
       }
- 
+  
       @media (max-width: 768px) {
         .background-transition {
           height: 150px;
@@ -135,14 +136,14 @@
   <body>
 
 <!-- Hero Section from Portfolio -->
-<section class="hero">
-    <div class="hero-content">
+    <section class="hero">
+      <div class="hero-content">
         <h1 style="font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-style: normal;">Stephen Yoshida</h1>
 
         <p>Mechanical Engineer</p>
     
-    </div>
-</section>
+      </div>
+    </section>
 
 <!-- Hero/Landing Section -->
 <section class="hero-section">
@@ -213,7 +214,7 @@
     <div class="timeline-container">
         <div class="timeline-line"></div>
         
-        <div class="timeline-item">
+        <div class="timeline-item" id="timeLine1">
             <div class="timeline-icon">
                 <i class="fas fa-briefcase"></i>
             </div>
@@ -236,7 +237,7 @@
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div class="timeline-item" id="timeLine2">
             <div class="timeline-icon">
                 <i class="fas fa-tools"></i>
             </div>
@@ -259,7 +260,7 @@
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div class="timeline-item" id="timeLine3">
             <div class="timeline-icon">
                 <i class="fas fa-cogs"></i>
             </div>
@@ -282,7 +283,7 @@
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div class="timeline-item" id="timeLine4">
             <div class="timeline-icon">
                 <i class="fas fa-graduation-cap"></i>
             </div>
@@ -305,7 +306,7 @@
             </div>
         </div>
 
-        <div class="timeline-item">
+        <div class="timeline-item" id="timeLine5">
             <div class="timeline-icon">
                 <i class="fas fa-school"></i>
             </div>
