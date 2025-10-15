@@ -1,3 +1,17 @@
+/* CSS Reset - Remove default browser margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 /* Program bar button styles matching site theme */
 .program-btn {
   background-color: white;
@@ -785,12 +799,15 @@ h4{
     align-items: center;
     justify-content: center; 
     text-align: center;
-    color: white;
+    color: #71350a;
     position: relative;
     overflow: hidden;
     width: 100vw;
+    left: 0;
+    right: 0;
+    top: 0;
 }
-
+   
 .hero::before {
     content: '';
     position: absolute;
@@ -805,7 +822,7 @@ h4{
     position: relative;
     z-index: 2;
     max-width: 800px;
-    padding: 0 20px;
+    
     top:-10vh;
 }
 
@@ -1037,6 +1054,7 @@ h4{
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
+
 }
 
 .holographic-icon svg {
@@ -1086,12 +1104,13 @@ h4{
 }
 
 .holographic-pulse {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 30%;/*////////*/
+  height: 30%; /*////////*/
   border-radius: 50%;
   box-shadow: 0 0 15px black;
   opacity: 0;
+  position: relative;
+
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
@@ -1114,30 +1133,8 @@ h4{
   border-bottom-color: transparent;
 }
 */
-.holographic-icon.instagram {
-  color: rgb(97, 15, 97);
-}
 
-.holographic-icon.instagram:hover {
-  color: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
-  );
-  transform: translateY(-10px) rotateX(20deg);
-}
 
-.holographic-icon.instagram:hover .holographic-ring {
-  border-color: linear-gradient(
-    90deg,
-    rgb(23, 0, 36) 0%,
-    rgba(9, 9, 121, 1) 35%,
-    rgba(0, 212, 255, 1) 100%
-  );
-  border-top-color: transparent;
-  border-bottom-color: transparent;
-}
 
 .holographic-icon:hover {
   transform: translateY(-10px) rotateX(20deg);
@@ -1206,7 +1203,7 @@ h4{
   flex-direction: column; 
   align-items: center; 
   position: relative;
-  top: 30px; 
+  top: 10px; /*////////*/
   left: -2px;
   color: transparent;
   transition: color 0.3s ease;
@@ -1452,6 +1449,28 @@ h4{
     }
 }
 
+
+
+
+@media (min-width: 1000px) {
+   #timeLine2{
+    top:-200px;
+   }
+   #timeLine3{
+    top:-400px;
+   }
+    #timeLine4{
+      top:-600px;
+    }
+    #timeLine5{
+      top:-800px;
+    }
+    .section{
+      height: 1650px;
+    }
+}
+
+ 
 
 /* ===========================================
    RESPONSIVE BREAKPOINTS - BLANK SECTIONS
