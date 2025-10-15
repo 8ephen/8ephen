@@ -1,0 +1,1 @@
+<model-viewer src="laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1" camera-orbit="65.82deg 73.9deg 17.83m" field-of-view="30deg"> </model-viewer>
