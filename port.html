@@ -108,11 +108,6 @@
         transition: opacity 1s ease;
       }
 
-      /* Model viewer smooth transitions */
-      #laptop-model {
-        transition: all 0.5s ease-in-out;
-      }
-
       /* Programs card smooth transitions */
       .programs-card {
         transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -195,8 +190,8 @@
 
   <div id="Applications" class="fade-in" style="justify-content: center; display: flex;">  
       <model-viewer id="laptop-model" src="./programsLaptop/laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-          interaction-prompt="none" loading="eager" Class="computer" shadow-intensity="1" camera-orbit="65.46deg 85.66deg 16m" 
-          interpolation-decay="500" variant-name="">
+          interaction-prompt="none" loading="eager" Class="computer" disable-zoom shadow-intensity="1" camera-orbit="65.46deg 85.66deg 16m" 
+          variant-name="">
       </model-viewer>
       <div class="programs-card">
         <h1 id="program-title" style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Programs</h1>
@@ -721,7 +716,7 @@
                         console.error('Error setting loaded variant:', error);
                         isLoading = false; // Clear loading state on error
                       }
-                    }, 700); // 2 second delay
+                    }, 400); // 2 second delay
                     
                   } catch (error) {
                     console.error('Error setting loading variant:', error);
@@ -799,7 +794,7 @@
           
           if (laptopModel) {
             // Store the original camera orbit position
-            const originalCameraOrbit = '65.52deg 76.52deg 16m';
+            const originalCameraOrbit = '65.46deg 85.66deg 16m';
             let returnTimeout;
             let isInteracting = false;
             let lastCameraOrbit = originalCameraOrbit;
@@ -807,8 +802,18 @@
             // Function to return to original position
             function returnToOriginalPosition() {
               if (!isInteracting) {
+                console.log('Model returning to original position with smooth transition');
+                
+                // Use model-viewer's built-in smooth camera transitions
+                // Set a temporary interpolation-decay for smooth movement
+                laptopModel.setAttribute('interpolation-decay', '200');
                 laptopModel.cameraOrbit = originalCameraOrbit;
-                console.log('Model returned to original position');
+                
+                // Remove the interpolation after the movement completes to keep variant changes instant
+                setTimeout(() => {
+                  laptopModel.removeAttribute('interpolation-decay');
+                  console.log('Smooth transition removed - variant changes will be instant again');
+                }, 4500); // Give time for the smooth movement to complete
               }
             }
             
@@ -858,7 +863,7 @@
                 }
                 
                 // Set timeout to return to original position after 3 seconds
-                returnTimeout = setTimeout(returnToOriginalPosition, 3000);
+                returnTimeout = setTimeout(returnToOriginalPosition, 0);
                 console.log('User released model, will return to original position in 3 seconds');
               });
             });
@@ -874,7 +879,7 @@
                   cameraCheckInterval = null;
                 }
                 
-                returnTimeout = setTimeout(returnToOriginalPosition, 2000);
+                returnTimeout = setTimeout(returnToOriginalPosition, 0);
                 console.log('Mouse left model area, will return to original position in 2 seconds');
               }
             });
