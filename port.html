@@ -77,6 +77,62 @@
         }
       }
 
+      /* Programming bar button styles */
+      .program-btn {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+       
+        
+        padding: 8px 16px;
+        border-radius: 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .program-btn:hover {
+   
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+
+      .program-btn.active {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+      }
+
+
+      /* Program information transition styles */
+      #program-title,
+      .programs-description {
+        transition: opacity 1s ease;
+      }
+
+      /* Model viewer smooth transitions */
+      #laptop-model {
+        transition: all 0.5s ease-in-out;
+      }
+
+      /* Programs card smooth transitions */
+      .programs-card {
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+      }
+
+      .programs-card h1,
+      .programs-card h4 {
+        transition: all 3s ease-in-out, transform 3s ease-in-out;
+      }
+
+      /* Smooth text transitions */
+      #program-title {
+        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+      }
+
+      .programs-description {
+        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+      }
+
 
     </style>
 
@@ -109,18 +165,18 @@
     <!-- Removed slider percentage display -->
   </div>
   <div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
-    <button class="program-btn">SolidWorks</button>
-    <button class="program-btn">Plasticity</button>
-    <button class="program-btn">Matlab</button>
-    <button class="program-btn">Blender</button>
-    <button class="program-btn">Visual Studio Code</button>
-    <button class="program-btn">Creality Scan</button>
-    <button class="program-btn">Bambu Labs</button>
-    <button class="program-btn">Arduino</button>
-    <button class="program-btn">PreForm</button>
-    <button class="program-btn">KiCad</button>
-    <button class="program-btn">FreeCad</button>
-    <button class="program-btn">Microsoft</button>
+    <button class="program-btn" data-variant="solidworks">SolidWorks</button>
+    <button class="program-btn" data-variant="plasticity">Plasticity</button>
+    <button class="program-btn" data-variant="matlab">Matlab</button>
+    <button class="program-btn" data-variant="blender">Blender</button>
+    <button class="program-btn" data-variant="vscode">Visual Studio Code</button>
+    <button class="program-btn" data-variant="creality">Creality Scan</button>
+    <button class="program-btn" data-variant="bambu">Bambu Labs</button>
+    <button class="program-btn" data-variant="arduino">Arduino</button>
+    <button class="program-btn" data-variant="preform">PreForm</button>
+    <button class="program-btn" data-variant="kicad">KiCad</button>
+    <button class="program-btn" data-variant="freecad">FreeCad</button>
+    <button class="program-btn" data-variant="microsoft">Microsoft</button>
 
   </div>
 </section>
@@ -138,14 +194,15 @@
       </div>
 
   <div id="Applications" class="fade-in" style="justify-content: center; display: flex;">  
-      <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-          interaction-prompt="none" loading="eager" Class="computer" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 16m" >
+      <model-viewer id="laptop-model" src="./programsLaptop/laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
+          interaction-prompt="none" loading="eager" Class="computer" shadow-intensity="1" camera-orbit="65.46deg 85.66deg 16m" 
+          interpolation-decay="500" variant-name="">
       </model-viewer>
       <div class="programs-card">
-        <h1 style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Solidworks</h1>
-        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
-        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
-        <h4 class="programs-description">Complex mold generation for rubber-silicon seals</h4>
+        <h1 id="program-title" style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Programs</h1>
+        <h4 id="program-description-1" class="programs-description">Complex mold generation for rubber-silicon seals</h4>
+        <h4 id="program-description-2" class="programs-description">Parametric modeling and assembly design</h4>
+        <h4 id="program-description-3" class="programs-description">Engineering simulation and analysis</h4>
       </div>
   </div>
 </section>
@@ -430,6 +487,411 @@
         window.addEventListener('scroll', checkProgrammingBarVisibility);
         window.addEventListener('resize', checkProgrammingBarVisibility);
         checkProgrammingBarVisibility(); // Initial check
+
+        // Programming bar variant switching functionality
+        function initProgrammingBarVariants() {
+          const laptopModel = document.getElementById('laptop-model');
+          const programBtns = document.querySelectorAll('.program-btn');
+          const programTitle = document.getElementById('program-title');
+          const programDesc1 = document.getElementById('program-description-1');
+          const programDesc2 = document.getElementById('program-description-2');
+          const programDesc3 = document.getElementById('program-description-3');
+          let currentActiveBtn = null;
+          let isLoading = false; // Track loading state to prevent rapid clicks
+
+          // Define variant names that correspond to your 3D model variants
+          // These match the actual variant names in your GLB file
+          const variantMappings = {
+            'solidworks': { loading: 'preFormLoading', loaded: 'bambuStudioLoaded' },
+            'plasticity': { loading: 'bambuStudioLoading', loaded: 'plasticityLoaded' },
+            'matlab': { loading: 'matLabLoading', loaded: 'matLabLoaded' },
+            'blender': { loading: 'blenderLoading', loaded: 'blenderLoaded' },
+            'vscode': { loading: 'bambuStudioLoading', loaded: 'visualStudioCodeLoaded' },
+            'creality': { loading: 'crealityScanLoading', loaded: 'crealityScanLoaded' },
+            'bambu': { loading: 'solidworksLoaded', loaded: 'preFormLoaded' },
+            'arduino': { loading: 'arduinoLoading', loaded: 'arduinoLoaded' },
+            'preform': { loading: 'default', loaded: 'solidworksLoading' },
+            'kicad': { loading: 'bambuStudioLoading', loaded: 'kiCadLoaded' },
+            'freecad': { loading: 'freecadLoading', loaded: 'freecadLoaded' },
+            'microsoft': { loading: 'microsoftLoading', loaded: 'microsoftLoaded' }
+          };
+
+          // Define program information
+          const programInfo = {
+            'solidworks': {
+              title: 'SolidWorks',
+              descriptions: [
+                'Complex mold generation for rubber-silicon seals',
+                'Parametric modeling and assembly design',
+                'Engineering simulation and analysis'
+              ]
+            },
+            'plasticity': {
+              title: 'Plasticity',
+              descriptions: [
+                'Advanced NURBS surface modeling',
+                'Industrial design and concept development',
+                'Precision geometric construction'
+              ]
+            },
+            'matlab': {
+              title: 'Matlab',
+              descriptions: [
+                'Mathematical computing and algorithm development',
+                'Data analysis and visualization',
+                'Engineering calculations and simulations'
+              ]
+            },
+            'blender': {
+              title: 'Blender',
+              descriptions: [
+                '3D modeling and animation',
+                'Rendering and visual effects',
+                'Product visualization and presentation'
+              ]
+            },
+            'vscode': {
+              title: 'Visual Studio Code',
+              descriptions: [
+                'Web development and programming',
+                'Extension development and customization',
+                'Version control and project management'
+              ]
+            },
+            'creality': {
+              title: 'Creality Scan',
+              descriptions: [
+                '3D scanning and reverse engineering',
+                'Point cloud processing and mesh generation',
+                'Quality inspection and measurement'
+              ]
+            },
+            'bambu': {
+              title: 'Bambu Labs',
+              descriptions: [
+                'Advanced 3D printing and manufacturing',
+                'Multi-material printing solutions',
+                'Automated production workflows'
+              ]
+            },
+            'arduino': {
+              title: 'Arduino',
+              descriptions: [
+                'Embedded systems and IoT development',
+                'Sensor integration and data logging',
+                'Automation and control systems'
+              ]
+            },
+            'preform': {
+              title: 'PreForm',
+              descriptions: [
+                'SLA 3D printing preparation',
+                'Support structure optimization',
+                'Resin printing parameter tuning'
+              ]
+            },
+            'kicad': {
+              title: 'KiCad',
+              descriptions: [
+                'PCB design and electronic circuit layout',
+                'Schematic capture and component libraries',
+                'Electronic prototyping and manufacturing'
+              ]
+            },
+            'freecad': {
+              title: 'FreeCad',
+              descriptions: [
+                'Open-source parametric 3D modeling',
+                'Technical drawing and documentation',
+                'Mechanical engineering design'
+              ]
+            },
+            'microsoft': {
+              title: 'Microsoft Office',
+              descriptions: [
+                'Technical documentation and reporting',
+                'Project planning and data analysis',
+                'Professional communication and presentations'
+              ]
+            }
+          };
+
+          if (laptopModel && programBtns.length > 0) {
+            console.log('Setting up programming bar variants, found model and', programBtns.length, 'buttons');
+            
+            // Wait for model to load before setting up variants
+            laptopModel.addEventListener('load', function() {
+              console.log('Laptop model loaded');
+              console.log('Available variants in model:', laptopModel.availableVariants);
+              
+              // List all available variants for debugging
+              if (laptopModel.availableVariants && laptopModel.availableVariants.length > 0) {
+                console.log('Found variants:', laptopModel.availableVariants);
+                laptopModel.availableVariants.forEach((variant, index) => {
+                  console.log(`Variant ${index + 1}: ${variant}`);
+                });
+              } else {
+                console.log('No variants found in the model');
+              }
+              
+              // Set default variant (first button) after a short delay
+              setTimeout(() => {
+                if (programBtns[0]) {
+                  const defaultVariant = programBtns[0].getAttribute('data-variant');
+                  console.log('Setting default variant:', defaultVariant);
+                  switchToVariant(defaultVariant);
+                  updateProgramInfo(defaultVariant);
+                  setActiveButton(programBtns[0]);
+                }
+              }, 500);
+            });
+
+            // Set up event listeners immediately (don't wait for model load)
+            programBtns.forEach(function(btn) {
+              btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Don't allow clicking if already loading
+                if (isLoading) {
+                  console.log('Loading in progress, ignoring click');
+                  return;
+                }
+                
+                const variantName = this.getAttribute('data-variant');
+                console.log('Button clicked:', this.textContent, 'Variant:', variantName);
+                
+                // Remove active and loading states from all buttons
+                programBtns.forEach(function(b) {
+                  b.classList.remove('active', 'loading');
+                });
+                
+                // Add loading state to current button
+                this.classList.add('active', 'loading');
+                currentActiveBtn = this;
+                
+                // Switch to the selected variant
+                switchToVariant(variantName);
+                
+                // Update program information
+                updateProgramInfo(variantName);
+                
+                // Remove loading state after the loading sequence completes
+                setTimeout(() => {
+                  this.classList.remove('loading');
+                }, 2100); // Slightly longer than the variant switch time
+                
+                console.log('Switched to variant:', variantName);
+              });
+            });
+
+            function switchToVariant(variantKey) {
+              if (laptopModel && !isLoading) {
+                isLoading = true; // Set loading state
+                console.log('Attempting to switch to variant:', variantKey);
+                
+                const variantObject = variantMappings[variantKey];
+                
+                if (variantObject && variantObject.loading && variantObject.loaded) {
+                  console.log('Loading sequence for:', variantKey);
+                  console.log('Loading variant:', variantObject.loading);
+                  console.log('Loaded variant:', variantObject.loaded);
+                  
+                  // Step 1: Show loading variant with smooth transition
+                  try {
+                    // Use only variantName property for smoother transitions
+                    laptopModel.variantName = variantObject.loading;
+                    console.log('Set loading variant:', variantObject.loading);
+                    
+                    // Step 2: After 2 seconds, switch to loaded variant with smooth transition
+                    setTimeout(() => {
+                      try {
+                        laptopModel.variantName = variantObject.loaded;
+                        console.log('Switched to loaded variant:', variantObject.loaded);
+                        
+                        // Clear loading state
+                        isLoading = false;
+                        
+                        // Verify the switch worked after transition completes
+                        setTimeout(() => {
+                          console.log('Final variant after loading sequence:', laptopModel.variantName);
+                          console.log('Final variant-name attribute:', laptopModel.getAttribute('variant-name'));
+                        }, 300); // Give time for transition to complete
+                        
+                      } catch (error) {
+                        console.error('Error setting loaded variant:', error);
+                        isLoading = false; // Clear loading state on error
+                      }
+                    }, 700); // 2 second delay
+                    
+                  } catch (error) {
+                    console.error('Error setting loading variant:', error);
+                    isLoading = false; // Clear loading state on error
+                  }
+                } else {
+                  console.log('No variant mapping found for:', variantKey);
+                  console.log('Available mappings:', Object.keys(variantMappings));
+                  isLoading = false; // Clear loading state
+                }
+              } else if (isLoading) {
+                console.log('Loading in progress, please wait...');
+              } else {
+                console.log('Laptop model not found');
+              }
+            }
+
+            function updateProgramInfo(variantKey) {
+              const info = programInfo[variantKey];
+              if (info && programTitle && programDesc1 && programDesc2 && programDesc3) {
+                // Add smooth transition effect with transform
+                programTitle.style.opacity = '0';
+                programTitle.style.transform = 'translateY(-10px)';
+                programDesc1.style.opacity = '0';
+                programDesc1.style.transform = 'translateY(-10px)';
+                programDesc2.style.opacity = '0';
+                programDesc2.style.transform = 'translateY(-10px)';
+                programDesc3.style.opacity = '0';
+                programDesc3.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                  programTitle.textContent = info.title;
+                  programDesc1.textContent = info.descriptions[0];
+                  programDesc2.textContent = info.descriptions[1];
+                  programDesc3.textContent = info.descriptions[2];
+                  
+                  // Fade back in with slide up effect
+                  programTitle.style.opacity = '1';
+                  programTitle.style.transform = 'translateY(0)';
+                  programDesc1.style.opacity = '1';
+                  programDesc1.style.transform = 'translateY(0)';
+                  programDesc2.style.opacity = '1';
+                  programDesc2.style.transform = 'translateY(0)';
+                  programDesc3.style.opacity = '1';
+                  programDesc3.style.transform = 'translateY(0)';
+                }, 250);
+              }
+            }
+
+            function setActiveButton(btn) {
+              if (currentActiveBtn) {
+                currentActiveBtn.classList.remove('active');
+              }
+              btn.classList.add('active');
+              currentActiveBtn = btn;
+            }
+          } else {
+            console.log('Could not find laptop model or program buttons');
+            console.log('Laptop model found:', !!laptopModel);
+            console.log('Program buttons found:', programBtns.length);
+          }
+        }
+
+        // Initialize programming bar variants
+        try {
+          initProgrammingBarVariants();
+          console.log('Programming bar variants initialized successfully');
+        } catch (error) {
+          console.error('Error initializing programming bar variants:', error);
+        }
+
+        // Initialize auto-return functionality for laptop model
+        function initModelAutoReturn() {
+          const laptopModel = document.getElementById('laptop-model');
+          
+          if (laptopModel) {
+            // Store the original camera orbit position
+            const originalCameraOrbit = '65.52deg 76.52deg 16m';
+            let returnTimeout;
+            let isInteracting = false;
+            let lastCameraOrbit = originalCameraOrbit;
+            
+            // Function to return to original position
+            function returnToOriginalPosition() {
+              if (!isInteracting) {
+                laptopModel.cameraOrbit = originalCameraOrbit;
+                console.log('Model returned to original position');
+              }
+            }
+            
+            // Monitor camera orbit changes
+            function checkCameraChange() {
+              const currentOrbit = laptopModel.cameraOrbit;
+              if (currentOrbit !== lastCameraOrbit) {
+                lastCameraOrbit = currentOrbit;
+                isInteracting = true;
+                // Clear any existing timeout
+                if (returnTimeout) {
+                  clearTimeout(returnTimeout);
+                }
+                console.log('Camera orbit changed:', currentOrbit);
+              }
+            }
+            
+            // Check for camera changes periodically while user might be interacting
+            let cameraCheckInterval;
+            
+            // Start monitoring when user starts interacting
+            ['mousedown', 'touchstart'].forEach(eventType => {
+              laptopModel.addEventListener(eventType, function() {
+                isInteracting = true;
+                if (returnTimeout) {
+                  clearTimeout(returnTimeout);
+                  console.log('User interaction detected, cancelling auto-return');
+                }
+                
+                // Start checking camera changes
+                if (!cameraCheckInterval) {
+                  cameraCheckInterval = setInterval(checkCameraChange, 100);
+                }
+                console.log('User started interacting with model');
+              });
+            });
+            
+            // Stop monitoring and set return timer when user stops interacting
+            ['mouseup', 'touchend'].forEach(eventType => {
+              laptopModel.addEventListener(eventType, function() {
+                isInteracting = false;
+                
+                // Stop checking camera changes
+                if (cameraCheckInterval) {
+                  clearInterval(cameraCheckInterval);
+                  cameraCheckInterval = null;
+                }
+                
+                // Set timeout to return to original position after 3 seconds
+                returnTimeout = setTimeout(returnToOriginalPosition, 3000);
+                console.log('User released model, will return to original position in 3 seconds');
+              });
+            });
+            
+            // Also detect when mouse leaves the model area
+            laptopModel.addEventListener('mouseleave', function() {
+              if (isInteracting) {
+                isInteracting = false;
+                
+                // Stop checking camera changes
+                if (cameraCheckInterval) {
+                  clearInterval(cameraCheckInterval);
+                  cameraCheckInterval = null;
+                }
+                
+                returnTimeout = setTimeout(returnToOriginalPosition, 2000);
+                console.log('Mouse left model area, will return to original position in 2 seconds');
+              }
+            });
+            
+            console.log('Model auto-return functionality initialized');
+          } else {
+            console.log('Laptop model not found for auto-return functionality');
+          }
+        }
+        
+        // Initialize auto-return functionality
+        try {
+          initModelAutoReturn();
+          console.log('Model auto-return initialized successfully');
+        } catch (error) {
+          console.error('Error initializing model auto-return:', error);
+        }
 
         // Fade-in scroll animations
         const observerOptions = {
