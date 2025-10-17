@@ -566,11 +566,14 @@
             
             <div class="tab-bar-wrapper">
                 <div class="tab-bar" id="tabBar">
-                    <div class="tab active" data-tab="Ai">
+                    <div class="tab active" data-tab="Software">
+                        <span class="tab-text">Software</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div>
+                    <div class="tab" data-tab="Ai">
                         <span class="tab-text">AI (LLM)</span>
                         <span class="tab-close" onclick="closeTab(event, 'AI')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
-                    
                     <div class="tab" data-tab="Academy">
                         <span class="tab-text">Academy</span>
                         <span class="tab-close" onclick="closeTab(event, 'Academy')"><span style="position: relative; top: -2px;">×</span></span>
@@ -587,6 +590,11 @@
                         <span class="tab-text">HTML/CSS</span>
                         <span class="tab-close" onclick="closeTab(event, 'HTML/CSS')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
+                    <div class="tab" data-tab="Inkscape">
+                        <span class="tab-text">Inkscape</span>
+                        <span class="tab-close" onclick="closeTab(event, 'Inkscape')"><span style="position: relative; top: -2px;">×</span></span>
+                    </div>
+
                     <div class="tab" data-tab="Office">
                         <span class="tab-text">Office</span>
                         <span class="tab-close" onclick="closeTab(event, 'Office')"><span style="position: relative; top: -2px;">×</span></span>
@@ -594,10 +602,6 @@
                     <div class="tab" data-tab="Python">
                         <span class="tab-text">Python</span>
                         <span class="tab-close" onclick="closeTab(event, 'Python')"><span style="position: relative; top: -2px;">×</span></span>
-                    </div>
-                    <div class="tab" data-tab="Software">
-                        <span class="tab-text">Software</span>
-                        <span class="tab-close" onclick="closeTab(event, 'Software')"><span style="position: relative; top: -2px;">×</span></span>
                     </div>
                     <div class="tab" data-tab="Solidworks">
                         <span class="tab-text">Solidworks</span>
@@ -771,18 +775,6 @@
             <!-- Blender Tab Content -->
             <div class="tab-content" id="Blender">
                 <div class="file-list">
-                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.pacdora.com/" target="_blank" style="text-decoration: none;">
-                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/pacdora.ico" alt="Product and Packaging Renders"></div>
-                        <div class="file-details">
-                            <div class="file-name">Pacdora .com</div>
-                            <div class="file-info">
-                                <span class="file-date">Website</span>
-                                <span class="file-type">Product and Packaging Renders</span>
-                            </div>
-                        </div>
-                        <div class="file-size">3.2 MB</div>
-                    </a>
-
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.planyourroom.com/" target="_blank" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/PlanYourRoom.png" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
@@ -794,7 +786,6 @@
                         </div>
                         <div class="file-size">-</div>
                     </a>
-                    
                     <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" target="_blank" href="https://app.topoexport.com/">
                         <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/TopoExport.ico" alt="Product and Packaging Renders"></div>
                         <div class="file-details">
@@ -806,18 +797,7 @@
                         </div>
                         <div class="file-size">—</div>
                     </a>
-                    
-                    <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" target="_blank" href="https://textbehindimage.com/">
-                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/TextBehindImage.ico" alt="Github logo"></div>
-                        <div class="file-details">
-                            <div class="file-name">TextBehindImage .com</div>
-                            <div class="file-info">
-                                <span class="file-date">Website</span>
-                                <span class="file-type">Text Behind Subjects/Items</span>
-                            </div>
-                        </div>
-                        <div class="file-size">—</div>
-                    </a>
+
                     <div class="file-item expandable" onclick="toggleItem(this)">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/tutorial.png" alt="Texture Baking"></div>
                         <div class="file-details">
@@ -849,7 +829,7 @@
             </div>
 
                <!-- LLM (Ai) Tab Content -->
-            <div class="tab-content active" id="Ai">
+            <div class="tab-content" id="Ai">
                 <div class="file-list">
                     
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://chatgpt.com/" target="_blank" style="text-decoration: none;">
@@ -1065,10 +1045,10 @@
                     <a class="file-item" data-type="docx" onclick="selectFile(this)" href="/Reference/BlankInspectionGuide.docx" style="text-decoration: none;" download="QualityControl_(Product) (Date Y-M-D).docx">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/WordDoc.png" alt="Quality Inspection Guide Template"></div>
                         <div class="file-details">
-                            <div class="file-name">Inspection Guide Template</div>
+                            <div class="file-name">Quality Control Template</div>
                             <div class="file-info">
                                 <span class="file-date">docx</span>
-                                <span class="file-type">Inspection Guide Template</span>
+                                <span class="file-type">Quality Control Template</span>
                             </div>
                         </div>
                         <div class="file-size">73.7 KB</div>
@@ -1082,7 +1062,7 @@
             </div>
 
             <!-- Software Tab Content -->
-            <div class="tab-content" id="Software">
+            <div class="tab-content active" id="Software">
                 <div class="file-list">
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.solidworks.com/" target="_blank" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/solidworks.png" alt="Product and Packaging Renders"></div>
@@ -1297,9 +1277,77 @@
                 </div>
             </div>
 
+
+      <!-- Downloads Tab Content -->
+            <div class="tab-content" id="Inkscape">
+                <div class="file-list">
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.templatemaker.nl/en/" target="_blank" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/templatemaker.png" alt="Arduino IDE Logo"></div>                       
+                        <div class="file-details">
+                            <div class="file-name">TemplateMaker .nl</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Outline Template Tool for Custom Boxes /Sizes</span>
+                            </div>
+                        </div>
+                        <div class="file-size">-</div>
+                    </a>
+                    <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.pacdora.com/" target="_blank" style="text-decoration: none;">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/pacdora.ico" alt="Product and Packaging Renders"></div>
+                        <div class="file-details">
+                            <div class="file-name">Pacdora .com</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Product and Packaging Renders</span>
+                            </div>
+                        </div>
+                        <div class="file-size">3.2 MB</div>
+                    </a>
+                    
+                    <a class="file-item" data-type="folder" style="text-decoration: none" onclick="selectFile(this)" target="_blank" href="https://textbehindimage.com/">
+                        <div class="file-icon image-icon"><img class="photo-icon" src="/Site_Photos/TextBehindImage.ico" alt="Github logo"></div>
+                        <div class="file-details">
+                            <div class="file-name">TextBehindImage .com</div>
+                            <div class="file-info">
+                                <span class="file-date">Website</span>
+                                <span class="file-type">Text Behind Subjects/Items</span>
+                            </div>
+                        </div>
+                        <div class="file-size">—</div>
+                    </a>
+                </div>
+            </div>
+        
+
+
+
+
       <!-- Downloads Tab Content -->
             <div class="tab-content" id="BambuLabs">
                 <div class="file-list">
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/BambuLabs/a1MiniModifications.3mf" style="text-decoration: none;" download="a1MiniModifications.3mf">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabsP.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">A1 Mini Printed Modifications</div>
+                            <div class="file-info">
+                                <span class="file-date">3mf</span>
+                                <span class="file-type">Complete Print Project Of A1 Mini Modifications</span>
+                            </div>
+                        </div>
+                        <div class="file-size">2 KB</div>
+                    </a>
+                    <a class="file-item" data-type="exe" onclick="selectFile(this)" href="/BambuLabs/printedToolsForElectronics.3mf" style="text-decoration: none;" download="printedToolsForElectronics.3mf">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabsP.png" alt="Modeling and Simulations"></div>
+                        <div class="file-details">
+                            <div class="file-name">Printed Tools For Electronics</div>
+                            <div class="file-info">
+                                <span class="file-date">3mf</span>
+                                <span class="file-type">Print Project Of Electronics Tools</span>
+                            </div>
+                        </div>
+                        <div class="file-size">5 KB</div>
+                    </a>
+                    
                     <a class="file-item" data-type="exe" onclick="selectFile(this)" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/BambuLabs.ico" alt="Modeling and Simulations"></div>
                         <div class="file-details">
@@ -1373,6 +1421,12 @@
                         </div>
                         <div class="file-size">2 KB</div>
                     </a>
+                    
+
+
+
+
+
                 </div>
             </div>
         
