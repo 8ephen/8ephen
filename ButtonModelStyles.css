@@ -1136,11 +1136,11 @@ h4{
 
 
 .holographic-icon:hover {
-  transform: translateY(-10px) rotateX(20deg);
+  transform: translateY(-10px);
 }
 
 .holographic-icon:hover svg {
-  transform: scale(1.2) rotate(10deg);
+  transform: scale(1.2);
 }
 
 
@@ -1186,7 +1186,6 @@ h4{
   height: 20%;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  filter: blur(1px);
   transform: rotateX(80deg) translateZ(-20px);
   opacity: 0;
   transition: opacity 0.3s ease;
