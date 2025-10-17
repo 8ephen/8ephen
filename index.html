@@ -318,6 +318,57 @@
             background: #e7f3ff;
         }
 
+        /* Text Content Display Styles */
+        .text-content {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #212529;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .text-content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .text-filename {
+            font-weight: 500;
+            color: #495057;
+            font-size: 12px;
+        }
+
+        .copy-text-btn {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-text-btn:hover {
+            background: #106ebe;
+        }
+
+        .copy-text-btn.copied {
+            background: #28a745;
+        }
+
         /* Large Image Gallery Styles */
         .gallery-container {
             margin: 12px 0;
@@ -1253,29 +1304,21 @@
                         <div class="file-size">-</div>
                     </a>
                     
-                     <div class="file-item copy-btn" data-file="CPText/pythonMathmaticsTemp.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
-                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Modeling and Simulations"></div>
+                     
+
+                    <div class="file-item expandable" onclick="toggleTextItem(this)">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Python Mathematics Setup"></div>
                         <div class="file-details">
-                            <div class="file-name">A Python Matlab Set-up</div>
+                            <div class="file-name">Python Mathematics Setup (View)</div>
                             <div class="file-info">
-                                <span class="file-date">Text</span>
+                                <span class="file-date">txt</span>
                                 <span class="file-type">Set-up and Imports for Using Python Like Matlab</span>
                             </div>
                         </div>
-                        <div class="file-size">Copy to Clipboard</div>
+                        <div class="file-size">View Content</div>
                     </div>
-                    
-                    <div class="file-item copy-btn" data-file="MatLab/dnetext.txt" onclick="event.stopPropagation();" style="cursor: pointer;">
-                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Modeling and Simulations"></div>
-                        <div class="file-details">
-                            <div class="file-name">Code Snippet</div>
-                            <div class="file-info">
-                                <span class="file-date">Text</span>
-                                <span class="file-type">"Purpose"</span>
-                            </div>
-                        </div>
-                        <div class="file-size">Copy to Clipboard</div>
-                    </div>
+                    <div class="expandable-content" data-text-file="CPText/pythonMathmaticsTemp.txt"></div>
+
                 </div>
             </div>
 
@@ -1303,6 +1346,19 @@
       <!-- Downloads Tab Content -->
             <div class="tab-content" id="Inkscape">
                 <div class="file-list">
+                    <div class="file-item expandable" onclick="toggleSimpleTextItem(this)">
+                        <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/MatLabSnip.png" alt="Python Mathematics Setup Simple"></div>
+                        <div class="file-details">
+                            <div class="file-name">Keyboard Shortcuts</div>
+                            <div class="file-info">
+                                <span class="file-date">txt</span>
+                                <span class="file-type">Inkscape Keyboard Shortcuts</span>
+                            </div>
+                        </div>
+                        <div class="file-size">View Content</div>
+                    </div>
+                    <div class="expandable-content" data-text-file="CPText/inkscapeShortcuts.txt"></div>
+
                     <a class="file-item" data-type="ico" onclick="selectFile(this)" href="https://www.templatemaker.nl/en/" target="_blank" style="text-decoration: none;">
                         <div class="file-icon image-icon"><img class="photo-icon" style="width: 35px; height: 35px;" src="/Site_Photos/templatemaker.png" alt="Arduino IDE Logo"></div>                       
                         <div class="file-details">
@@ -1803,6 +1859,143 @@
             if (item.classList.contains('copy-btn')) {
                 const filename = item.getAttribute('data-file');
                 if (filename) copyFile(filename, item);
+            }
+        }
+
+        // Toggle function for text content display
+        async function toggleTextItem(item) {
+            const content = item.nextElementSibling;
+            const isExpanded = item.classList.contains('expanded');
+            
+            // Close all expanded items in current tab
+            const fileList = item.closest('.file-list');
+            fileList.querySelectorAll('.file-item.expanded').forEach(el => el.classList.remove('expanded'));
+            fileList.querySelectorAll('.expandable-content.show').forEach(el => el.classList.remove('show'));
+            
+            // Toggle current item if it wasn't already expanded
+            if (!isExpanded) {
+                item.classList.add('expanded');
+                content.classList.add('show');
+                
+                // Check if this expandable content has a text file (data-text-file attribute)
+                const textFile = content.getAttribute('data-text-file');
+                if (textFile) {
+                    const fileName = item.querySelector('.file-name').textContent;
+                    console.log('Loading text content for:', fileName);
+                    await loadTextContent(content, textFile);
+                }
+            }
+        }
+
+        // Load and display text file content
+        async function loadTextContent(contentElement, filePath) {
+            // Check if content is already loaded
+            if (contentElement.querySelector('.text-content')) {
+                return; // Already loaded
+            }
+
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error(`File not found: ${filePath}`);
+                }
+                
+                const textContent = await response.text();
+                const fileName = filePath.split('/').pop();
+                
+                // Create text display structure
+                const textContainer = document.createElement('div');
+                textContainer.innerHTML = `
+                    <div class="text-content-header">
+                        <div>Copy to Clipboard →</div>
+                        <button class="copy-text-btn" onclick="copyTextContent(this, '${filePath}')">Copy</button>
+                    </div>
+                    <div class="text-content">${textContent}</div>
+                `;
+                
+                contentElement.appendChild(textContainer);
+                
+            } catch (error) {
+                console.error('Error loading text content:', error);
+                contentElement.innerHTML = `<div style="color: #dc3545; padding: 12px;">Error loading file: ${filePath}</div>`;
+            }
+        }
+
+        // Copy text content to clipboard
+        async function copyTextContent(button, filePath) {
+            try {
+                const response = await fetch(filePath);
+                const text = await response.text();
+                await navigator.clipboard.writeText(text);
+                
+                // Visual feedback
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Copy failed:', error);
+                button.textContent = 'Error';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 1500);
+            }
+        }
+
+        // Toggle function for text content display without copy button
+        async function toggleSimpleTextItem(item) {
+            const content = item.nextElementSibling;
+            const isExpanded = item.classList.contains('expanded');
+            
+            // Close all expanded items in current tab
+            const fileList = item.closest('.file-list');
+            fileList.querySelectorAll('.file-item.expanded').forEach(el => el.classList.remove('expanded'));
+            fileList.querySelectorAll('.expandable-content.show').forEach(el => el.classList.remove('show'));
+            
+            // Toggle current item if it wasn't already expanded
+            if (!isExpanded) {
+                item.classList.add('expanded');
+                content.classList.add('show');
+                
+                // Check if this expandable content has a text file (data-text-file attribute)
+                const textFile = content.getAttribute('data-text-file');
+                if (textFile) {
+                    const fileName = item.querySelector('.file-name').textContent;
+                    console.log('Loading simple text content for:', fileName);
+                    await loadSimpleTextContent(content, textFile);
+                }
+            }
+        }
+
+        // Load and display text file content without header/copy button
+        async function loadSimpleTextContent(contentElement, filePath) {
+            // Check if content is already loaded
+            if (contentElement.querySelector('.text-content')) {
+                return; // Already loaded
+            }
+
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error(`File not found: ${filePath}`);
+                }
+                
+                const textContent = await response.text();
+                
+                // Create simple text display structure (no header, no copy button)
+                const textContainer = document.createElement('div');
+                textContainer.innerHTML = `<div class="text-content">${textContent}</div>`;
+                
+                contentElement.appendChild(textContainer);
+                
+            } catch (error) {
+                console.error('Error loading text content:', error);
+                contentElement.innerHTML = `<div style="color: #dc3545; padding: 12px;">Error loading file: ${filePath}</div>`;
             }
         }
 
