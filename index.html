@@ -89,7 +89,7 @@
             min-width: 120px;
             max-width: 200px;
             height: 32px;
-            background: #e9ecef;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: 1px solid #dee2e6;
             border-bottom: none;
             border-radius: 8px 8px 0 0;
@@ -101,13 +101,11 @@
            
         }
 
-        .tab:hover {
-            background: #f8f9fa;
-        }
+       
 
         .tab.active {
             background: white;
-            border-color: #0078d4;
+            border-color: #764ba2;
             border-bottom: 0px solid white;
             z-index: 1;
         }
@@ -118,7 +116,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: #495057;
+            color: white;
         }
 
         .tab.active .tab-text {
@@ -134,16 +132,25 @@
             justify-content: center;
             border-radius: 3px;
             font-size: 14px;
-            color: #6c757d;
+            color: white;
             margin-left: 8px;
             transition: all 0.2s;
             position: relative;
             top: 1px;
         }
+      
 
         .tab-close:hover {
             background: #dc3545;
             color: white;
+        }
+        .tab.active .tab-close:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .tab.active .tab-close {
+            color: black;
         }
 
         .new-tab-button {
