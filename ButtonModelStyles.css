@@ -507,10 +507,11 @@ box-sizing: border-box;
   gap: 0px;
   max-width: 1500px;
   margin: 0 auto;
+  
 }
 .LapAppsTitle {
   position: relative;
-  color: #1da1f2;
+  color: 3s1da1f2;
   font-size: clamp(1px, 8vw, 77px);
   text-align:center;
   top:clamp(5px, 8vw, 60px);
@@ -553,8 +554,8 @@ h4{
   }
   
   .computer {
-    height: 60vw;
-    width: 60vw;
+    height: 50vw;
+    width: 40vw;
     max-width: 400px;
     max-height: 400px;
     margin: 0 auto;
@@ -571,18 +572,33 @@ h4{
   }
 }
 
-/* Programs Card Styling - Similar to Timeline Cards */
+/* Programs Container for Row Layout */
+.programs-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    max-width: 1400px;
+    margin: 0 auto;
+    
+    flex-wrap: wrap;
+}
+
+/* Programs Card Styling - Updated for Row Layout */
 .programs-card {
     background: white;
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 450px;
     position: relative;
     transition: all 0.3s ease;
     border: 1px solid rgba(102, 126, 234, 0.1);
     text-align: center;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .programs-card:hover {
@@ -591,11 +607,12 @@ h4{
 }
 
 .programs-logo {
-    width: 25vw;
+    width: 120px;
     height: auto;
-    max-width: 200px;
+    max-width: 120px;
     margin-bottom: 20px;
     transition: transform 0.3s ease;
+    display: block;
 }
 
 .programs-logo:hover {
@@ -608,6 +625,7 @@ h4{
     color: #1d1d1f;
     margin-bottom: 15px;
     margin-top: 0;
+    text-align: left;
 }
 
 .programs-description {
@@ -624,20 +642,42 @@ h4{
     font-weight: normal;
 }
 
-/* Responsive design for programs card */
+/* Responsive design for programs container and cards */
+@media (max-width: 1200px) {
+  .programs-container {
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .programs-card {
+    min-width: 280px;
+  }
+}
+
 @media (max-width: 768px) {
+  .programs-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
   .programs-card {
     padding: 30px;
     max-width: 100%;
+    min-width: auto;
+    width: 100%;
+    text-align: center;
   }
   
   .programs-logo {
-    width: 40vw;
-    max-width: 150px;
+    width: 100px;
+    max-width: 100px;
+    margin: 0 auto 20px auto;
   }
   
   .programs-title {
     font-size: 1.5rem;
+    text-align: center;
   }
 }
 
@@ -679,8 +719,8 @@ h4{
   padding: 0.5em 0.5em;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-  border: 1px solid #64310d
-  box-shadow: 0 0 0 0 black
+  border: 1px solid #64310d;
+  box-shadow: 0 0 0 0 black;
 }
 
 #explain-it-btn:hover {
