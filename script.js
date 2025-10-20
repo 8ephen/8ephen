@@ -148,12 +148,66 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function restructureGridForExplanation(modelType) {
+    const grid = document.querySelector('.grid');
+    const allGridItems = Array.from(grid.children);
+    const selectedGridBtn = document.querySelector(`[data-model="${modelType}"]`).closest('.grid-btn');
+    
+    // Clear the grid
+    grid.innerHTML = '';
+    
+    // Find the index of the selected item
+    const selectedIndex = allGridItems.indexOf(selectedGridBtn);
+    
+    // Add items before the selected item
+    for (let i = 0; i < selectedIndex; i++) {
+      grid.appendChild(allGridItems[i]);
+    }
+    
+    // Create a wrapper for the selected item to force its own row
+    const rowWrapper = document.createElement('div');
+    rowWrapper.style.width = '100%';
+    rowWrapper.style.display = 'flex';
+    rowWrapper.style.justifyContent = 'center';
+    rowWrapper.style.margin = '30px 0';
+    rowWrapper.classList.add('explanation-row-wrapper');
+    
+    // Style the selected item for full width
+    selectedGridBtn.style.width = '100vw';
+    selectedGridBtn.style.maxWidth = '100vw';
+    rowWrapper.appendChild(selectedGridBtn);
+    grid.appendChild(rowWrapper);
+    
+    // Add remaining items after the selected item
+    for (let i = selectedIndex + 1; i < allGridItems.length; i++) {
+      grid.appendChild(allGridItems[i]);
+    }
+  }
+
+  function restoreOriginalGrid() {
+    const grid = document.querySelector('.grid');
+    const wrapper = grid.querySelector('.explanation-row-wrapper');
+    
+    if (wrapper) {
+      const selectedGridBtn = wrapper.querySelector('.grid-btn');
+      // Reset styles
+      selectedGridBtn.style.width = '';
+      selectedGridBtn.style.maxWidth = '';
+      
+      // Remove wrapper and put item back in normal flow
+      grid.insertBefore(selectedGridBtn, wrapper);
+      wrapper.remove();
+    }
+  }
+
   function hideAllExplanations() {
     const allExplanations = document.querySelectorAll('.explanation-text');
     allExplanations.forEach(explanation => {
       explanation.style.display = 'none';
       explanation.classList.remove('show');
     });
+    // Restore original grid structure
+    restoreOriginalGrid();
   }
 
   function showExplanation(modelType) {
@@ -161,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const explanationElement = document.getElementById(`explanation-${modelType}`);
     console.log('Found explanation element:', explanationElement); // Debug log
     if (explanationElement) {
+      // Restructure grid first
+      restructureGridForExplanation(modelType);
+      
       explanationElement.style.display = 'block';
       // Trigger animation after display is set
       setTimeout(() => {
@@ -178,6 +235,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Hide element after animation completes
       setTimeout(() => {
         explanationElement.style.display = 'none';
+        // Restore original grid structure
+        restoreOriginalGrid();
       }, 300);
     }
   }
