@@ -185,16 +185,16 @@
         </div>
       </div>
 
-  <div id="Applications" class="fade-in" style="justify-content: center; display: flex;">  
+  <div id="Applications" class="fade-in" style="justify-content: center; display: flex; padding-left: 6vw; padding-right: 6vw;">  
       <model-viewer id="laptop-model" src="./programsLaptop/laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
           interaction-prompt="none" loading="eager" Class="computer" disable-zoom shadow-intensity="1" camera-orbit="65.46deg 85.66deg 16m" 
           variant-name="">
       </model-viewer>
       <div class="programs-card">
         <h1 id="program-title" style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Programs</h1>
-        <h4 id="program-description-1" class="programs-description">Complex mold generation for rubber-silicon seals</h4>
-        <h4 id="program-description-2" class="programs-description">Parametric modeling and assembly design</h4>
-        <h4 id="program-description-3" class="programs-description">Engineering simulation and analysis</h4>
+        <div id="program-descriptions-container">
+          <!-- Dynamic bullet points will be inserted here -->
+        </div>
       </div>
   </div>
 </section>
@@ -301,8 +301,8 @@
                         <span class="skill-tag">Circuit Design</span>
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">Front-End Web Development</span>
-                        <span class="skill-tag"></span>
-                        <span class="skill-tag">Analysis</span>
+                        <span class="skill-tag">PCB Design in KiCad</span>
+                        <span class="skill-tag">Material & Animation in Blender</span>
                     </div>
                 </div>
             </div>
@@ -470,9 +470,6 @@
           const laptopModel = document.getElementById('laptop-model');
           const programBtns = document.querySelectorAll('.program-btn');
           const programTitle = document.getElementById('program-title');
-          const programDesc1 = document.getElementById('program-description-1');
-          const programDesc2 = document.getElementById('program-description-2');
-          const programDesc3 = document.getElementById('program-description-3');
           let currentActiveBtn = null;
           let isLoading = false; // Track loading state to prevent rapid clicks
 
@@ -495,82 +492,104 @@
 
           // Define program information
           const programInfo = {
+            'default': {
+              title: 'Programs',
+              descriptions: [
+                'Select a program from the bar below to see detailed information',
+                
+              ]
+            },
             'solidworks': {
               title: 'SolidWorks',
               descriptions: [
-                'Complex mold generation for rubber-silicon seals',
-                'Parametric modeling and assembly design',
-                'Engineering simulation and analysis'
+                '- Parametric Modeling, Design for Production -',
+                'Complex mold generation for Prototype seals',
+                'Reverse engineering Mesh data "→" Surface',
+                'Engineering drawings and documentation', 
+                'Design for plastic injection molding',
+                'Simulation and finite element analysis',
+                'Material selection and optimization'
               ]
             },
             'plasticity': {
               title: 'Plasticity',
               descriptions: [
+                '-Direct Modeling, "CAD for Artists"-',
                 'Advanced NURBS surface modeling',
                 'Industrial design and concept development',
-                'Precision geometric construction'
+                'Human Design and Ergonomics'
               ]
             },
             'matlab': {
               title: 'Matlab',
               descriptions: [
-                'Mathematical computing and algorithm development',
+                '-Mathematical Computations and Algorithms-',
                 'Data analysis and visualization',
-                'Engineering calculations and simulations'
+                'Engineering calculations and simulations',
+                'Control systems design',
+                'Robotics control and inverse kinematics',
               ]
             },
             'blender': {
               title: 'Blender',
               descriptions: [
-                '3D modeling and animation',
-                'Rendering and visual effects',
-                'Product visualization and presentation'
+                '-3D Animation and Visual Effects-',
+                'Product visualization and presentation',
+                'Material and lighting design',
+                'Animation and motion graphics',
+                'Texture baking and UV mapping'
               ]
             },
             'vscode': {
               title: 'Visual Studio Code',
               descriptions: [
-                'Web development and programming',
-                'Extension development and customization',
-                'Version control and project management'
+                '-Source Code Editor and IDE-',
+                'Front end web development',
+                'Python scripting and automation',
+                'Python alternative to Matlab',
+                'Debugging and testing tools',
+                'Live sharing and collaboration'
               ]
             },
             'creality': {
               title: 'Creality Scan',
               descriptions: [
-                '3D scanning and reverse engineering',
+                '-3D Scanning Mesh Cloud Generation-',
                 'Point cloud processing and mesh generation',
+                'Reverse engineering and CAD integration',
                 'Quality inspection and measurement'
               ]
             },
             'bambu': {
               title: 'Bambu Labs',
               descriptions: [
-                'Advanced 3D printing and manufacturing',
-                'Multi-material printing solutions',
-                'Automated production workflows'
+                '-FDM 3D Printing and Manufacturing-',
+                'Bambu printer dimension and quality calibrations',
+                'Transparent Printing Techniques',
+                'Dissolvable support Interfaces (smooth support surfaces)'
               ]
             },
             'arduino': {
               title: 'Arduino',
               descriptions: [
-                'Embedded systems and IoT development',
-                'Sensor integration and data logging',
-                'Automation and control systems'
+                '-Embedded systems and IoT development-',
+                'Sensor integration and data acquisition',
+                'Control systems: sensor-actuator algorithms',
+                'Radio communication and wireless protocols'
               ]
             },
             'preform': {
               title: 'PreForm',
               descriptions: [
-                'SLA 3D printing preparation',
-                'Support structure optimization',
-                'Resin printing parameter tuning'
+                '-SLA 3D Printing and Manufacturing-',
+                'Print orientation and layout',
+                'Support structure optimization'
               ]
             },
             'kicad': {
               title: 'KiCad',
               descriptions: [
-                'PCB design and electronic circuit layout',
+                '-Electronic Design Automation Suite-',
                 'Schematic capture and component libraries',
                 'Electronic prototyping and manufacturing'
               ]
@@ -578,16 +597,17 @@
             'freecad': {
               title: 'FreeCad',
               descriptions: [
-                'Open-source parametric 3D modeling',
+                '-Open-source parametric 3D Modeling-',
                 'Technical drawing and documentation',
-                'Mechanical engineering design'
+                'File Type Conversion and interoperability'
               ]
             },
             'microsoft': {
               title: 'Microsoft Office',
               descriptions: [
-                'Technical documentation and reporting',
+                '-Technical documentation and reporting-',
                 'Project planning and data analysis',
+                'Technical writing and documentation',
                 'Professional communication and presentations'
               ]
             }
@@ -611,15 +631,11 @@
                 console.log('No variants found in the model');
               }
               
-              // Set default variant (first button) after a short delay
+              // Set default display without loading Solidworks variant
               setTimeout(() => {
-                if (programBtns[0]) {
-                  const defaultVariant = programBtns[0].getAttribute('data-variant');
-                  console.log('Setting default variant:', defaultVariant);
-                  switchToVariant(defaultVariant);
-                  updateProgramInfo(defaultVariant);
-                  setActiveButton(programBtns[0]);
-                }
+                // Just show default program info without loading any 3D variant
+                updateProgramInfo('default');
+                console.log('Default program info displayed (no 3D variant loaded)');
               }, 500);
             });
 
@@ -698,7 +714,7 @@
                         console.error('Error setting loaded variant:', error);
                         isLoading = false; // Clear loading state on error
                       }
-                    }, 400); // 2 second delay
+                    }, 2000); // 2 second delay
                     
                   } catch (error) {
                     console.error('Error setting loading variant:', error);
@@ -718,32 +734,44 @@
 
             function updateProgramInfo(variantKey) {
               const info = programInfo[variantKey];
-              if (info && programTitle && programDesc1 && programDesc2 && programDesc3) {
+              const programTitle = document.getElementById('program-title');
+              const descriptionsContainer = document.getElementById('program-descriptions-container');
+              
+              if (info && programTitle && descriptionsContainer) {
                 // Add smooth transition effect with transform
                 programTitle.style.opacity = '0';
                 programTitle.style.transform = 'translateY(-10px)';
-                programDesc1.style.opacity = '0';
-                programDesc1.style.transform = 'translateY(-10px)';
-                programDesc2.style.opacity = '0';
-                programDesc2.style.transform = 'translateY(-10px)';
-                programDesc3.style.opacity = '0';
-                programDesc3.style.transform = 'translateY(-10px)';
+                descriptionsContainer.style.opacity = '0';
+                descriptionsContainer.style.transform = 'translateY(-10px)';
                 
                 setTimeout(() => {
+                  // Update title
                   programTitle.textContent = info.title;
-                  programDesc1.textContent = info.descriptions[0];
-                  programDesc2.textContent = info.descriptions[1];
-                  programDesc3.textContent = info.descriptions[2];
+                  
+                  // Clear existing descriptions
+                  descriptionsContainer.innerHTML = '';
+                  
+                  // Create new description elements for each bullet point
+                  info.descriptions.forEach((description, index) => {
+                    const descElement = document.createElement('h4');
+                    descElement.className = 'programs-description';
+                    descElement.textContent = description;
+                    descElement.style.opacity = '0';
+                    descElement.style.transform = 'translateY(-10px)';
+                    descriptionsContainer.appendChild(descElement);
+                    
+                    // Stagger the fade-in animation for each bullet point
+                    setTimeout(() => {
+                      descElement.style.opacity = '1';
+                      descElement.style.transform = 'translateY(0)';
+                    }, 50 * index); // 50ms delay between each bullet point
+                  });
                   
                   // Fade back in with slide up effect
                   programTitle.style.opacity = '1';
                   programTitle.style.transform = 'translateY(0)';
-                  programDesc1.style.opacity = '1';
-                  programDesc1.style.transform = 'translateY(0)';
-                  programDesc2.style.opacity = '1';
-                  programDesc2.style.transform = 'translateY(0)';
-                  programDesc3.style.opacity = '1';
-                  programDesc3.style.transform = 'translateY(0)';
+                  descriptionsContainer.style.opacity = '1';
+                  descriptionsContainer.style.transform = 'translateY(0)';
                 }, 250);
               }
             }
