@@ -789,7 +789,7 @@ h4{
   margin-top: 15px;
   padding: 15px;
   background: transparent;
-  border-top: 2px solid #1da1f2;
+  border-top: 2px solid #764ba2;
   border-radius: 0 0 8px 8px;
   transition: all 0.3s ease-in-out;
   opacity: 0;
@@ -827,6 +827,8 @@ h4{
     font-size: 12px;
   }
 }
+
+/* Grid restructuring is now handled by JavaScript */
 
 /* Section Background Styling */
 
@@ -1334,8 +1336,8 @@ h4{
 /* Timeline Styles */
 .timeline-container {
     position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: 1100px;
+    margin: 0 auto; 
 }
 
 .timeline-line {
@@ -1380,10 +1382,10 @@ h4{
 
 .timeline-card {
     background: white;
-    padding: 30px;
+    padding: 30px; 
     border-radius: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 500px;
     position: relative;
     transition: all 0.3s ease;
     border: 1px solid rgba(102, 126, 234, 0.1);
@@ -1492,19 +1494,19 @@ h4{
 
 @media (min-width: 1000px) {
    #timeLine2{
-    top:-200px;
+    top:-100px;
    }
    #timeLine3{
-    top:-400px;
-   }
+    top:-200px;
+   } 
     #timeLine4{
-      top:-600px;
+      top:-300px;
     }
     #timeLine5{
-      top:-800px;
+      top:-10000px;
     }
     .section{
-      height: 1650px;
+      height: 1650px; 
     }
 }
 
@@ -1566,6 +1568,10 @@ h4{
     top:40px;
     padding-bottom: 100px;
      }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
+     }
 }
 
 /* Mobile Landscape (480px to 575px) */
@@ -1576,6 +1582,10 @@ h4{
      #Applications {
     top:50px;
     padding-bottom: 130px;
+     }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
      }
 }
  
@@ -1588,6 +1598,10 @@ h4{
     top:0px;
     padding-bottom: 80px;
      }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
+     }
 }
 
 /* Small Mobile (below 320px) */
@@ -1599,4 +1613,8 @@ h4{
     top:0px;
     padding-bottom: 90px;
   }
+  #laptop-model{
+      height: 90vw; 
+      width: 90vw; 
+     }
 }
