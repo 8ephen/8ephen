@@ -1,0 +1,26 @@
+clear; clc
+a=[ 1 0 -1 ; 0 2 0 ; 2 -1 0];
+b=[ 1 0 0 ]';
+c=[0 1 0];
+
+%Stabilizable
+rank(ctrb(a,b))
+u=ctrb(a,b)
+p=u
+p(:,3)=[0 1 0]'
+rank(p)
+Ack=p\a*p  % Ac==2 meaning the uncontrollable part is unstable
+Bck=p\b
+Cck=c*p
+
+% Detectable
+rank(obsv(a,c))
+v=obsv(a,c)
+pi=v
+pi(3,:)=[1 0 0]
+pi(2,:)=[0 0 1]
+rank(pi)
+p=inv(pi)
+Aok=p\a*p  % Ao==2 meaning the unobservable part is unstable ergo not detectable
+Bok=p\b
+Cok=c*p
