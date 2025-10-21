@@ -1,0 +1,39 @@
+function c = Bisection(f, a, b, kmax, tol) 
+% 
+% Bisection uses the bisection method to approximate a root of f(x) = 0 
+% in the interval [a,b].   
+% 
+%    c = Bisection(f, a, b, kmax, tol), where 
+% 
+%       f is an anonymous function representing f(x), 
+%       a and b are the endpoints of interval [a,b], 
+%       kmax is the maximum number of iterations (default 20), 
+%       tol is the scalar tolerance for convergence (default 1e-4), 
+% 
+%       c is the approximate root of f(x) = 0. 
+% 
+if nargin < 5 || isempty(tol), tol = 1e-4; end 
+if nargin < 4 || isempty(kmax), kmax = 20; end 
+if f(a)*f(b) > 0  
+c = 'failure'; 
+return 
+end 
+disp('  k         a           b          c      (b-a)/2') 
+for k = 1:kmax 
+c = (a+b)/2;     
+if f(c) == 0    
+return 
+end 
+% Find the first midpoint 
+% Stop if a root has been found 
+fprintf('%3i   %11.6f%11.6f%11.6f%11.6f\n',k,a,b,c,(b-a)/2) 
+if (b-a)/2 < tol     
+% Stop if length of interval is within tolerance 
+return 
+end 
+if f(b)*f(c) > 0 
+b = c;          
+else 
+a = c; 
+end    
+end 
