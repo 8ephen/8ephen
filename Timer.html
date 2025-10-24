@@ -314,14 +314,6 @@
                     // Change favicon to green checkmark when completed
                     changeFavicon('/Site_Photos/check-mark.png');
                     
-                    // Optional: Play completion sound or show notification
-                    if ('Notification' in window && Notification.permission === 'granted') {
-                        new Notification('Study Timer Complete!', {
-                            body: 'Your 15-minute focus session is done. Time for a break!',
-                            icon: '/Site_Photos/check-mark.png'
-                        });
-                    }
-                    
                     timerActive = false;
                 }
             }, 50); // Update every 50ms for ultra-smooth motion (20 FPS)
@@ -329,11 +321,6 @@
 
         // Auto-start timer when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Request notification permission
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
-            
             // Start the timer automatically
             setTimeout(() => {
                 startTimer();
