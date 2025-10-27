@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Vocabulary Trainer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: calc(100vw - 120px); /* Reserve space for WPM control */
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #scoreDisplay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            display: none; /* Hidden */
+        }
+
+        .falling-word {
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #3498db;
+            white-space: nowrap;
+            transition: transform 0.1s ease-out;
+            cursor: default;
+            user-select: none;
+        }
+
+        .falling-word.with-translation {
+            background-color: rgba(241, 196, 15, 0.1);
+            border-color: #f1c40f;
+        }
+
+        .falling-word:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .falling-word.with-translation:hover {
+            background-color: rgba(241, 196, 15, 0.2);
+        }
+
+        .word-translation {
+            font-size: 12px;
+            font-weight: normal;
+            color: #7f8c8d;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+
+        #inputContainer {
+            position: fixed;
+            bottom: 30px;
+            left: calc((100vw - 120px) / 2); /* Center within the game area */
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        #translationInput {
+            width: 300px;
+            padding: 12px 16px;
+            font-size: 18px;
+            border: 3px solid #3498db;
+            border-radius: 25px;
+            outline: none;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #translationInput:focus {
+            border-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        #feedback {
+            position: fixed;
+            top: 50%;
+            left: calc((100vw - 120px) / 2); /* Center within the game area */
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #feedback.correct {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        #feedback.incorrect {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        #wpmContainer {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 15px;
+            border-radius: 15px;
+            border: 2px solid #3498db;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            min-width: 80px;
+        }
+
+        #wpmLabel {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #wpmDisplay {
+            font-size: 24px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wpm-button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #3498db;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .wpm-button:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .wpm-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="inputContainer">
+            <input type="text" id="translationInput" placeholder="Type English translation here..." autocomplete="off">
+        </div>
+        
+        <div id="wpmContainer">
+            <div id="wpmLabel">WPM</div>
+            <div id="wpmDisplay">15</div>
+            <button class="wpm-button" id="increaseWpm">+</button>
+            <button class="wpm-button" id="decreaseWpm">−</button>
+        </div>
+        
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        class FrenchVocabularyTrainer {
+            constructor() {
+                this.fullVocabulary = []; // Complete vocabulary from file
+                this.activeVocabulary = []; // Current 10 words being used
+                this.fallingWords = [];
+                this.missedWordsTracking = new Map(); // Track missed words and their miss count
+                this.correctStreaks = new Map(); // Track consecutive correct answers
+                this.priorityQueue = []; // Words that should appear next (recently missed)
+                this.gameContainer = document.getElementById('gameContainer');
+                this.input = document.getElementById('translationInput');
+                this.feedback = document.getElementById('feedback');
+                this.wpmDisplay = document.getElementById('wpmDisplay');
+                this.increaseBtn = document.getElementById('increaseWpm');
+                this.decreaseBtn = document.getElementById('decreaseWpm');
+                
+                this.wordSpeed = 1; // pixels per frame
+                this.wordsPerMinute = 15; // words per minute
+                this.lastSpawnTime = 0; // Track when last word was spawned
+                this.gameRunning = false;
+                
+                this.init();
+            }
+
+            async init() {
+                await this.loadVocabulary();
+                this.setupEventListeners();
+                this.startGame();
+            }
+
+            async loadVocabulary() {
+                try {
+                    const response = await fetch('vocabulary.txt');
+                    const text = await response.text();
+                    
+                    this.fullVocabulary = text.trim().split('\n').map(line => {
+                        const [french, english] = line.split('|');
+                        return { french: french.trim(), english: english.trim() };
+                    });
+                    
+                    console.log(`Loaded ${this.fullVocabulary.length} total vocabulary words`);
+                    
+                    // Select initial 10 random words
+                    this.selectRandomActiveVocabulary();
+                    
+                } catch (error) {
+                    console.error('Error loading vocabulary:', error);
+                    // Fallback vocabulary if file can't be loaded
+                    this.fullVocabulary = [
+                        { french: 'bonjour', english: 'hello' },
+                        { french: 'merci', english: 'thank you' },
+                        { french: 'au revoir', english: 'goodbye' },
+                        { french: 'chat', english: 'cat' },
+                        { french: 'chien', english: 'dog' },
+                        { french: 'maison', english: 'house' },
+                        { french: 'eau', english: 'water' },
+                        { french: 'pain', english: 'bread' },
+                        { french: 'livre', english: 'book' },
+                        { french: 'école', english: 'school' }
+                    ];
+                    this.activeVocabulary = [...this.fullVocabulary];
+                }
+            }
+
+            selectRandomActiveVocabulary() {
+                // Create a copy of full vocabulary to avoid modifying original
+                const availableWords = [...this.fullVocabulary];
+                this.activeVocabulary = [];
+                
+                // Select 10 random words
+                for (let i = 0; i < Math.min(10, availableWords.length); i++) {
+                    const randomIndex = Math.floor(Math.random() * availableWords.length);
+                    this.activeVocabulary.push(availableWords[randomIndex]);
+                    availableWords.splice(randomIndex, 1); // Remove to avoid duplicates
+                }
+                
+                console.log(`Selected ${this.activeVocabulary.length} words for active vocabulary:`, 
+                    this.activeVocabulary.map(w => w.french));
+            }
+
+            replaceWordInActiveVocabulary(wordToReplace) {
+                // Find words not currently in active vocabulary
+                const usedWords = this.activeVocabulary.map(w => `${w.french}|${w.english}`);
+                const availableWords = this.fullVocabulary.filter(w => 
+                    !usedWords.includes(`${w.french}|${w.english}`)
+                );
+                
+                if (availableWords.length > 0) {
+                    // Remove the mastered word
+                    const index = this.activeVocabulary.findIndex(w => 
+                        w.french === wordToReplace.french && w.english === wordToReplace.english
+                    );
+                    
+                    if (index !== -1) {
+                        // Replace with random new word
+                        const randomIndex = Math.floor(Math.random() * availableWords.length);
+                        this.activeVocabulary[index] = availableWords[randomIndex];
+                        
+                        console.log(`Replaced mastered word "${wordToReplace.french}" with "${availableWords[randomIndex].french}"`);
+                        this.showFeedback(`Mastered "${wordToReplace.french}"! New word: "${availableWords[randomIndex].french}"`, 'correct');
+                    }
+                } else {
+                    console.log('No more words available to replace with');
+                    this.showFeedback(`Mastered "${wordToReplace.french}"! Well done!`, 'correct');
+                }
+            }
+
+            setupEventListeners() {
+                this.input.addEventListener('input', (e) => {
+                    this.checkTranslation(e.target.value.toLowerCase().trim());
+                });
+
+                this.input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        this.input.value = '';
+                    }
+                });
+
+                this.increaseBtn.addEventListener('click', () => {
+                    this.changeWPM(5);
+                });
+
+                this.decreaseBtn.addEventListener('click', () => {
+                    this.changeWPM(-5);
+                });
+
+                // Initialize WPM display
+                this.updateWPMDisplay();
+            }
+
+            changeWPM(change) {
+                this.wordsPerMinute = Math.max(5, Math.min(100, this.wordsPerMinute + change));
+                this.updateWPMDisplay();
+            }
+
+            updateWPMDisplay() {
+                this.wpmDisplay.textContent = this.wordsPerMinute;
+            }
+
+            getSpawnRate() {
+                // Convert words per minute to milliseconds between spawns
+                return (60 * 1000) / this.wordsPerMinute; // milliseconds between each word
+            }
+
+            shouldSpawnWord() {
+                const currentTime = Date.now();
+                const timeSinceLastSpawn = currentTime - this.lastSpawnTime;
+                const spawnInterval = this.getSpawnRate();
+                
+                if (timeSinceLastSpawn >= spawnInterval) {
+                    this.lastSpawnTime = currentTime;
+                    return true;
+                }
+                return false;
+            }
+
+            startGame() {
+                this.gameRunning = true;
+                this.lastSpawnTime = Date.now(); // Initialize spawn timer
+                this.gameLoop();
+            }
+
+            gameLoop() {
+                if (!this.gameRunning) return;
+
+                // Spawn new words based on consistent timing
+                if (this.shouldSpawnWord() && this.activeVocabulary.length > 0) {
+                    this.spawnWord();
+                }
+
+                // Update falling words
+                this.updateFallingWords();
+
+                // Continue game loop
+                requestAnimationFrame(() => this.gameLoop());
+            }
+
+            spawnWord() {
+                let word;
+                
+                // Check if there are priority words (recently missed) to show first
+                if (this.priorityQueue.length > 0) {
+                    word = this.priorityQueue.shift(); // Take the first priority word
+                } else {
+                    // Otherwise, select a random word from the active vocabulary
+                    word = this.activeVocabulary[Math.floor(Math.random() * this.activeVocabulary.length)];
+                }
+                
+                const wordElement = document.createElement('div');
+                wordElement.className = 'falling-word';
+                
+                // Check if this word was missed before and should show translation
+                const wordKey = `${word.french}|${word.english}`;
+                const missCount = this.missedWordsTracking.get(wordKey) || 0;
+                const showTranslation = missCount > 0 && missCount <= 2;
+                
+                if (showTranslation) {
+                    wordElement.classList.add('with-translation');
+                    wordElement.innerHTML = `
+                        ${word.french}
+                        <span class="word-translation">${word.english}</span>
+                    `;
+                } else {
+                    wordElement.textContent = word.french;
+                }
+                
+                wordElement.dataset.english = word.english;
+                wordElement.dataset.french = word.french;
+                
+                // Random horizontal position within the reduced game area
+                const gameAreaWidth = window.innerWidth - 120; // Account for WPM control panel
+                const maxX = gameAreaWidth - 150; // Account for word width
+                const x = Math.random() * maxX;
+                
+                wordElement.style.left = x + 'px';
+                wordElement.style.top = '-50px';
+                
+                this.gameContainer.appendChild(wordElement);
+                this.fallingWords.push({
+                    element: wordElement,
+                    x: x,
+                    y: -50,
+                    english: word.english,
+                    french: word.french
+                });
+            }
+
+            updateFallingWords() {
+                this.fallingWords = this.fallingWords.filter(wordObj => {
+                    wordObj.y += this.wordSpeed;
+                    wordObj.element.style.top = wordObj.y + 'px';
+                    
+                    // Check if word has fallen off screen
+                    if (wordObj.y > window.innerHeight) {
+                        this.wordMissed(wordObj);
+                        return false; // Remove from array
+                    }
+                    
+                    return true; // Keep in array
+                });
+            }
+
+            checkTranslation(inputText) {
+                if (!inputText) return;
+
+                // Check against all falling words
+                for (let i = this.fallingWords.length - 1; i >= 0; i--) {
+                    const wordObj = this.fallingWords[i];
+                    
+                    if (wordObj.english.toLowerCase() === inputText) {
+                        this.wordMatched(wordObj, i);
+                        this.input.value = ''; // Clear input
+                        break;
+                    }
+                }
+            }
+
+            wordMatched(wordObj, index) {
+                // Remove word from screen and array
+                wordObj.element.remove();
+                this.fallingWords.splice(index, 1);
+                
+                const wordKey = `${wordObj.french}|${wordObj.english}`;
+                
+                // If this word was previously missed, reset its tracking
+                if (this.missedWordsTracking.has(wordKey)) {
+                    this.missedWordsTracking.delete(wordKey);
+                }
+                
+                // Track correct streak for this word
+                const currentStreak = this.correctStreaks.get(wordKey) || 0;
+                const newStreak = currentStreak + 1;
+                this.correctStreaks.set(wordKey, newStreak);
+                
+                // Check if word has been mastered (5 correct in a row)
+                if (newStreak >= 5) {
+                    // Remove from tracking and replace in active vocabulary
+                    this.correctStreaks.delete(wordKey);
+                    const wordToReplace = { french: wordObj.french, english: wordObj.english };
+                    this.replaceWordInActiveVocabulary(wordToReplace);
+                } else {
+                    // Show normal feedback
+                    this.showFeedback('Correct!', 'correct');
+                }
+            }
+
+            wordMissed(wordObj) {
+                // Remove word from screen
+                wordObj.element.remove();
+                
+                // Track the missed word
+                const wordKey = `${wordObj.french}|${wordObj.english}`;
+                const currentMissCount = this.missedWordsTracking.get(wordKey) || 0;
+                this.missedWordsTracking.set(wordKey, currentMissCount + 1);
+                
+                // Reset correct streak for this word since it was missed
+                if (this.correctStreaks.has(wordKey)) {
+                    this.correctStreaks.delete(wordKey);
+                }
+                
+                // Add the missed word to priority queue for immediate re-appearance
+                const wordData = { french: wordObj.french, english: wordObj.english };
+                this.priorityQueue.push(wordData);
+                
+                // Show feedback
+                this.showFeedback(`Missed: ${wordObj.french} = ${wordObj.english}`, 'incorrect');
+            }
+
+            showFeedback(message, type) {
+                this.feedback.textContent = message;
+                this.feedback.className = type;
+                this.feedback.style.opacity = '1';
+                
+                setTimeout(() => {
+                    this.feedback.style.opacity = '0';
+                }, 1500);
+            }
+        }
+
+        // Start the game when the page loads
+        window.addEventListener('load', () => {
+            new FrenchVocabularyTrainer();
+        });
+    </script>
+</body>
+</html>
