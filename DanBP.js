@@ -27,7 +27,7 @@ const attendeesData = [
     {
         name: "Devon Kurisu",
         role: "(21+)",
-        phone: "(555) 345-6789",
+        phone: "(925) 446-0057",
         hotel:"",
         room:"",
         floorPlan:""
@@ -35,7 +35,7 @@ const attendeesData = [
     {
         name: "Tanish Fogat",
         role: "",
-        phone: "(555) 345-6789",
+        phone: "xxx",
         hotel:"",
         room:"",
         floorPlan:""
@@ -43,7 +43,7 @@ const attendeesData = [
     {
         name: "Logan Marley",
         role: "",
-        phone: "(555) 345-6789",
+        phone: "xxx",
         hotel:"",
         room:"",
         floorPlan:""
@@ -51,7 +51,7 @@ const attendeesData = [
     {
         name: "Mathew BW",
         role: "(21+)",
-        phone: "(555) 345-6789",
+        phone: "xxx",
         hotel:"",
         room:"",
         floorPlan:""
@@ -59,7 +59,7 @@ const attendeesData = [
     {
         name: "Roy Vidal II",
         role: "",
-        phone: "(555) 345-6789",
+        phone: "xxx",
         hotel:"",
         room:"",
         floorPlan:""
@@ -456,4 +456,5 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
         document.head.appendChild(style);
     });
 }
+
 
