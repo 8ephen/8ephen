@@ -2,15 +2,15 @@
 const attendeesData = [
     {
         name: "Dan Delos Santos",
-        role: "The Groom",
-        phone: "(555) 123-4567",
+        role: "The Groom (21+)",
+        phone: "(818) 422-7511",
         hotel: "",
         room: "",
         floorPlan: ""
     },
     {
         name: "Stephen Yoshida",
-        role: "",
+        role: "(21+)",
         phone: "(530) 768-4352",
         hotel: "", 
         room: "",
@@ -18,7 +18,7 @@ const attendeesData = [
     },
     {
         name: "Luis Ramos",
-        role: "",
+        role: "(21+)",
         phone: "(555) 345-6789",
         hotel:"",
         room:"",
@@ -26,7 +26,7 @@ const attendeesData = [
     },
     {
         name: "Devon Kurisu",
-        role: "",
+        role: "(21+)",
         phone: "(555) 345-6789",
         hotel:"",
         room:"",
@@ -50,7 +50,7 @@ const attendeesData = [
     },
     {
         name: "Mathew BW",
-        role: "",
+        role: "(21+)",
         phone: "(555) 345-6789",
         hotel:"",
         room:"",
@@ -456,3 +456,4 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
         document.head.appendChild(style);
     });
 }
+
