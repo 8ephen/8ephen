@@ -1,69 +1,69 @@
 // Attendees data with phone numbers and hotel information
 const attendeesData = [
     {
-        name: "Dan Rodriguez",
+        name: "Dan Delos Santos",
         role: "The Groom",
         phone: "(555) 123-4567",
-        hotel: "Grand Plaza Hotel",
-        room: "Suite 1205",
-        floorPlan: "12th Floor - Presidential Suite"
+        hotel: "",
+        room: "",
+        floorPlan: ""
     },
     {
-        name: "Mike Thompson",
-        role: "Best Man",
-        phone: "(555) 234-5678",
-        hotel: "Grand Plaza Hotel", 
-        room: "Room 1156",
-        floorPlan: "11th Floor - Deluxe King"
+        name: "Stephen Yoshida",
+        role: "",
+        phone: "(530) 768-4352",
+        hotel: "", 
+        room: "",
+        floorPlan: ""
     },
     {
-        name: "Jake Wilson",
-        role: "Groomsman",
+        name: "Luis Ramos",
+        role: "",
         phone: "(555) 345-6789",
-        hotel: "Grand Plaza Hotel",
-        room: "Room 1157",
-        floorPlan: "11th Floor - Deluxe King"
+        hotel:"",
+        room:"",
+        floorPlan:""
     },
     {
-        name: "Chris Davis",
-        role: "Groomsman", 
-        phone: "(555) 456-7890",
-        hotel: "Skyline Suites",
-        room: "Room 815",
-        floorPlan: "8th Floor - Standard Double"
+        name: "Devon Kurisu",
+        role: "",
+        phone: "(555) 345-6789",
+        hotel:"",
+        room:"",
+        floorPlan:""
     },
     {
-        name: "Alex Martinez",
-        role: "Groomsman",
-        phone: "(555) 567-8901",
-        hotel: "Grand Plaza Hotel",
-        room: "Room 1134",
-        floorPlan: "11th Floor - Deluxe King"
+        name: "Tanish Fogat",
+        role: "",
+        phone: "(555) 345-6789",
+        hotel:"",
+        room:"",
+        floorPlan:""
     },
     {
-        name: "Ryan Chen",
-        role: "College Buddy",
-        phone: "(555) 678-9012",
-        hotel: "Downtown Marriott",
-        room: "Room 624",
-        floorPlan: "6th Floor - Executive Suite"
+        name: "Logan Marley",
+        role: "",
+        phone: "(555) 345-6789",
+        hotel:"",
+        room:"",
+        floorPlan:""
     },
     {
-        name: "Tyler Brooks",
-        role: "Work Friend",
-        phone: "(555) 789-0123",
-        hotel: "Grand Plaza Hotel",
-        room: "Room 1098",
-        floorPlan: "10th Floor - Standard King"
+        name: "Mathew BW",
+        role: "",
+        phone: "(555) 345-6789",
+        hotel:"",
+        room:"",
+        floorPlan:""
     },
     {
-        name: "Jordan Smith",
-        role: "Childhood Friend",
-        phone: "(555) 890-1234",
-        hotel: "Skyline Suites",
-        room: "Room 923",
-        floorPlan: "9th Floor - Family Suite"
-    }
+        name: "Roy Vidal II",
+        role: "",
+        phone: "(555) 345-6789",
+        hotel:"",
+        room:"",
+        floorPlan:""
+    },
 ];
 
 // DOM Content Loaded Event
@@ -105,9 +105,7 @@ function createAttendeeCard(attendee, index) {
             <div class="info-item">
                 <i class="fas fa-phone"></i> <strong>Phone:</strong> ${attendee.phone}
             </div>
-            <div class="info-item">
-                <i class="fas fa-sms"></i> <strong>Text/Call:</strong> Available 24/7
-            </div>
+           
         </div>
         
         <div id="hotel-dropdown-${index}" class="dropdown-content">
