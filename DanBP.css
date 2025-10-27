@@ -28,25 +28,33 @@ body {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
-    animation: bgShift 10s ease-in-out infinite alternate;
+        radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.08) 0%, transparent 50%);
+    animation: bgShift 15s ease-in-out infinite alternate;
     z-index: -1;
+    will-change: background;
+    backface-visibility: hidden;
 }
 
 @keyframes bgShift {
     0% { 
         background: 
-            radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
+            radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.08) 0%, transparent 50%);
+    }
+    50% {
+        background: 
+            radial-gradient(circle at 50% 50%, rgba(255, 0, 128, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 60% 40%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 30% 70%, rgba(255, 255, 0, 0.06) 0%, transparent 50%);
     }
     100% { 
         background: 
-            radial-gradient(circle at 70% 30%, rgba(255, 0, 128, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 60% 40%, rgba(255, 255, 0, 0.15) 0%, transparent 50%);
+            radial-gradient(circle at 70% 30%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 60% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 50%);
     }
 }
 
@@ -210,9 +218,12 @@ body {
     border-radius: 25px;
     color: #ffffff;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     backdrop-filter: blur(10px);
     font-weight: 600;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 
 .nav-link:hover {
@@ -260,10 +271,13 @@ body {
     border-radius: 15px;
     padding: 25px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 
 .attendee-card::before {
@@ -273,14 +287,14 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     transition: left 0.5s ease;
 }
 
 .attendee-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(255, 0, 128, 0.3);
-    border-color: #ff0080;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
+    border-color: rgba(255, 0, 128, 0.4);
 }
 
 .attendee-card:hover::before {
@@ -310,14 +324,21 @@ body {
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin: 5px;
     font-family: 'Exo 2', sans-serif;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 
 .dropdown-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
+}
+
+.dropdown-btn:active {
+    transform: scale(0.95);
 }
 
 .dropdown-content {
