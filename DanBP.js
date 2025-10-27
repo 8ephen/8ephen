@@ -146,8 +146,18 @@ function toggleDropdown(index, type) {
         }
     });
     
-    // Toggle current dropdown
+    // Toggle current dropdown with stable styling
     dropdown.classList.toggle('active');
+    
+    // Prevent any color/style conflicts during toggle
+    const button = event.target.closest('.dropdown-btn');
+    if (button) {
+        button.style.transition = 'transform 0.2s ease';
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+        }, 100);
+    }
     
     // Add sound effect (optional - requires sound file)
     playClickSound();
@@ -297,8 +307,8 @@ function addAnimationStyles() {
         }
         
         .nav-link.active {
-            background: rgba(255, 0, 128, 0.3);
-            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+            background: rgba(255, 0, 128, 0.3) !important;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5) !important;
         }
         
         @keyframes pulse {
@@ -308,11 +318,28 @@ function addAnimationStyles() {
         }
         
         .attendee-card:hover {
-            animation: pulse 0.6s ease-in-out;
+            animation: none;
+            transform: translateY(-5px) !important;
+        }
+        
+        .dropdown-btn {
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+        
+        .dropdown-btn:hover {
+            transform: scale(1.05) !important;
         }
         
         .dropdown-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.95) !important;
+        }
+        
+        /* Prevent color inversion on interactions */
+        .attendee-card, .dropdown-btn, .nav-link {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
         }
     `;
     
