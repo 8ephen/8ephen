@@ -3,7 +3,7 @@ const attendeesData = [
     {
         name: "Dan Delos Santos",
         role: "The Groom (21+)",
-        phone: "(818) 422-7511",
+        phone: "(555) 123-4567",
         hotel: "",
         room: "",
         floorPlan: ""
@@ -27,7 +27,7 @@ const attendeesData = [
     {
         name: "Devon Kurisu",
         role: "(21+)",
-        phone: "(925) 446-0057",
+        phone: "(555) 345-6789",
         hotel:"",
         room:"",
         floorPlan:""
@@ -35,7 +35,7 @@ const attendeesData = [
     {
         name: "Tanish Fogat",
         role: "",
-        phone: "xxx",
+        phone: "(555) 345-6789",
         hotel:"",
         room:"",
         floorPlan:""
@@ -43,7 +43,7 @@ const attendeesData = [
     {
         name: "Logan Marley",
         role: "",
-        phone: "xxx",
+        phone: "(555) 345-6789",
         hotel:"",
         room:"",
         floorPlan:""
@@ -51,7 +51,7 @@ const attendeesData = [
     {
         name: "Mathew BW",
         role: "(21+)",
-        phone: "xxx",
+        phone: "(555) 345-6789",
         hotel:"",
         room:"",
         floorPlan:""
@@ -59,7 +59,7 @@ const attendeesData = [
     {
         name: "Roy Vidal II",
         role: "",
-        phone: "xxx",
+        phone: "(555) 345-6789",
         hotel:"",
         room:"",
         floorPlan:""
@@ -158,9 +158,6 @@ function toggleDropdown(index, type) {
             button.style.transform = 'scale(1)';
         }, 100);
     }
-    
-    // Add sound effect (optional - requires sound file)
-    playClickSound();
 }
 
 // Play click sound effect
@@ -437,6 +434,23 @@ document.addEventListener('keydown', function(e) {
 if (/Mobi|Android/i.test(navigator.userAgent)) {
     // Add touch-friendly enhancements
     document.addEventListener('DOMContentLoaded', function() {
+        // Force dark background on mobile
+        document.body.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)';
+        document.body.style.backgroundAttachment = 'fixed';
+        document.body.style.minHeight = '100vh';
+        
+        // Ensure neon background works on mobile
+        const neonBg = document.querySelector('.neon-bg');
+        if (neonBg) {
+            neonBg.style.position = 'fixed';
+            neonBg.style.background = `
+                radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.06) 0%, transparent 50%)
+            `;
+            neonBg.style.zIndex = '-1';
+        }
+        
         const style = document.createElement('style');
         style.textContent = `
             .dropdown-btn {
@@ -447,14 +461,27 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
             .nav-link {
                 min-height: 44px;
                 min-width: 44px;
+                background: rgba(0, 0, 0, 0.8) !important;
             }
             
             .attendee-card {
                 touch-action: manipulation;
+                background: linear-gradient(135deg, rgba(255, 0, 128, 0.15) 0%, rgba(0, 255, 255, 0.15) 100%) !important;
+            }
+            
+            /* Mobile viewport fix */
+            html, body {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+                background-attachment: fixed !important;
+                min-height: 100vh !important;
+                overflow-x: hidden;
+            }
+            
+            /* Prevent white flashes on mobile */
+            * {
+                -webkit-tap-highlight-color: transparent;
             }
         `;
         document.head.appendChild(style);
     });
 }
-
-
