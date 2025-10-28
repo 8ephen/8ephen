@@ -53,8 +53,8 @@
         }
 
         .falling-word.with-translation {
-            background-color: rgba(241, 196, 15, 0.1);
-            border-color: #f1c40f;
+            background-color: rgba(46, 204, 113, 0.1);
+            border-color: #2ecc71;
         }
 
         .falling-word:hover {
@@ -62,7 +62,7 @@
         }
 
         .falling-word.with-translation:hover {
-            background-color: rgba(241, 196, 15, 0.2);
+            background-color: rgba(46, 204, 113, 0.2);
         }
 
         .word-translation {
@@ -77,7 +77,7 @@
         #inputContainer {
             position: fixed;
             bottom: 30px;
-            left: calc((100vw - 120px) / 2); /* Center within the game area */
+            left: 50%; /* Center with the entire screen */
             transform: translateX(-50%);
             z-index: 1000;
         }
@@ -102,8 +102,8 @@
         #feedback {
             position: fixed;
             top: 50%;
-            left: calc((100vw - 120px) / 2); /* Center within the game area */
-            transform: translateX(-50%);
+            left: 50%; /* Center with the entire screen */
+            transform: translate(-50%, -50%);
             font-size: 24px;
             font-weight: bold;
             padding: 10px 20px;
@@ -137,7 +137,6 @@
             border: 2px solid #3498db;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            min-width: 80px;
         }
 
         #wpmLabel {
@@ -214,6 +213,7 @@
                 this.missedWordsTracking = new Map(); // Track missed words and their miss count
                 this.correctStreaks = new Map(); // Track consecutive correct answers
                 this.priorityQueue = []; // Words that should appear next (recently missed)
+                this.seenWords = new Set(); // Track words that have been shown before
                 this.gameContainer = document.getElementById('gameContainer');
                 this.input = document.getElementById('translationInput');
                 this.feedback = document.getElementById('feedback');
@@ -399,7 +399,11 @@
                 // Check if this word was missed before and should show translation
                 const wordKey = `${word.french}|${word.english}`;
                 const missCount = this.missedWordsTracking.get(wordKey) || 0;
-                const showTranslation = missCount > 0 && missCount <= 2;
+                const isFirstTime = !this.seenWords.has(wordKey);
+                const showTranslation = isFirstTime || (missCount > 0 && missCount <= 2);
+                
+                // Mark word as seen
+                this.seenWords.add(wordKey);
                 
                 if (showTranslation) {
                     wordElement.classList.add('with-translation');
@@ -430,6 +434,100 @@
                     english: word.english,
                     french: word.french
                 });
+                
+                // Speak the French word, and include English translation if shown
+                if (showTranslation) {
+                    this.speakWord(word.french, word.english);
+                } else {
+                    this.speakWord(word.french);
+                }
+            }
+
+            speakWord(frenchWord, englishTranslation = null) {
+                // Check if speech synthesis is supported
+                if ('speechSynthesis' in window) {
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    
+                    // Get available voices and find a female voice (prioritize Samantha)
+                    const voices = speechSynthesis.getVoices();
+                    let femaleVoice = voices.find(voice => 
+                        voice.name.toLowerCase().includes('hazel')
+                    );
+                    
+                    // If Samantha not found, look for other female voices
+                    if (!femaleVoice) {
+                        femaleVoice = voices.find(voice => 
+                            voice.name.toLowerCase().includes('female') ||
+                            voice.name.toLowerCase().includes('zira') ||
+                            voice.name.toLowerCase().includes('hazel') ||
+                            voice.name.toLowerCase().includes('susan') ||
+                            voice.gender === 'female'
+                        );
+                    }
+                    
+                    if (englishTranslation) {
+                        // Create a single utterance with both French and English to avoid pause
+                        const combinedText = `${frenchWord} ${englishTranslation}`;
+                        const utterance = new SpeechSynthesisUtterance(combinedText);
+                        utterance.lang = 'en-US'; // Use English base to handle both languages
+                        utterance.rate = 0.8;
+                        utterance.volume = 0.7;
+                        if (femaleVoice) utterance.voice = femaleVoice;
+                        speechSynthesis.speak(utterance);
+                    } else {
+                        // Just speak the French word
+                        const utterance = new SpeechSynthesisUtterance(frenchWord);
+                        utterance.lang = 'fr-FR';
+                        utterance.rate = 0.8;
+                        utterance.volume = 0.7;
+                        if (femaleVoice) utterance.voice = femaleVoice;
+                        speechSynthesis.speak(utterance);
+                    }
+                } else {
+                    console.log('Speech synthesis not supported in this browser');
+                }
+            }
+
+            playPositionBasedSound(wordY) {
+                // Check if Web Audio API is supported
+                if ('AudioContext' in window || 'webkitAudioContext' in window) {
+                    try {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        
+                        // Determine if word is in top portion of screen (top 30%)
+                        const screenHeight = window.innerHeight;
+                        const isTopWord = wordY < (screenHeight * 0.3);
+                        
+                        // Two distinct frequencies: high check tone for top, deeper tone for lower
+                        const frequency = isTopWord ? 800 : 400; // Check tone vs deeper tone
+                        
+                        // Create oscillator for the tone
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        // Connect nodes
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        // Set frequency and type
+                        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                        oscillator.type = 'sine'; // Gentle sine wave
+                        
+                        // Set volume (quieter)
+                        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime); // Even quieter
+                        gainNode.gain.exponentialRampToValueAtTime(0.005, audioContext.currentTime + 0.15);
+                        
+                        // Play the sound
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + 0.15); // Shorter duration
+                        
+                    } catch (error) {
+                        console.log('Audio context creation failed:', error);
+                    }
+                } else {
+                    console.log('Web Audio API not supported in this browser');
+                }
             }
 
             updateFallingWords() {
@@ -450,19 +548,30 @@
             checkTranslation(inputText) {
                 if (!inputText) return;
 
-                // Check against all falling words
-                for (let i = this.fallingWords.length - 1; i >= 0; i--) {
+                // Find all words that match the input
+                const matchingWords = [];
+                for (let i = 0; i < this.fallingWords.length; i++) {
                     const wordObj = this.fallingWords[i];
-                    
                     if (wordObj.english.toLowerCase() === inputText) {
-                        this.wordMatched(wordObj, i);
-                        this.input.value = ''; // Clear input
-                        break;
+                        matchingWords.push({ wordObj, index: i });
                     }
+                }
+
+                // If we found matching words, remove the lowest one (highest y-coordinate)
+                if (matchingWords.length > 0) {
+                    // Sort by y-coordinate (descending) to get the lowest word first
+                    matchingWords.sort((a, b) => b.wordObj.y - a.wordObj.y);
+                    const lowestMatch = matchingWords[0];
+                    
+                    this.wordMatched(lowestMatch.wordObj, lowestMatch.index);
+                    this.input.value = ''; // Clear input
                 }
             }
 
             wordMatched(wordObj, index) {
+                // Play sound based on word position before removing
+                this.playPositionBasedSound(wordObj.y);
+                
                 // Remove word from screen and array
                 wordObj.element.remove();
                 this.fallingWords.splice(index, 1);
