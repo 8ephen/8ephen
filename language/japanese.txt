@@ -1,0 +1,1043 @@
+の|of
+に|to
+は|is
+を|the
+が|but
+で|by
+と|and
+も|also
+する|to do
+ある|to be
+これ|this
+その|that
+いる|to exist
+ない|not
+こと|thing
+れる|passive form
+なる|to become
+人|person
+時|time
+年|year
+出る|to come out
+言う|to say
+行く|to go
+来る|to come
+見る|to see
+知る|to know
+思う|to think
+取る|to take
+手|hand
+目|eye
+方|person
+日|day
+分|minute
+間|interval
+前|before
+後|after
+中|middle
+上|above
+下|below
+大|big
+小|small
+高|high
+新|new
+古|old
+良い|good
+悪い|bad
+多い|many
+少ない|few
+長い|long
+短い|short
+早い|early
+遅い|late
+近い|near
+遠い|far
+強い|strong
+弱い|weak
+明るい|bright
+暗い|dark
+重い|heavy
+軽い|light
+太い|thick
+細い|thin
+広い|wide
+狭い|narrow
+深い|deep
+浅い|shallow
+熱い|hot
+冷たい|cold
+美しい|beautiful
+醜い|ugly
+楽しい|fun
+悲しい|sad
+嬉しい|happy
+怒る|to get angry
+笑う|to laugh
+泣く|to cry
+歌う|to sing
+踊る|to dance
+走る|to run
+歩く|to walk
+座る|to sit
+立つ|to stand
+寝る|to sleep
+起きる|to wake up
+食べる|to eat
+飲む|to drink
+買う|to buy
+売る|to sell
+作る|to make
+壊す|to break
+開く|to open
+閉じる|to close
+始める|to begin
+終わる|to end
+話す|to speak
+聞く|to listen
+読む|to read
+書く|to write
+学ぶ|to learn
+教える|to teach
+働く|to work
+遊ぶ|to play
+休む|to rest
+待つ|to wait
+急ぐ|to hurry
+忘れる|to forget
+覚える|to remember
+考える|to think
+信じる|to believe
+疑う|to doubt
+愛する|to love
+嫌う|to hate
+好む|to like
+選ぶ|to choose
+決める|to decide
+変える|to change
+残る|to remain
+消える|to disappear
+現れる|to appear
+生まれる|to be born
+死ぬ|to die
+生きる|to live
+助ける|to help
+困る|to be troubled
+喜ぶ|to be pleased
+驚く|to be surprised
+心配|worry
+安心|relief
+健康|health
+病気|illness
+元気|energy
+疲れ|tiredness
+若い|young
+年寄り|elderly
+子供|child
+大人|adult
+男|man
+女|woman
+父|father
+母|mother
+兄|older brother
+弟|younger brother
+姉|older sister
+妹|younger sister
+家族|family
+友達|friend
+先生|teacher
+学生|student
+会社|company
+仕事|work
+学校|school
+家|house
+部屋|room
+台所|kitchen
+風呂|bath
+庭|garden
+道|road
+車|car
+電車|train
+飛行機|airplane
+船|ship
+自転車|bicycle
+バス|bus
+タクシー|taxi
+駅|station
+空港|airport
+病院|hospital
+銀行|bank
+郵便局|post office
+店|store
+レストラン|restaurant
+ホテル|hotel
+映画館|movie theater
+図書館|library
+公園|park
+海|sea
+山|mountain
+川|river
+湖|lake
+森|forest
+花|flower
+木|tree
+動物|animal
+犬|dog
+猫|cat
+鳥|bird
+魚|fish
+馬|horse
+牛|cow
+豚|pig
+鶏|chicken
+米|rice
+パン|bread
+肉|meat
+野菜|vegetable
+果物|fruit
+水|water
+お茶|tea
+コーヒー|coffee
+ビール|beer
+ワイン|wine
+牛乳|milk
+砂糖|sugar
+塩|salt
+油|oil
+卵|egg
+チーズ|cheese
+バター|butter
+朝|morning
+昼|noon
+夜|evening
+今日|today
+明日|tomorrow
+昨日|yesterday
+今週|this week
+来週|next week
+先週|last week
+今月|this month
+来月|next month
+先月|last month
+今年|this year
+来年|next year
+去年|last year
+春|spring
+夏|summer
+秋|autumn
+冬|winter
+月曜日|Monday
+火曜日|Tuesday
+水曜日|Wednesday
+木曜日|Thursday
+金曜日|Friday
+土曜日|Saturday
+日曜日|Sunday
+一月|January
+二月|February
+三月|March
+四月|April
+五月|May
+六月|June
+七月|July
+八月|August
+九月|September
+十月|October
+十一月|November
+十二月|December
+天気|weather
+晴れ|sunny
+曇り|cloudy
+雨|rain
+雪|snow
+風|wind
+暑い|hot
+寒い|cold
+暖かい|warm
+涼しい|cool
+湿度|humidity
+乾燥|dry
+台風|typhoon
+地震|earthquake
+火事|fire
+事故|accident
+病院|hospital
+医者|doctor
+看護師|nurse
+薬|medicine
+注射|injection
+手術|surgery
+検査|examination
+治療|treatment
+予防|prevention
+健康保険|health insurance
+救急車|ambulance
+警察|police
+消防署|fire station
+市役所|city hall
+政府|government
+法律|law
+税金|tax
+選挙|election
+投票|vote
+政治|politics
+経済|economy
+社会|society
+文化|culture
+歴史|history
+地理|geography
+科学|science
+技術|technology
+数学|mathematics
+物理|physics
+化学|chemistry
+生物|biology
+医学|medicine
+工学|engineering
+農業|agriculture
+工業|industry
+商業|commerce
+貿易|trade
+輸出|export
+輸入|import
+製造|manufacturing
+生産|production
+販売|sales
+市場|market
+価格|price
+お金|money
+円|yen
+ドル|dollar
+銀行|bank
+投資|investment
+貯金|savings
+借金|debt
+給料|salary
+年金|pension
+保険|insurance
+教育|education
+大学|university
+高校|high school
+中学|middle school
+小学校|elementary school
+幼稚園|kindergarten
+授業|class
+勉強|study
+宿題|homework
+試験|exam
+成績|grades
+卒業|graduation
+就職|employment
+退職|retirement
+失業|unemployment
+趣味|hobby
+スポーツ|sports
+音楽|music
+映画|movie
+本|book
+雑誌|magazine
+新聞|newspaper
+テレビ|television
+ラジオ|radio
+インターネット|internet
+電話|phone
+メール|email
+手紙|letter
+写真|photo
+絵|picture
+色|color
+赤|red
+青|blue
+黄色|yellow
+緑|green
+黒|black
+白|white
+茶色|brown
+紫|purple
+オレンジ|orange
+ピンク|pink
+数|number
+一|one
+二|two
+三|three
+四|four
+五|five
+六|six
+七|seven
+八|eight
+九|nine
+十|ten
+百|hundred
+千|thousand
+万|ten thousand
+億|hundred million
+第一|first
+第二|second
+第三|third
+半分|half
+全部|all
+何|what
+誰|who
+いつ|when
+どこ|where
+なぜ|why
+どう|how
+どの|which
+いくつ|how many
+いくら|how much
+右|right
+左|left
+真ん中|center
+横|side
+縦|vertical
+頭|head
+顔|face
+髪|hair
+額|forehead
+眉|eyebrow
+まつ毛|eyelash
+鼻|nose
+口|mouth
+唇|lips
+歯|tooth
+舌|tongue
+首|neck
+肩|shoulder
+腕|arm
+肘|elbow
+手首|wrist
+指|finger
+爪|nail
+胸|chest
+背中|back
+腰|waist
+お腹|belly
+足|leg
+膝|knee
+足首|ankle
+足指|toe
+心臓|heart
+肺|lung
+胃|stomach
+肝臓|liver
+腎臓|kidney
+脳|brain
+血|blood
+骨|bone
+筋肉|muscle
+皮膚|skin
+服|clothes
+シャツ|shirt
+ズボン|pants
+スカート|skirt
+ドレス|dress
+ジャケット|jacket
+コート|coat
+帽子|hat
+靴|shoes
+靴下|socks
+下着|underwear
+ネクタイ|tie
+ベルト|belt
+時計|watch
+眼鏡|glasses
+指輪|ring
+ネックレス|necklace
+イヤリング|earring
+財布|wallet
+かばん|bag
+傘|umbrella
+机|desk
+椅子|chair
+ベッド|bed
+ソファ|sofa
+テーブル|table
+本棚|bookshelf
+冷蔵庫|refrigerator
+洗濯機|washing machine
+テレビ|TV
+電子レンジ|microwave
+エアコン|air conditioner
+電気|electricity
+ガス|gas
+水道|water supply
+トイレ|toilet
+お風呂|bathtub
+シャワー|shower
+鏡|mirror
+タオル|towel
+石鹸|soap
+歯ブラシ|toothbrush
+歯磨き|toothpaste
+シャンプー|shampoo
+リンス|conditioner
+化粧品|cosmetics
+香水|perfume
+ティッシュ|tissue
+ゴミ|trash
+掃除|cleaning
+洗濯|laundry
+料理|cooking
+買い物|shopping
+旅行|travel
+休暇|vacation
+観光|sightseeing
+ホテル|hotel
+旅館|inn
+温泉|hot spring
+海水浴|sea bathing
+山登り|mountain climbing
+スキー|skiing
+ゴルフ|golf
+テニス|tennis
+野球|baseball
+サッカー|soccer
+バスケットボール|basketball
+水泳|swimming
+釣り|fishing
+写真撮影|photography
+読書|reading
+映画鑑賞|movie watching
+音楽鑑賞|music listening
+料理|cooking
+ガーデニング|gardening
+ペット|pet
+飼う|to keep (pet)
+散歩|walk
+餌|food (for animals)
+おもちゃ|toy
+ゲーム|game
+パソコン|computer
+スマートフォン|smartphone
+アプリ|app
+ウェブサイト|website
+ソフトウェア|software
+プログラム|program
+データ|data
+ファイル|file
+フォルダ|folder
+パスワード|password
+ユーザー名|username
+ダウンロード|download
+アップロード|upload
+プリンター|printer
+スキャナー|scanner
+コピー|copy
+保存|save
+削除|delete
+送信|send
+受信|receive
+検索|search
+ブラウザ|browser
+ホームページ|homepage
+リンク|link
+クリック|click
+キーボード|keyboard
+マウス|mouse
+画面|screen
+モニター|monitor
+スピーカー|speaker
+ヘッドフォン|headphones
+マイク|microphone
+カメラ|camera
+ビデオ|video
+DVD|DVD
+CD|CD
+USB|USB
+バッテリー|battery
+充電器|charger
+コンセント|outlet
+ケーブル|cable
+無線|wireless
+インターネット|internet
+WiFi|WiFi
+ブルートゥース|bluetooth
+GPS|GPS
+地図|map
+ナビゲーション|navigation
+交通|traffic
+信号|traffic light
+横断歩道|crosswalk
+歩道|sidewalk
+自動車|automobile
+オートバイ|motorcycle
+自転車|bicycle
+バス停|bus stop
+地下鉄|subway
+新幹線|bullet train
+空港|airport
+飛行機|airplane
+チケット|ticket
+予約|reservation
+出発|departure
+到着|arrival
+遅延|delay
+キャンセル|cancellation
+荷物|luggage
+スーツケース|suitcase
+パスポート|passport
+ビザ|visa
+税関|customs
+両替|money exchange
+レート|exchange rate
+クレジットカード|credit card
+現金|cash
+ATM|ATM
+領収書|receipt
+レシート|receipt
+割引|discount
+セール|sale
+特価|special price
+無料|free
+有料|paid
+高い|expensive
+安い|cheap
+品質|quality
+サービス|service
+店員|store clerk
+お客様|customer
+注文|order
+配達|delivery
+返品|return
+交換|exchange
+保証|warranty
+説明書|manual
+使い方|how to use
+修理|repair
+故障|breakdown
+新品|new item
+中古|used
+レンタル|rental
+貸し出し|lending
+借りる|to borrow
+返す|to return
+約束|promise
+時間|time
+予定|schedule
+カレンダー|calendar
+会議|meeting
+会話|conversation
+議論|discussion
+発表|presentation
+質問|question
+答え|answer
+説明|explanation
+理解|understanding
+同意|agreement
+反対|opposition
+意見|opinion
+提案|suggestion
+計画|plan
+目標|goal
+結果|result
+成功|success
+失敗|failure
+努力|effort
+練習|practice
+経験|experience
+知識|knowledge
+技術|skill
+才能|talent
+能力|ability
+責任|responsibility
+義務|duty
+権利|right
+自由|freedom
+平等|equality
+正義|justice
+平和|peace
+戦争|war
+安全|safety
+危険|danger
+問題|problem
+解決|solution
+原因|cause
+理由|reason
+結論|conclusion
+事実|fact
+真実|truth
+嘘|lie
+秘密|secret
+情報|information
+ニュース|news
+記事|article
+報告|report
+研究|research
+調査|investigation
+実験|experiment
+証明|proof
+証拠|evidence
+規則|rule
+法則|law
+制度|system
+組織|organization
+団体|group
+会員|member
+参加|participation
+協力|cooperation
+競争|competition
+勝利|victory
+敗北|defeat
+チーム|team
+個人|individual
+社会|society
+国|country
+国民|citizen
+外国|foreign country
+外国人|foreigner
+言語|language
+日本語|Japanese language
+英語|English language
+中国語|Chinese language
+韓国語|Korean language
+フランス語|French language
+ドイツ語|German language
+スペイン語|Spanish language
+翻訳|translation
+通訳|interpretation
+辞書|dictionary
+文法|grammar
+単語|word
+文|sentence
+文章|text
+段落|paragraph
+ページ|page
+章|chapter
+本|book
+小説|novel
+詩|poetry
+俳句|haiku
+短歌|tanka
+漫画|manga
+アニメ|anime
+芸術|art
+絵画|painting
+彫刻|sculpture
+陶芸|pottery
+書道|calligraphy
+華道|flower arrangement
+茶道|tea ceremony
+武道|martial arts
+柔道|judo
+剣道|kendo
+空手|karate
+相撲|sumo
+伝統|tradition
+文化|culture
+習慣|custom
+祭り|festival
+行事|event
+結婚式|wedding
+葬式|funeral
+誕生日|birthday
+記念日|anniversary
+正月|New Year
+クリスマス|Christmas
+バレンタイン|Valentine's Day
+母の日|Mother's Day
+父の日|Father's Day
+子供の日|Children's Day
+敬老の日|Respect for the Aged Day
+卒業式|graduation ceremony
+入学式|entrance ceremony
+運動会|sports festival
+文化祭|cultural festival
+花見|cherry blossom viewing
+花火|fireworks
+お盆|Obon
+七夕|Tanabata
+ハロウィン|Halloween
+宗教|religion
+神|god
+仏|Buddha
+神社|shrine
+寺|temple
+教会|church
+祈り|prayer
+信仰|faith
+哲学|philosophy
+心理学|psychology
+社会学|sociology
+人類学|anthropology
+地理学|geography
+歴史学|history
+考古学|archaeology
+美術|fine arts
+音楽|music
+文学|literature
+演劇|theater
+映画|cinema
+ダンス|dance
+バレエ|ballet
+オペラ|opera
+コンサート|concert
+楽器|musical instrument
+ピアノ|piano
+ギター|guitar
+バイオリン|violin
+ドラム|drums
+フルート|flute
+サックス|saxophone
+歌|song
+歌手|singer
+作曲家|composer
+指揮者|conductor
+オーケストラ|orchestra
+バンド|band
+ジャズ|jazz
+クラシック|classical
+ポップス|pop music
+ロック|rock
+民謡|folk song
+ラップ|rap
+ヒップホップ|hip hop
+電子音楽|electronic music
+カラオケ|karaoke
+レコード|record
+CD|CD
+音量|volume
+リズム|rhythm
+メロディー|melody
+ハーモニー|harmony
+作詞|lyric writing
+編曲|arrangement
+録音|recording
+ライブ|live performance
+コンサートホール|concert hall
+劇場|theater
+舞台|stage
+客席|audience seats
+チケット|ticket
+入場料|admission fee
+開演|curtain time
+終演|end of performance
+拍手|applause
+アンコール|encore
+批評|criticism
+評価|evaluation
+賞|award
+受賞|winning an award
+栄誉|honor
+名声|fame
+人気|popularity
+ファン|fan
+ファンクラブ|fan club
+握手会|handshake event
+サイン|autograph
+写真撮影|photo session
+インタビュー|interview
+記者会見|press conference
+マスコミ|mass media
+報道|news reporting
+ジャーナリスト|journalist
+編集者|editor
+出版社|publisher
+印刷|printing
+配布|distribution
+宣伝|advertisement
+広告|advertising
+マーケティング|marketing
+ブランド|brand
+商標|trademark
+特許|patent
+著作権|copyright
+知的財産|intellectual property
+契約|contract
+交渉|negotiation
+合意|agreement
+署名|signature
+印鑑|personal seal
+法的|legal
+違法|illegal
+犯罪|crime
+警察官|police officer
+刑事|detective
+裁判|trial
+裁判官|judge
+弁護士|lawyer
+検察官|prosecutor
+被告|defendant
+原告|plaintiff
+証人|witness
+陪審員|jury member
+判決|verdict
+有罪|guilty
+無罪|innocent
+罰金|fine
+懲役|imprisonment
+保釈|bail
+仮釈放|parole
+監獄|prison
+看守|prison guard
+脱獄|prison break
+更生|rehabilitation
+社会復帰|reintegration into society
+防犯|crime prevention
+警備|security
+警備員|security guard
+監視|surveillance
+パトロール|patrol
+非常事態|emergency
+緊急|urgent
+危機|crisis
+災害|disaster
+避難|evacuation
+救助|rescue
+救援|relief
+支援|support
+援助|aid
+寄付|donation
+募金|fundraising
+ボランティア|volunteer
+奉仕|service
+慈善|charity
+福祉|welfare
+年金|pension
+介護|nursing care
+老人ホーム|nursing home
+障害者|disabled person
+車椅子|wheelchair
+盲導犬|guide dog
+手話|sign language
+点字|braille
+バリアフリー|barrier-free
+アクセシビリティ|accessibility
+平等|equality
+差別|discrimination
+偏見|prejudice
+人権|human rights
+民主主義|democracy
+独裁|dictatorship
+自由|freedom
+権利|rights
+義務|obligation
+責任|responsibility
+道徳|morality
+倫理|ethics
+良心|conscience
+正直|honesty
+誠実|sincerity
+嘘つき|liar
+裏切り|betrayal
+忠誠|loyalty
+友情|friendship
+恋愛|romance
+デート|date
+プロポーズ|proposal
+婚約|engagement
+新婚|newlywed
+夫婦|married couple
+離婚|divorce
+別居|separation
+単身|single
+独身|bachelor
+寡婦|widow
+孤児|orphan
+養子|adopted child
+継父|stepfather
+継母|stepmother
+義理の父|father-in-law
+義理の母|mother-in-law
+義理の兄弟|brother-in-law
+義理の姉妹|sister-in-law
+親戚|relatives
+従兄弟|cousin
+叔父|uncle
+叔母|aunt
+祖父|grandfather
+祖母|grandmother
+曾祖父|great-grandfather
+曾祖母|great-grandmother
+孫|grandchild
+曾孫|great-grandchild
+世代|generation
+血統|bloodline
+遺伝|heredity
+DNA|DNA
+遺伝子|gene
+突然変異|mutation
+進化|evolution
+自然選択|natural selection
+適者生存|survival of the fittest
+生態系|ecosystem
+環境|environment
+気候変動|climate change
+地球温暖化|global warming
+温室効果|greenhouse effect
+オゾン層|ozone layer
+酸性雨|acid rain
+大気汚染|air pollution
+水質汚染|water pollution
+土壌汚染|soil pollution
+放射能|radioactivity
+原子力|nuclear power
+原子炉|nuclear reactor
+核廃棄物|nuclear waste
+リサイクル|recycling
+省エネ|energy saving
+再生可能エネルギー|renewable energy
+太陽光発電|solar power
+風力発電|wind power
+水力発電|hydroelectric power
+地熱|geothermal
+バイオ燃料|biofuel
+持続可能|sustainable
+エコロジー|ecology
+自然保護|nature conservation
+野生動物|wildlife
+絶滅危惧種|endangered species
+密猟|poaching
+森林伐採|deforestation
+砂漠化|desertification
+干ばつ|drought
+洪水|flood
+津波|tsunami
+火山|volcano
+噴火|eruption
+溶岩|lava
+マグマ|magma
+鉱物|mineral
+石油|petroleum
+天然ガス|natural gas
+石炭|coal
+金|gold
+銀|silver
+銅|copper
+鉄|iron
+アルミニウム|aluminum
+プラチナ|platinum
+ダイヤモンド|diamond
+宝石|jewelry
+真珠|pearl
+サファイア|sapphire
+ルビー|ruby
+エメラルド|emerald
+水晶|crystal
+大理石|marble
+花崗岩|granite
+砂岩|sandstone
+石灰岩|limestone
+粘土|clay
+砂|sand
+砂利|gravel
+セメント|cement
+コンクリート|concrete
+鋼鉄|steel
+合金|alloy
+プラスチック|plastic
+ゴム|rubber
+ガラス|glass
+陶器|pottery
+磁器|porcelain
+木材|lumber
+竹|bamboo
+紙|paper
+段ボール|cardboard
+布|cloth
+綿|cotton
+絹|silk
+羊毛|wool
+皮革|leather
+毛皮|fur
+化学繊維|synthetic fiber
+ナイロン|nylon
+ポリエステル|polyester

@@ -1,0 +1,366 @@
+el|the
+de|of
+que|that
+y|and
+a|to
+en|in
+un|a
+ser|to be
+se|oneself
+no|no
+te|you
+lo|it
+le|him
+da|gives
+su|his
+por|for
+son|they are
+con|with
+para|for
+al|to the
+la|the
+una|a
+hay|there is
+del|of the
+todo|all
+está|is
+fue|was
+muy|very
+fueron|they were
+dice|says
+tiempo|time
+cada|each
+uno|one
+pero|but
+puede|can
+año|year
+hasta|until
+dos|two
+estado|state
+después|after
+hacer|to do
+mi|my
+antes|before
+contra|against
+aquí|here
+ver|to see
+sólo|only
+algo|something
+casa|house
+puede|can
+mundo|world
+sobre|about
+vida|life
+día|day
+agua|water
+parte|part
+tiempo|time
+hombre|man
+trabajo|work
+gobierno|government
+sin|without
+tanto|so much
+donde|where
+grupo|group
+ser|to be
+primer|first
+país|country
+caso|case
+menos|less
+dónde|where
+forma|way
+mismo|same
+hacer|to do
+gran|great
+hecho|fact
+mujer|woman
+aquí|here
+tal|such
+durante|during
+poder|power
+nuevo|new
+tiene|has
+poco|little
+decir|to say
+otro|other
+después|after
+primero|first
+vez|time
+bien|well
+año|year
+mucho|much
+pensar|to think
+tener|to have
+llegar|to arrive
+poner|to put
+parecer|to seem
+entre|between
+venir|to come
+sino|but
+cómo|how
+lugar|place
+saber|to know
+dar|to give
+dentro|inside
+agua|water
+punto|point
+nada|nothing
+hacia|towards
+ahora|now
+ninguno|none
+momento|moment
+creer|to believe
+nadie|nobody
+tanto|so much
+cualquier|any
+cuando|when
+llamar|to call
+persona|person
+último|last
+número|number
+parte|part
+empresa|company
+casa|house
+siempre|always
+sistema|system
+seguir|to follow
+mano|hand
+ejemplo|example
+mientras|while
+vida|life
+querer|to want
+conseguir|to get
+aquella|that
+hablar|to speak
+salir|to leave
+nacional|national
+nuevo|new
+público|public
+cualquier|any
+mismo|same
+trabajar|to work
+nuestro|our
+problema|problem
+social|social
+proyecto|project
+programa|program
+proceso|process
+realizar|to carry out
+historia|history
+política|policy
+resultado|result
+servicio|service
+hijo|son
+management|gestión
+muerte|death
+importante|important
+mujer|woman
+crear|to create
+área|area
+internacional|international
+realizar|to realize
+durante|during
+desarrollo|development
+capacidad|capacity
+total|total
+precio|price
+tipo|type
+union|union
+control|control
+centro|center
+papel|paper
+natural|natural
+cuestión|question
+tratar|to try
+médico|doctor
+anterior|previous
+conseguir|to achieve
+alto|high
+propio|own
+comenzar|to begin
+grande|big
+mercado|market
+seguridad|security
+llamar|to call
+tercero|third
+cuenta|account
+mayor|greater
+razón|reason
+producir|to produce
+económico|economic
+segundo|second
+escribir|to write
+recordar|to remember
+incluir|to include
+aunque|although
+cambio|change
+social|social
+producción|production
+buscar|to search
+existir|to exist
+encontrar|to find
+permitir|to allow
+político|political
+aparecer|to appear
+considerar|to consider
+acabar|to finish
+esperar|to wait
+dejar|to leave
+environmental|ambiental
+llevar|to carry
+funcionar|to work
+explicar|to explain
+tocar|to touch
+convertir|to convert
+ganar|to win
+aplicar|to apply
+tarde|late
+medio|half
+decidir|to decide
+gustar|to like
+recibir|to receive
+actuar|to act
+principal|main
+banco|bank
+fuerte|strong
+remaining|restante
+conocer|to know
+rather|más bien
+legal|legal
+present|presente
+job|trabajo
+against|contra
+technology|tecnología
+low|bajo
+machine|máquina
+computer|ordenador
+without|sin
+tree|árbol
+race|raza
+sea|mar
+class|clase
+answer|respuesta
+rock|roca
+order|orden
+fire|fuego
+south|sur
+problem|problema
+piece|pieza
+told|dicho
+knew|sabía
+since|desde
+color|color
+wood|madera
+main|principal
+enough|suficiente
+plain|llano
+girl|chica
+usual|usual
+young|joven
+ready|listo
+above|arriba
+ever|siempre
+red|rojo
+list|lista
+though|aunque
+feel|sentir
+talk|hablar
+bird|pájaro
+soon|pronto
+body|cuerpo
+dog|perro
+family|familia
+direct|directo
+leave|dejar
+song|canción
+measure|medida
+door|puerta
+product|producto
+black|negro
+short|corto
+numeral|numeral
+class|clase
+wind|viento
+question|pregunta
+happen|pasar
+complete|completo
+ship|barco
+area|área
+half|mitad
+rock|roca
+order|orden
+fire|fuego
+south|sur
+problem|problema
+piece|pieza
+told|dicho
+knew|sabía
+since|desde
+color|color
+wood|madera
+main|principal
+enough|suficiente
+plain|llano
+girl|chica
+usual|usual
+young|joven
+ready|listo
+above|arriba
+ever|siempre
+red|rojo
+list|lista
+though|aunque
+feel|sentir
+talk|hablar
+bird|pájaro
+soon|pronto
+body|cuerpo
+dog|perro
+family|familia
+direct|directo
+leave|dejar
+song|canción
+measure|medida
+door|puerta
+product|producto
+black|negro
+short|corto
+numeral|numeral
+class|clase
+wind|viento
+question|pregunta
+happen|pasar
+complete|completo
+ship|barco
+area|área
+half|mitad
+libro|book
+ojo|eye
+never|nunca
+last|último
+right|derecho
+think|pensar
+walk|caminar
+white|blanco
+why|por qué
+men|hombres
+old|viejo
+see|ver
+him|él
+two|dos
+how|cómo
+its|su
+who|quién
+oil|aceite
+sit|sentarse
+now|ahora
+find|encontrar
+long|largo
+down|abajo
+day|día
+did|hizo
+get|obtener
+come|venir
+made|hecho
+may|puede
+part|parte

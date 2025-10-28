@@ -1,0 +1,368 @@
+der|the
+die|the
+und|and
+in|in
+den|the
+von|of
+zu|to
+das|the
+mit|with
+sich|oneself
+des|of the
+auf|on
+für|for
+ist|is
+im|in the
+dem|the
+nicht|not
+ein|a
+eine|a
+als|as
+auch|also
+es|it
+an|at
+werden|to become
+aus|from
+er|he
+hat|has
+dass|that
+sie|she
+nach|after
+wird|will be
+bei|at
+einer|a
+um|around
+am|at the
+sind|are
+noch|still
+wie|how
+einem|a
+über|over
+einen|a
+so|so
+zum|to the
+war|was
+haben|to have
+nur|only
+oder|or
+aber|but
+vor|before
+zur|to the
+bis|until
+mehr|more
+durch|through
+man|one
+sein|to be
+wurde|was
+sei|be
+eines|of a
+kann|can
+was|what
+were|waren
+ihre|their
+wir|we
+wenn|if
+würde|would
+da|there
+ich|I
+ihn|him
+du|you
+seine|his
+doch|but
+dann|then
+können|can
+schon|already
+hier|here
+gibt|gives
+alle|all
+dieser|this
+gegen|against
+vom|from the
+anderen|others
+waren|were
+einem|a
+diese|this
+damit|with it
+bereits|already
+einmal|once
+dort|there
+als|than
+ohne|without
+sehr|very
+selbst|self
+ersten|first
+unter|under
+leben|life
+immer|always
+sollte|should
+während|during
+sowie|as well as
+beiden|both
+zeit|time
+wieder|again
+neue|new
+jahr|year
+zwei|two
+heute|today
+zwischen|between
+tag|day
+ganz|whole
+allem|everything
+neu|new
+meist|mostly
+dabei|thereby
+jedoch|however
+fall|case
+wegen|because of
+ihren|their
+mal|time
+zurück|back
+könnte|could
+seit|since
+nun|now
+welt|world
+jetzt|now
+kommen|to come
+anderen|other
+nie|never
+menschen|people
+macht|power
+lag|lay
+beim|at the
+liegt|lies
+lassen|to let
+teil|part
+staatlichen|state
+ging|went
+kam|came
+nehmen|to take
+nun|now
+tun|to do
+müssen|must
+sehen|to see
+natürlich|naturally
+grund|reason
+verwendet|used
+gefunden|found
+gekommen|come
+zusammen|together
+gefunden|found
+gemacht|made
+gearbeitet|worked
+möchte|would like
+stelle|place
+weil|because
+über|about
+gerade|just
+trotz|despite
+müssen|must
+solche|such
+weniger|less
+sagen|to say
+meisten|most
+ersten|first
+eigenen|own
+kleine|small
+innerhalb|within
+großen|large
+entwicklung|development
+unternehmen|company
+gesellschaft|society
+gruppe|group
+problem|problem
+millionen|millions
+prozent|percent
+deutschland|Germany
+kinder|children
+europa|Europe
+angaben|information
+woche|week
+beste|best
+regierung|government
+seite|side
+euro|euro
+geld|money
+politik|politics
+eigentlich|actually
+letzten|last
+mitarbeiter|employees
+deutschland|Germany
+arbeit|work
+haus|house
+bereich|area
+systems|system
+programm|program
+markt|market
+firma|company
+anfang|beginning
+ersten|first
+frauen|women
+möglichkeit|possibility
+interesse|interest
+wasser|water
+ende|end
+städte|cities
+nächsten|next
+platz|place
+geschichte|history
+service|service
+recht|right
+informationen|information
+million|million
+deutsche|German
+bekannt|known
+früh|early
+produkte|products
+geht|goes
+verschiedene|different
+punkt|point
+bedeutung|meaning
+gehen|to go
+produktion|production
+folgende|following
+länder|countries
+hände|hands
+kontrolle|control
+gebiet|area
+wirtschaft|economy
+international|international
+zentrum|center
+land|country
+setzen|to set
+mann|man
+führen|to lead
+bringen|to bring
+erreichen|to reach
+politischen|political
+halten|to hold
+form|form
+erfolg|success
+kosten|costs
+kultur|culture
+bedeutet|means
+stehen|to stand
+lage|situation
+schließlich|finally
+stellen|to place
+einige|some
+art|type
+wichtig|important
+weiteren|further
+soll|should
+daher|therefore
+besonders|especially
+schnell|fast
+sorgen|to worry
+spielen|to play
+bleiben|to stay
+schaffen|to create
+trotzdem|nevertheless
+zeigen|to show
+entstehen|to arise
+erhalten|to receive
+bieten|to offer
+versuchen|to try
+gehört|belongs
+einfach|simple
+bestehen|to exist
+darüber|about it
+zahlen|numbers
+wenig|little
+darauf|on it
+einzelnen|individual
+personen|persons
+augen|eyes
+außerdem|moreover
+kopf|head
+technologie|technology
+wirklich|really
+computer|computer
+welche|which
+wechsel|change
+sprache|language
+verlassen|to leave
+länge|length
+seiten|pages
+öffentliche|public
+weiter|further
+unterstützung|support
+angebot|offer
+forschung|research
+zukunft|future
+städtischen|urban
+verkauf|sale
+daten|data
+käufer|buyers
+verkäufer|sellers
+menge|amount
+benutzer|users
+bezug|reference
+wählen|to choose
+hilfe|help
+start|start
+basis|basis
+verschiedenen|various
+direkt|direct
+geworden|become
+verkauft|sold
+bekommen|to get
+gemeinschaft|community
+hauptstadt|capital
+kaufen|to buy
+freunde|friends
+universität|university
+schule|school
+arbeiten|to work
+gelesen|read
+warum|why
+soziale|social
+sicherheit|security
+umwelt|environment
+wirtschaftliche|economic
+verantwortung|responsibility
+gesamte|entire
+entscheidung|decision
+wirkung|effect
+preis|price
+qualität|quality
+führung|leadership
+zusammenarbeit|cooperation
+bildung|education
+richtung|direction
+kommunikation|communication
+raum|space
+öffentlichkeit|public
+veranstaltung|event
+treffen|to meet
+diskussion|discussion
+beginn|beginning
+situation|situation
+erfahrung|experience
+aktivität|activity
+einrichtung|facility
+unterstützung|support
+verbesserung|improvement
+entwickeln|to develop
+untersuchen|to investigate
+verwaltung|administration
+organisation|organization
+plannung|planning
+struktur|structure
+leistung|performance
+entsprechend|corresponding
+erfolgen|to take place
+verwendung|use
+durchführung|implementation
+umsetzung|implementation
+ausrichtung|alignment
+beratung|consulting
+management|management
+strategie|strategy
+planung|planning
+zielen|aims
+vorstellung|presentation
+darstellung|representation
+bereitstellung|provision
+erstellung|creation
+bearbeitung|processing
+durchführung|execution
