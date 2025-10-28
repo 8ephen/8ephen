@@ -17,9 +17,10 @@
 
         #gameContainer {
             position: relative;
-            width: calc(100vw - 120px); /* Reserve space for WPM control */
+            width: calc(100vw - 240px); /* Reserve space for both control panels */
             height: 100vh;
             overflow: hidden;
+            margin-left: 120px; /* Offset for left control panel */
         }
 
         #scoreDisplay {
@@ -35,6 +36,260 @@
             border-radius: 8px;
             border: 2px solid #ccc;
             display: none; /* Hidden */
+        }
+
+        #controlsContainer {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 15px;
+            border-radius: 15px;
+            border: 2px solid #3498db;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #controlsLabel {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .control-button {
+            
+            height: 40px;
+            border: 2px solid #3498db;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .control-button:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .control-button:active {
+            transform: scale(0.95);
+        }
+
+        .control-button.active {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .control-button.active:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+
+        /* Settings Modal Styles */
+        #settingsModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        #settingsPanel {
+            width: 65vw;
+            height: 65vh;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            overflow: hidden;
+        }
+
+        #settingsLeft {
+            width: 50%;
+            padding: 20px;
+            border-right: 2px solid #ecf0f1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #settingsRight {
+            width: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        #vocabularyEditor {
+            flex: 1;
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        #vocabularyEditor:focus {
+            border-color: #3498db;
+        }
+
+        .settings-button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            margin: 5px;
+        }
+
+        .settings-button:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .settings-button.danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .settings-button.danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+
+        .settings-button.toggle {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .settings-button.toggle:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .settings-button.toggle.active {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .settings-button.toggle.active:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        #fileImportSection {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+        }
+
+        #fileInput {
+            margin-bottom: 10px;
+        }
+
+        #languageGrid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        .language-button {
+            padding: 15px;
+            background-color: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: all 0.2s ease;
+        }
+
+        .language-button:hover {
+            background-color: #d5dbdb;
+            border-color: #95a5a6;
+        }
+
+        .language-button.active {
+            background-color: #3498db;
+            border-color: #2980b9;
+            color: white;
+        }
+
+        .language-button.custom {
+            background-color: #9b59b6;
+            border-color: #8e44ad;
+            color: white;
+        }
+
+        .language-button.custom:hover {
+            background-color: #8e44ad;
+            border-color: #7d3c98;
+        }
+
+        #closeSettings {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #closeSettings:hover {
+            background-color: #c0392b;
         }
 
         .falling-word {
@@ -72,6 +327,14 @@
             font-style: italic;
             display: block;
             margin-top: 2px;
+        }
+
+        .falling-word.transparent-text {
+            color: transparent;
+        }
+
+        .falling-word.transparent-text .word-translation {
+            color: transparent;
         }
 
         #inputContainer {
@@ -186,10 +449,102 @@
         .wpm-button:active {
             transform: scale(0.95);
         }
+
+        /* Advanced Modal Styles */
+        #advancedModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2001;
+        }
+
+        #advancedPanel {
+            width: 50vw;
+            max-width: 600px;
+            min-width: 400px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            position: relative;
+            padding: 30px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #closeAdvanced {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #closeAdvanced:hover {
+            background-color: #c0392b;
+        }
+
+        #advancedContent h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            font-size: 24px;
+        }
+
+        .advanced-section {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .advanced-section p {
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .inline-input {
+            width: 60px;
+            padding: 4px 8px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+            margin: 0 5px;
+            background-color: #f8f9fa;
+        }
+
+        .inline-input:focus {
+            outline: none;
+            border-color: #2980b9;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
     <div id="gameContainer">
+        <div id="controlsContainer">
+ 
+            <button class="control-button" id="transparencyToggle">👁️</button>
+            <button class="control-button" id="muteToggle">🔊</button>
+            <button class="control-button" id="settingsToggle">⚙️</button>
+        </div>
+        
         <div id="inputContainer">
             <input type="text" id="translationInput" placeholder="Type English translation here..." autocomplete="off">
         </div>
@@ -202,6 +557,66 @@
         </div>
         
         <div id="feedback"></div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal">
+        <div id="settingsPanel">
+            <button id="closeSettings">×</button>
+            
+            <div id="settingsLeft">
+                <div class="settings-header">Vocabulary Editor</div>
+                <textarea id="vocabularyEditor" placeholder="Loading vocabulary..."></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button class="settings-button" id="saveVocabulary">Save Changes</button>
+                    <button class="settings-button" id="downloadVocabulary">Download File</button>
+                    <button class="settings-button" id="reverseModeToggle">... to English</button>
+                    <button class="settings-button" id="advancedToggle">Adv.</button>
+                </div>
+            </div>
+            
+            <div id="settingsRight">
+                <div id="fileImportSection">
+                    <div class="settings-header">Import Custom File</div>
+                    <input type="file" id="fileInput" accept=".txt" />
+                    <button class="settings-button" id="importFile">Import File</button>
+                </div>
+                
+                <div class="settings-header">Language Selection</div>
+                <div id="languageGrid">
+                    <div class="language-button" data-language="french">French</div>
+                    <div class="language-button" data-language="spanish">Spanish</div>
+                    <div class="language-button" data-language="german">German</div>
+                    <div class="language-button" data-language="mandarin">Mandarin</div>
+                    <div class="language-button" data-language="portuguese">Portuguese</div>
+                    <div class="language-button" data-language="japanese">Japanese</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Settings Modal -->
+    <div id="advancedModal">
+        <div id="advancedPanel">
+            <button id="closeAdvanced">×</button>
+            
+            <div id="advancedContent">
+                <h2>How the Site Works</h2>
+                
+                <div class="advanced-section">
+                    <p>The game pulls <input type="number" id="randomWordsInput" min="1" max="50" value="10" class="inline-input"> random words from the complete list into a rotation that you will be answering from.</p>
+                </div>
+                
+                <div class="advanced-section">
+                    <p>When you type complete a word <input type="number" id="correctStreakInput" min="1" max="20" value="5" class="inline-input"> times in a row that word will be replaced with a new word within the rotation.</p>
+                </div>
+                
+                <div class="advanced-section">
+                    <button class="settings-button" id="saveAdvancedSettings">Save Settings</button>
+                    <button class="settings-button" id="resetAdvancedSettings">Reset to Defaults</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -220,11 +635,39 @@
                 this.wpmDisplay = document.getElementById('wpmDisplay');
                 this.increaseBtn = document.getElementById('increaseWpm');
                 this.decreaseBtn = document.getElementById('decreaseWpm');
+                this.transparencyToggle = document.getElementById('transparencyToggle');
+                this.muteToggle = document.getElementById('muteToggle');
+                this.settingsToggle = document.getElementById('settingsToggle');
+                this.settingsModal = document.getElementById('settingsModal');
+                this.closeSettings = document.getElementById('closeSettings');
+                this.vocabularyEditor = document.getElementById('vocabularyEditor');
+                this.saveVocabulary = document.getElementById('saveVocabulary');
+                this.downloadVocabulary = document.getElementById('downloadVocabulary');
+                this.reverseModeToggle = document.getElementById('reverseModeToggle');
+                this.advancedToggle = document.getElementById('advancedToggle');
+                this.advancedModal = document.getElementById('advancedModal');
+                this.closeAdvanced = document.getElementById('closeAdvanced');
+                this.randomWordsInput = document.getElementById('randomWordsInput');
+                this.correctStreakInput = document.getElementById('correctStreakInput');
+                this.saveAdvancedSettings = document.getElementById('saveAdvancedSettings');
+                this.resetAdvancedSettings = document.getElementById('resetAdvancedSettings');
+                this.fileInput = document.getElementById('fileInput');
+                this.importFile = document.getElementById('importFile');
+                this.languageGrid = document.getElementById('languageGrid');
                 
                 this.wordSpeed = 1; // pixels per frame
                 this.wordsPerMinute = 15; // words per minute
                 this.lastSpawnTime = 0; // Track when last word was spawned
                 this.gameRunning = false;
+                this.transparentMode = false; // Track transparency state
+                this.isMuted = false; // Track mute state
+                this.currentLanguage = 'french'; // Track current language
+                this.customLanguages = new Map(); // Store custom imported languages
+                this.reverseMode = false; // Track if showing French words (user types French)
+                
+                // Advanced configurable settings
+                this.randomWordsCount = 10; // How many words in active rotation
+                this.correctStreakRequired = 5; // How many correct answers needed to master a word
                 
                 this.init();
             }
@@ -232,6 +675,7 @@
             async init() {
                 await this.loadVocabulary();
                 this.setupEventListeners();
+                this.initializeUI();
                 this.startGame();
             }
 
@@ -269,13 +713,65 @@
                 }
             }
 
+            openAdvancedSettings() {
+                this.closeSettingsModal(); // Close settings modal first
+                this.advancedModal.style.display = 'flex';
+                this.loadAdvancedSettings();
+            }
+
+            closeAdvancedModal() {
+                this.advancedModal.style.display = 'none';
+                this.gameRunning = true; // Resume the game
+                this.gameLoop(); // Restart the game loop
+            }
+
+            loadAdvancedSettings() {
+                this.randomWordsInput.value = this.randomWordsCount;
+                this.correctStreakInput.value = this.correctStreakRequired;
+            }
+
+            saveAdvancedConfiguration() {
+                const newRandomWordsCount = parseInt(this.randomWordsInput.value) || 10;
+                const newCorrectStreakRequired = parseInt(this.correctStreakInput.value) || 5;
+                
+                // Validate inputs
+                if (newRandomWordsCount < 1 || newRandomWordsCount > 50) {
+                    alert('Random words count must be between 1 and 50');
+                    return;
+                }
+                
+                if (newCorrectStreakRequired < 1 || newCorrectStreakRequired > 20) {
+                    alert('Correct streak requirement must be between 1 and 20');
+                    return;
+                }
+                
+                // Update settings
+                this.randomWordsCount = newRandomWordsCount;
+                this.correctStreakRequired = newCorrectStreakRequired;
+                
+                // Regenerate active vocabulary if the count changed
+                this.selectRandomActiveVocabulary();
+                
+                this.showFeedback('Advanced settings saved!', 'correct');
+                this.closeAdvancedModal();
+            }
+
+            resetAdvancedConfiguration() {
+                this.randomWordsCount = 10;
+                this.correctStreakRequired = 5;
+                this.loadAdvancedSettings();
+                this.selectRandomActiveVocabulary();
+                this.showFeedback('Settings reset to defaults!', 'correct');
+            }
+
             selectRandomActiveVocabulary() {
                 // Create a copy of full vocabulary to avoid modifying original
                 const availableWords = [...this.fullVocabulary];
                 this.activeVocabulary = [];
                 
-                // Select 10 random words
-                for (let i = 0; i < Math.min(10, availableWords.length); i++) {
+                // Select random words based on configurable count
+                const wordsToSelect = Math.min(this.randomWordsCount, availableWords.length);
+                for (let i = 0; i < wordsToSelect; i++) {
                     const randomIndex = Math.floor(Math.random() * availableWords.length);
                     this.activeVocabulary.push(availableWords[randomIndex]);
                     availableWords.splice(randomIndex, 1); // Remove to avoid duplicates
@@ -331,6 +827,72 @@
                     this.changeWPM(-5);
                 });
 
+                this.transparencyToggle.addEventListener('click', () => {
+                    this.toggleTransparency();
+                });
+
+                this.muteToggle.addEventListener('click', () => {
+                    this.toggleMute();
+                });
+
+                this.settingsToggle.addEventListener('click', () => {
+                    this.openSettings();
+                });
+
+                this.closeSettings.addEventListener('click', () => {
+                    this.closeSettingsModal();
+                });
+
+                this.settingsModal.addEventListener('click', (e) => {
+                    if (e.target === this.settingsModal) {
+                        this.closeSettingsModal();
+                    }
+                });
+
+                this.saveVocabulary.addEventListener('click', () => {
+                    this.saveVocabularyChanges();
+                });
+
+                this.downloadVocabulary.addEventListener('click', () => {
+                    this.downloadVocabularyFile();
+                });
+
+                this.reverseModeToggle.addEventListener('click', () => {
+                    this.toggleReverseMode();
+                });
+
+                this.importFile.addEventListener('click', () => {
+                    this.importCustomFile();
+                });
+
+                this.languageGrid.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('language-button')) {
+                        this.selectLanguage(e.target);
+                    }
+                });
+
+                this.advancedToggle.addEventListener('click', () => {
+                    this.openAdvancedSettings();
+                });
+
+                this.closeAdvanced.addEventListener('click', () => {
+                    this.closeAdvancedModal();
+                });
+
+                this.advancedModal.addEventListener('click', (e) => {
+                    if (e.target === this.advancedModal) {
+                        this.closeAdvancedModal();
+                    }
+                });
+
+                this.saveAdvancedSettings.addEventListener('click', () => {
+                    this.saveAdvancedConfiguration();
+                });
+
+                this.resetAdvancedSettings.addEventListener('click', () => {
+                    this.resetAdvancedConfiguration();
+                });
+
                 // Initialize WPM display
                 this.updateWPMDisplay();
             }
@@ -342,6 +904,233 @@
 
             updateWPMDisplay() {
                 this.wpmDisplay.textContent = this.wordsPerMinute;
+            }
+
+            initializeUI() {
+                // Initialize the reverse mode toggle button with proper styling
+                this.reverseModeToggle.classList.add('toggle');
+            }
+
+            toggleTransparency() {
+                this.transparentMode = !this.transparentMode;
+                
+                // Update button text and style
+                if (this.transparentMode) {
+                    this.transparencyToggle.textContent = '👁️‍🗨️'; // Eye with speech bubble (hidden)
+                    this.transparencyToggle.classList.add('active');
+                } else {
+                    this.transparencyToggle.textContent = '👁️'; // Eye symbol (visible)
+                    this.transparencyToggle.classList.remove('active');
+                }
+                
+                // Apply transparency to all current falling words
+                this.fallingWords.forEach(wordObj => {
+                    if (this.transparentMode) {
+                        wordObj.element.classList.add('transparent-text');
+                    } else {
+                        wordObj.element.classList.remove('transparent-text');
+                    }
+                });
+            }
+
+            toggleMute() {
+                this.isMuted = !this.isMuted;
+                
+                // Update button text and style
+                if (this.isMuted) {
+                    this.muteToggle.textContent = '🔇'; // Speaker with line through it (muted)
+                    this.muteToggle.classList.add('active');
+                } else {
+                    this.muteToggle.textContent = '🔊'; // Speaker symbol (sound on)
+                    this.muteToggle.classList.remove('active');
+                }
+            } 
+
+            toggleReverseMode() {
+                this.reverseMode = !this.reverseMode;
+                
+                // Update button text and style
+                if (this.reverseMode) {
+                    this.reverseModeToggle.textContent = 'English to ...';
+                    this.reverseModeToggle.classList.add('active');
+                    this.input.placeholder = 'Type French word here...';
+                } else {
+                    this.reverseModeToggle.textContent = '... to English';
+                    this.reverseModeToggle.classList.remove('active');
+                    this.input.placeholder = 'Type English translation here...';
+                }
+                
+                // Add toggle class for styling
+                this.reverseModeToggle.classList.add('toggle');
+                
+                this.showFeedback(`Switched to ${this.reverseMode ? 'French→English' : 'English→French'} mode`, 'correct');
+            }
+
+            openSettings() {
+                this.gameRunning = false; // Pause the game
+                this.settingsModal.style.display = 'flex';
+                this.loadVocabularyIntoEditor();
+            }
+
+            closeSettingsModal() {
+                this.settingsModal.style.display = 'none';
+                this.gameRunning = true; // Resume the game
+                this.gameLoop(); // Restart the game loop
+            }
+
+            loadVocabularyIntoEditor() {
+                const vocabularyText = this.fullVocabulary.map(word => `${word.french}|${word.english}`).join('\n');
+                this.vocabularyEditor.value = vocabularyText;
+            }
+
+            saveVocabularyChanges() {
+                const editorContent = this.vocabularyEditor.value.trim();
+                if (!editorContent) {
+                    alert('Vocabulary cannot be empty!');
+                    return;
+                }
+
+                try {
+                    const newVocabulary = editorContent.split('\n').map(line => {
+                        const [french, english] = line.split('|');
+                        if (!french || !english) {
+                            throw new Error(`Invalid line format: ${line}`);
+                        }
+                        return { french: french.trim(), english: english.trim() };
+                    });
+
+                    this.fullVocabulary = newVocabulary;
+                    this.selectRandomActiveVocabulary();
+                    this.showFeedback('Vocabulary updated successfully!', 'correct');
+                } catch (error) {
+                    alert(`Error updating vocabulary: ${error.message}\nPlease use format: french|english`);
+                }
+            }
+
+            downloadVocabularyFile() {
+                const vocabularyText = this.vocabularyEditor.value;
+                const blob = new Blob([vocabularyText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${this.currentLanguage}_vocabulary.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            importCustomFile() {
+                const file = this.fileInput.files[0];
+                if (!file) {
+                    alert('Please select a file first!');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const content = e.target.result;
+                        const vocabulary = content.trim().split('\n').map(line => {
+                            const [french, english] = line.split('|');
+                            if (!french || !english) {
+                                throw new Error(`Invalid line format: ${line}`);
+                            }
+                            return { french: french.trim(), english: english.trim() };
+                        });
+
+                        // Store the custom language
+                        const fileName = file.name.replace('.txt', '');
+                        this.customLanguages.set(fileName, vocabulary);
+
+                        // Add button to language grid
+                        this.addCustomLanguageButton(fileName);
+
+                        // Switch to the new language
+                        this.loadLanguage(fileName, vocabulary);
+                        
+                        this.showFeedback(`${fileName} imported successfully!`, 'correct');
+                    } catch (error) {
+                        alert(`Error importing file: ${error.message}\nPlease use format: word1|translation1`);
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            addCustomLanguageButton(fileName) {
+                const button = document.createElement('div');
+                button.className = 'language-button custom';
+                button.textContent = fileName;
+                button.dataset.language = fileName;
+                this.languageGrid.appendChild(button);
+            }
+
+            selectLanguage(button) {
+                // Remove active class from all buttons
+                this.languageGrid.querySelectorAll('.language-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const language = button.dataset.language;
+                this.currentLanguage = language;
+
+                // Load appropriate vocabulary
+                if (this.customLanguages.has(language)) {
+                    this.loadLanguage(language, this.customLanguages.get(language));
+                } else {
+                    this.loadPredefinedLanguage(language);
+                }
+            }
+
+            loadLanguage(name, vocabulary) {
+                this.fullVocabulary = vocabulary;
+                this.selectRandomActiveVocabulary();
+                this.loadVocabularyIntoEditor();
+                this.showFeedback(`Switched to ${name}!`, 'correct');
+            }
+
+            async loadPredefinedLanguage(language) {
+                try {
+                    let filename = 'vocabulary.txt'; // Default
+                    
+                    // Map languages to their respective vocabulary files
+                    switch(language) {
+                        case 'french':
+                            filename = 'vocabulary.txt';
+                            break;
+                        case 'spanish':
+                            filename = 'spanish.txt';
+                            break;
+                        case 'german':
+                            filename = 'german.txt';
+                            break;
+                        case 'mandarin':
+                            filename = 'mandarin.txt';
+                            break;
+                        case 'portuguese':
+                            filename = 'portuguese.txt';
+                            break;
+                        case 'japanese':
+                            filename = 'japanese.txt';
+                            break;
+                    }
+
+                    const response = await fetch(filename);
+                    const text = await response.text();
+                    
+                    const vocabulary = text.trim().split('\n').map(line => {
+                        const [foreign, english] = line.split('|');
+                        return { french: foreign.trim(), english: english.trim() };
+                    });
+
+                    this.loadLanguage(language, vocabulary);
+                } catch (error) {
+                    console.error('Error loading predefined language:', error);
+                    this.showFeedback(`Error loading ${language}`, 'incorrect');
+                }
             }
 
             getSpawnRate() {
@@ -405,26 +1194,51 @@
                 // Mark word as seen
                 this.seenWords.add(wordKey);
                 
+                // Determine what to display based on mode
+                let displayWord, targetWord;
+                if (this.reverseMode) {
+                    // Reverse mode: show English, user types French
+                    displayWord = word.english;
+                    targetWord = word.french;
+                } else {
+                    // Normal mode: show French, user types English
+                    displayWord = word.french;
+                    targetWord = word.english;
+                }
+                
                 if (showTranslation) {
                     wordElement.classList.add('with-translation');
-                    wordElement.innerHTML = `
-                        ${word.french}
-                        <span class="word-translation">${word.english}</span>
-                    `;
+                    if (this.reverseMode) {
+                        wordElement.innerHTML = `
+                            ${word.english}
+                            <span class="word-translation">${word.french}</span>
+                        `;
+                    } else {
+                        wordElement.innerHTML = `
+                            ${word.french}
+                            <span class="word-translation">${word.english}</span>
+                        `;
+                    }
                 } else {
-                    wordElement.textContent = word.french;
+                    wordElement.textContent = displayWord;
                 }
                 
                 wordElement.dataset.english = word.english;
                 wordElement.dataset.french = word.french;
+                wordElement.dataset.target = targetWord; // What the user should type
                 
                 // Random horizontal position within the reduced game area
-                const gameAreaWidth = window.innerWidth - 120; // Account for WPM control panel
+                const gameAreaWidth = window.innerWidth - 240; // Account for both control panels
                 const maxX = gameAreaWidth - 150; // Account for word width
                 const x = Math.random() * maxX;
                 
                 wordElement.style.left = x + 'px';
                 wordElement.style.top = '-50px';
+                
+                // Apply transparency if mode is active
+                if (this.transparentMode) {
+                    wordElement.classList.add('transparent-text');
+                }
                 
                 this.gameContainer.appendChild(wordElement);
                 this.fallingWords.push({
@@ -432,68 +1246,78 @@
                     x: x,
                     y: -50,
                     english: word.english,
-                    french: word.french
+                    french: word.french,
+                    target: targetWord // What the user should type
                 });
                 
-                // Speak the French word, and include English translation if shown
+                // Speak the appropriate word based on mode
                 if (showTranslation) {
-                    this.speakWord(word.french, word.english);
-                } else {
-                    this.speakWord(word.french);
-                }
-            }
-
-            speakWord(frenchWord, englishTranslation = null) {
-                // Check if speech synthesis is supported
-                if ('speechSynthesis' in window) {
-                    // Cancel any ongoing speech
-                    speechSynthesis.cancel();
-                    
-                    // Get available voices and find a female voice (prioritize Samantha)
-                    const voices = speechSynthesis.getVoices();
-                    let femaleVoice = voices.find(voice => 
-                        voice.name.toLowerCase().includes('hazel')
-                    );
-                    
-                    // If Samantha not found, look for other female voices
-                    if (!femaleVoice) {
-                        femaleVoice = voices.find(voice => 
-                            voice.name.toLowerCase().includes('female') ||
-                            voice.name.toLowerCase().includes('zira') ||
-                            voice.name.toLowerCase().includes('hazel') ||
-                            voice.name.toLowerCase().includes('susan') ||
-                            voice.gender === 'female'
-                        );
-                    }
-                    
-                    if (englishTranslation) {
-                        // Create a single utterance with both French and English to avoid pause
-                        const combinedText = `${frenchWord} ${englishTranslation}`;
-                        const utterance = new SpeechSynthesisUtterance(combinedText);
-                        utterance.lang = 'en-US'; // Use English base to handle both languages
-                        utterance.rate = 0.8;
-                        utterance.volume = 0.7;
-                        if (femaleVoice) utterance.voice = femaleVoice;
-                        speechSynthesis.speak(utterance);
+                    if (this.reverseMode) {
+                        this.speakWord(word.english, word.french, 'en');
                     } else {
-                        // Just speak the French word
-                        const utterance = new SpeechSynthesisUtterance(frenchWord);
-                        utterance.lang = 'fr-FR';
-                        utterance.rate = 0.8;
-                        utterance.volume = 0.7;
-                        if (femaleVoice) utterance.voice = femaleVoice;
-                        speechSynthesis.speak(utterance);
+                        this.speakWord(word.french, word.english, 'fr');
                     }
                 } else {
-                    console.log('Speech synthesis not supported in this browser');
+                    if (this.reverseMode) {
+                        this.speakWord(word.english, null, 'en');
+                    } else {
+                        this.speakWord(word.french, null, 'fr');
+                    }
                 }
             }
 
-            playPositionBasedSound(wordY) {
-                // Check if Web Audio API is supported
-                if ('AudioContext' in window || 'webkitAudioContext' in window) {
-                    try {
-                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            speakWord(primaryWord, translationWord = null, language = 'fr') {
+                // Check if muted or if speech synthesis is supported
+                if (this.isMuted || !('speechSynthesis' in window)) {
+                    return;
+                }
+                
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                
+                // Get available voices and find a female voice (prioritize Samantha)
+                const voices = speechSynthesis.getVoices();
+                let femaleVoice = voices.find(voice => 
+                    voice.name.toLowerCase().includes('hazel')
+                );
+                
+                // If Samantha not found, look for other female voices
+                if (!femaleVoice) {
+                    femaleVoice = voices.find(voice => 
+                        voice.name.toLowerCase().includes('female') ||
+                        voice.name.toLowerCase().includes('zira') ||
+                        voice.name.toLowerCase().includes('hazel') ||
+                        voice.name.toLowerCase().includes('susan') ||
+                        voice.gender === 'female'
+                    );
+                }
+                
+                if (translationWord) {
+                    // Create a single utterance with both words to avoid pause
+                    const combinedText = `${primaryWord} ${translationWord}`;
+                    const utterance = new SpeechSynthesisUtterance(combinedText);
+                    utterance.lang = language === 'fr' ? 'fr-FR' : 'en-US';
+                    utterance.rate = 0.8;
+                    utterance.volume = 0.7;
+                    if (femaleVoice) utterance.voice = femaleVoice;
+                    speechSynthesis.speak(utterance);
+                } else {
+                    // Just speak the primary word
+                    const utterance = new SpeechSynthesisUtterance(primaryWord);
+                    utterance.lang = language === 'fr' ? 'fr-FR' : 'en-US';
+                    utterance.rate = 0.8;
+                    utterance.volume = 0.7;
+                    if (femaleVoice) utterance.voice = femaleVoice;
+                    speechSynthesis.speak(utterance);
+                }
+            }            playPositionBasedSound(wordY) {
+                // Check if muted or if Web Audio API is supported
+                if (this.isMuted || !('AudioContext' in window || 'webkitAudioContext' in window)) {
+                    return;
+                }
+                
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                         
                         // Determine if word is in top portion of screen (top 30%)
                         const screenHeight = window.innerHeight;
@@ -522,11 +1346,8 @@
                         oscillator.start(audioContext.currentTime);
                         oscillator.stop(audioContext.currentTime + 0.15); // Shorter duration
                         
-                    } catch (error) {
-                        console.log('Audio context creation failed:', error);
-                    }
-                } else {
-                    console.log('Web Audio API not supported in this browser');
+                } catch (error) {
+                    console.log('Audio context creation failed:', error);
                 }
             }
 
@@ -548,11 +1369,24 @@
             checkTranslation(inputText) {
                 if (!inputText) return;
 
+                // Normalize function to remove diacritics and special characters
+                const normalize = (text) => {
+                    return text
+                        .toLowerCase()
+                        .normalize('NFD') // Decompose characters
+                        .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
+                        .replace(/[^\w\s-]/g, '') // Remove punctuation except hyphens and spaces
+                        .trim();
+                };
+
+                const normalizedInput = normalize(inputText);
+
                 // Find all words that match the input
                 const matchingWords = [];
                 for (let i = 0; i < this.fallingWords.length; i++) {
                     const wordObj = this.fallingWords[i];
-                    if (wordObj.english.toLowerCase() === inputText) {
+                    // Use the target word based on current mode and normalize both
+                    if (wordObj.target && normalize(wordObj.target) === normalizedInput) {
                         matchingWords.push({ wordObj, index: i });
                     }
                 }
@@ -588,8 +1422,8 @@
                 const newStreak = currentStreak + 1;
                 this.correctStreaks.set(wordKey, newStreak);
                 
-                // Check if word has been mastered (5 correct in a row)
-                if (newStreak >= 5) {
+                // Check if word has been mastered (configurable correct streak)
+                if (newStreak >= this.correctStreakRequired) {
                     // Remove from tracking and replace in active vocabulary
                     this.correctStreaks.delete(wordKey);
                     const wordToReplace = { french: wordObj.french, english: wordObj.english };
