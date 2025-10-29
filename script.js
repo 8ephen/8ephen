@@ -20,8 +20,17 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Calculate model size based on available space
       var viewportWidth = window.innerWidth;
+      var viewportHeight = window.innerHeight;
       var availableWidthPx = (viewportWidth - containerPadding - totalGaps) / itemsPerRow;
       var modelSize = availableWidthPx * 0.9; // 90% of available space
+      
+      // Restrict model size to the smaller of vh or vw (converted to pixels)
+      var maxSizeVh = viewportHeight * 0.9; // 90% of viewport height
+      var maxSizeVw = viewportWidth * 0.9; // 90% of viewport width
+      var maxAllowedSize = Math.min(maxSizeVh, maxSizeVw);
+      
+      // Ensure model doesn't exceed the smaller viewport dimension
+      modelSize = Math.min(modelSize, maxAllowedSize);
       
       // Apply width to all grid items to control ROW layout
       var gridItems = grid.querySelectorAll('.grid-btn');
@@ -59,8 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Calculate initial model size
       var viewportWidth = window.innerWidth;
+      var viewportHeight = window.innerHeight;
       var availableWidthPx = (viewportWidth - containerPadding - totalGaps) / initialValue;
       var modelSize = availableWidthPx * 0.9;
+      
+      // Restrict model size to the smaller of vh or vw (converted to pixels)
+      var maxSizeVh = viewportHeight * 0.9; // 90% of viewport height
+      var maxSizeVw = viewportWidth * 0.9; // 90% of viewport width
+      var maxAllowedSize = Math.min(maxSizeVh, maxSizeVw);
+      
+      // Ensure model doesn't exceed the smaller viewport dimension
+      modelSize = Math.min(modelSize, maxAllowedSize);
       
       var gridItems = grid.querySelectorAll('.grid-btn');
       gridItems.forEach(function(item) {
@@ -125,6 +143,15 @@ document.addEventListener('DOMContentLoaded', function() {
       button.addEventListener('click', function(e) {
         e.preventDefault();
         
+        // Check if this button is already selected
+        const isAlreadySelected = this.classList.contains('selected');
+        
+        // If already selected, don't do anything
+        if (isAlreadySelected) {
+          console.log('Model already selected, ignoring click');
+          return;
+        }
+        
         // Remove selected class from previously selected model
         if (selectedModel) {
           selectedModel.classList.remove('selected');
@@ -134,6 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
         this.classList.add('selected');
         selectedModel = this;
         
+        // Get the selected model's grid button for scrolling
+        const selectedGridBtn = this.closest('.grid-btn');
+        
         // If explain mode is active, show explanation for the newly selected model
         if (isExplainModeActive) {
           const modelType = this.getAttribute('data-model');
@@ -141,8 +171,13 @@ document.addEventListener('DOMContentLoaded', function() {
           hideAllExplanations();
           showExplanation(modelType);
         } else {
-          // If explain mode is not active, hide all explanations
+          // If explain mode is not active, hide all explanations but still scroll to selected model
           hideAllExplanations();
+          
+          // Wait for any layout changes to complete, then scroll to the selected model
+          setTimeout(() => {
+            scrollSelectedModelToTop(selectedGridBtn);
+          }, 100);
         }
       });
     });
@@ -182,6 +217,11 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = selectedIndex + 1; i < allGridItems.length; i++) {
       grid.appendChild(allGridItems[i]);
     }
+    
+    // Wait for the grid to re-arrange itself, then scroll the selected model to 20px below the top
+    setTimeout(() => {
+      scrollSelectedModelToTop(selectedGridBtn);
+    }, 100); // Short delay to ensure DOM has updated
   }
 
   function restoreOriginalGrid() {
@@ -200,6 +240,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function scrollSelectedModelToTop(selectedGridBtn) {
+    if (selectedGridBtn) {
+      const rect = selectedGridBtn.getBoundingClientRect();
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Calculate the target scroll position: element's current position minus 20px from top
+      const targetScrollTop = currentScrollTop + rect.top - 100;
+      
+      // Smooth scroll to the target position
+      window.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      });
+      
+      console.log('Scrolling selected model to 20px below top of screen');
+    }
+  }
+ 
   function hideAllExplanations() {
     const allExplanations = document.querySelectorAll('.explanation-text');
     allExplanations.forEach(explanation => {
@@ -247,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
     explainButton.addEventListener('click', function() {
       if (!selectedModel) {
         // No model selected, maybe show a tooltip or alert
-        alert('Please select a model first to see its explanation.');
+       
         return;
       }
 
