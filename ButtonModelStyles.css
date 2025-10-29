@@ -6,10 +6,11 @@
 }
 
 html, body {
-  margin: 0;
+ 
   padding: 0;
-  width: 100%;
   overflow-x: hidden;
+  justify-content: center;
+  position: relative;
 }
 
 /* Program bar button styles matching site theme */
@@ -23,7 +24,7 @@ html, body {
   font-size: 14px;
   font-weight: 600;
   padding: 0.5em 0.5em;
-  border: 1px solid #8B4513;
+  border: px solid #8B4513;
   box-shadow: 0 0 0 0 #1565c0;
   margin-right: 8px;
   cursor: pointer;
@@ -35,7 +36,7 @@ html, body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  border: 1px solid #8B4513;
+  border: 1px solid rgb(63, 63, 63);
   transform: translateY(-2px) scale(1.05);
 }
 .program-btn:active {
@@ -103,7 +104,7 @@ input[type=range]#size-slider::-ms-fill-upper {
   font-family: 'Nanum Myeongjo', serif; 
   font-weight: 400; 
   font-style: normal; 
-  background: linear-gradient(135deg, #8B4513 0%, #180c50 100%);
+  background: rgb(63, 63, 63);
   background-size: cover;
   background-attachment: fixed;
   -webkit-background-clip: text;
@@ -338,17 +339,17 @@ model-viewer > #ar-prompt > img {
 }
 
 .grid {
-margin: 0px;
-padding: 0;
+margin: 0 5vw; /* 2.5vw space on left and right sides only */
+padding: 0; 
 display: flex;
 flex-wrap: wrap;
 align-items: stretch;
 justify-content: center; 
 column-gap: 30px;
 row-gap: 30px;
-width: 100%;
+width: calc(100% - 10vw); /* Account for the left and right margins */
 box-sizing: border-box;
-} 
+}  
 
 #mslider {
   position: absolute;
@@ -694,13 +695,13 @@ h4{
   padding: 0.5em 0.5em;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-  border: 1px solid #64310d;
+  border: 0px solid #464545;
   box-shadow: 0 0 0 0 black;
 }
 
 .slideButton1:hover {
   transform: translateY(-4px) translateX(2px);
-  box-shadow: -2px 5px 10px  #64310d, -2px 5px 1px rgba(252, 182, 159, 0.4) !important;
+  box-shadow: -2px 5px 10px rgb(63, 63, 63), -2px 5px 1px rgba(252, 182, 159, 0.4) !important;
 }
 
 .slideButton1:active {
@@ -719,13 +720,13 @@ h4{
   padding: 0.5em 0.5em;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-  border: 1px solid #64310d;
+  border: 0px solid #64310d;
   box-shadow: 0 0 0 0 black;
 }
 
 #explain-it-btn:hover {
   transform: translateY(-4px) translateX(-2px);
-  box-shadow: 2px 5px 10px  #64310d, 2px 5px 1px rgba(252, 182, 159, 0.4);
+  box-shadow: 2px 5px 10px  rgb(63, 63, 63), 2px 5px 1px rgba(252, 182, 159, 0.4);
 }
 
 #explain-it-btn:active {
@@ -743,7 +744,7 @@ h4{
   padding: 0.5em 0.5em;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
-  border: 1px solid #64310d;
+  border: 0px solid #64310d;
   box-shadow: 0 0 0 0 #64310d;
 }
 
@@ -759,19 +760,41 @@ h4{
 
 /* Selected model styles */
 .button.selected {
-  background: linear-gradient(135deg, #EEE2B5 0%, #D7B26D 100%) !important;
-  border-color:  #64310d !important;
-  box-shadow: 10px 10px 10px  #64310d, 10px 10px 1px rgba(252, 182, 159, 0.4) !important;
+  background: transparent !important;
+  border-color:  transparent !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
 .button.selected .button_content {
-  border-color: #EEE2B5  !important;
+  border-color: white  !important;
   background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
 }
 
 .button.selected .ButtonTitle {
-
   color: #64310d !important;
+  pointer-events: none !important;
+}
+
+/* Keep model-viewer interactive even when button is selected */
+.button.selected model-viewer,
+.button.selected .button_model model-viewer {
+  pointer-events: auto !important;
+  cursor: grab !important;
+}
+
+/* Active model styles - pressed down effect */
+.button.active {
+  box-shadow: none !important;
+  color: transparent;
+  transform: translateY(2px);
+}
+
+.button.active .button_content {
+  box-shadow: none !important;
 }
 
 /* Grid button layout for row control */
@@ -789,7 +812,7 @@ h4{
   margin-top: 15px;
   padding: 15px;
   background: transparent;
-  border-top: 2px solid #764ba2;
+  border-top: 2px solid rgb(63, 63, 63);
   border-radius: 0 0 8px 8px;
   transition: all 0.3s ease-in-out;
   opacity: 0;
@@ -840,13 +863,14 @@ h4{
     align-items: center;
     justify-content: center; 
     text-align: center;
-    color: #71350a;
-    position: relative;
+    color: white;
+    position: fixed;
     overflow: hidden;
     width: 100vw;
     left: 0;
     right: 0;
     top: 0;
+    z-index: 1;
 }
    
 .hero::before {
@@ -917,15 +941,22 @@ h4{
 
 /* Hero Section - Gradient background */
 .hero-section {
- 
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
+  z-index: 2;
 }
 
 /* Programming Section - Light blue background */
 .programming-section {
-  background: radial-gradient(circle, rgba(29,161,242,0.1) 0%, transparent 70%);
+  background: white;
   padding-top: 100px;
   position: relative;
+  z-index: 10;
+  margin-top: 110vh;
+  min-height: 100vh;
 }
 
 
@@ -1011,6 +1042,7 @@ h4{
   background: white;
   padding: 10px 10px 200px 10px;
   position: relative;
+  z-index: 10;
 }
 
 .designs-section::before {
@@ -1032,13 +1064,16 @@ h4{
   padding: 0px 20px 200px 20px;
   position: relative;
   color: black;
+  z-index: 10;
 }
 
 /* Social Section - Dark elegant background */
 .social-section {
-  top: -150px;
-  padding: 1px 42px 50px 40px;
+  background: transparent;
+ 
   position: relative;
+  z-index: 10;
+  height: 25vh;
 }
 
 
@@ -1057,7 +1092,7 @@ h4{
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  margin-bottom: 180px;
+
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
@@ -1067,10 +1102,11 @@ h4{
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   max-width: 300px;
+  top: 100px;
   margin: 0 auto;
   align-items: center;
   justify-items: center;
-}
+} 
 
 
 /* Social media */
@@ -1083,6 +1119,8 @@ h4{
   align-items: center;
   gap: 30px;
   perspective: 1000px;
+  position: relative;
+  top: 80px;
 }
 
 .holographic-icon {
@@ -1113,7 +1151,7 @@ h4{
   height: 100%;
   border-radius: 50%;
   border: 4px solid transparent;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) border-box;
+  background: rgb(63, 63, 63) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: subtract;
   mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
@@ -1462,6 +1500,7 @@ h4{
 #experience {
     background: white;
     position: relative;
+    z-index: 10;
 }
 
 /* Timeline responsive design */
@@ -1486,6 +1525,10 @@ h4{
 
     .timeline-card {
         max-width: 100%;
+    }
+ 
+    .section{
+      height: 1650px; 
     }
 }
 
@@ -1557,7 +1600,11 @@ h4{
     top:40px;
     padding-bottom: 50px;
      }
-}
+     .section{
+      height: 1700px; 
+     }
+    
+}  
 
 /* Tablet Portrait (576px to 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
@@ -1571,6 +1618,9 @@ h4{
      #laptop-model{
       height: 100vw; 
       width: 100vw; 
+     }
+     .section{
+      height: 1800px; 
      }
 }
 
@@ -1587,8 +1637,11 @@ h4{
       height: 100vw; 
       width: 100vw; 
      }
+     .section{
+      height: 2100px; 
+     }
 }
- 
+  
 /* Mobile Portrait (320px to 479px) */
 @media (min-width: 320px) and (max-width: 479px) {
   .Programs {
@@ -1601,6 +1654,9 @@ h4{
      #laptop-model{
       height: 100vw; 
       width: 100vw; 
+     }
+     .section{
+      height: 100%; 
      }
 }
 
