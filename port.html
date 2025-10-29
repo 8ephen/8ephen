@@ -43,8 +43,9 @@
         width: auto; position:fixed; bottom:120px; 
         left:50%; transform:translateX(-50%); 
         background:#fff; padding:10px; border-radius:111px; 
-        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1001;
+        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:99999;
         height: Auto;
+        bottom: 60px
       } 
       #size-slider {
         justify-content: center;
@@ -67,10 +68,11 @@
       /* Background Transition Section */
       .background-transition {
         height: 1vh;
-        background: #5a2c0b;
+        background: rgb(63,63,63);
         width: 100%;
-        position: absolute;
+        position: relative;
         top: 110vh;
+        z-index: 10;
       }
   
   
@@ -126,6 +128,27 @@
         transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
       }
 
+      /* Laptop model entrance animation */
+      #laptop-model {
+        transition: opacity 0.8s ease;
+      }
+
+      #laptop-model.model-entrance {
+        animation: laptopEntrance 3s ease-in-out;
+      }
+
+      @keyframes laptopEntrance {
+        0% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
 
     </style>
 
@@ -145,19 +168,22 @@
 <!-- Hero/Landing Section -->
 <section class="hero-section">
   
-  <div id="slider-container" style="display: table-row;">
-    <div style="display: flex; align-items: center; width: 100%; gap: 0;">
-      <button class="slideButton1" id="take-apart-btn" style="min-width:120px;">Take it Apart</button>
-      <div style="display: flex; align-items: center; justify-content: center; flex: 1; gap: 8px; margin: 0 24px;">
-        
-        <input type="range" id="size-slider" min="1" max="4" value="3" step="1">
-       
-      </div>
-      <button class="slideButton2" id="explain-it-btn" style="min-width:120px;">Explain it</button>
+</section>
+
+<!-- Control Bars - Moved outside hero-section -->
+<div id="slider-container">
+  <div style="display: flex; align-items: center; width: 100%; gap: 0;">
+    <button class="slideButton1" id="take-apart-btn" style="min-width:120px;">Take it Apart</button>
+    <div style="display: flex; align-items: center; justify-content: center; flex: 1; gap: 8px; margin: 0 24px;">
+      
+      <input type="range" id="size-slider" min="1" max="4" value="3" step="1">
+     
     </div>
-    <!-- Removed slider percentage display -->
+    <button class="slideButton2" id="explain-it-btn" style="min-width:120px;">Explain it</button>
   </div>
-  <div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1000; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
+  <!-- Removed slider percentage display -->
+</div>
+<div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 99998; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
     <button class="program-btn" data-variant="solidworks">SolidWorks</button>
     <button class="program-btn" data-variant="plasticity">Plasticity</button>
     <button class="program-btn" data-variant="matlab">Matlab</button>
@@ -188,7 +214,7 @@
 
   <div id="Applications" class="fade-in" style="justify-content: center; display: flex; padding-left: 6vw; padding-right: 6vw;">  
       <model-viewer id="laptop-model" src="./programsLaptop/laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-          interaction-prompt="none" loading="eager" Class="computer" disable-zoom shadow-intensity="1" camera-orbit="65.46deg 85.66deg 16m" 
+          interaction-prompt="none" loading="eager" Class="computer" disable-zoom shadow-intensity="1" camera-orbit="245.46deg 85.66deg 16m" 
           variant-name="">
       </model-viewer>
       <div class="programs-card">
@@ -383,15 +409,15 @@
 
 <!-- Tools Section -->
 <section class="tools-section">
-      <div class="container fade-in" style="margin-top: 20px;">
-        <div class="clip-text">
-          Tools
+      <div class="container fade-in" >
+        <div class="clip-text" style="padding-top: 50px; padding-bottom: 60px;">
+          Resources
         </div>
       </div>
 
     <section class="grid-container fade-in" style="padding: 0px; justify-content: center;">
-        <iframe src="index.html" style="width: 90vw; padding:0; height: 85vh; position: relative; top: -50px;" frameborder="0"></iframe>
-
+        <iframe src="files.html" style="left:2.5vw; width: 95vw; padding:0; height: 1125px; position: relative; top: -50px;" frameborder="0"></iframe>
+ 
     </section>
 </section>
 
@@ -399,24 +425,34 @@
 <section class="social-section">
 <!-- From Uiverse.io by adarshpatel111 --> 
 <div class="holographic-stack">
-  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
-    <div class="holographic-ring" style="top:-20px; animation: rotate 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
-    
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-      <image href="/Site_Photos/Github.ico" height="24" width="24" />
-    </svg>
-    <div class="holographic-pulse"></div>
-     <h4 class="socialName" >github  </h4>
-  </a>
+  
    
 <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
     <div class="holographic-ring" style="top:-20px; animation: rotate reverse 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
     
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-      <image href="/Site_Photos/Github.ico" height="24" width="24" />
+      <image href="/Site_Photos/instagram.png" height="24" width="24" />
     </svg>
     <div class="holographic-pulse"></div>
-     <h4 class="socialName" >github  </h4>
+     <h4 class="socialName" >Instagram  </h4>
+  </a>
+  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
+    <div class="holographic-ring" style="top:-20px; animation: rotate 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
+    
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <image href="/Site_Photos/Github.png" height="24" width="24" />
+    </svg>
+    <div class="holographic-pulse"></div>
+     <h4 class="socialName" >Github  </h4>
+  </a>
+  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
+    <div class="holographic-ring" style="top:-20px; animation: rotate reverse 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
+    
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <image href="/Site_Photos/linkedIn.png" height="24" width="24" />
+    </svg>
+    <div class="holographic-pulse"></div>
+     <h4 class="socialName" >LinkedIn  </h4>
   </a>
    
 
@@ -804,7 +840,7 @@
           const laptopModel = document.getElementById('laptop-model');
           
           if (laptopModel) {
-            // Store the original camera orbit position
+            // Store the original camera orbit position (facing user - the final position after entrance animation)
             const originalCameraOrbit = '65.46deg 85.66deg 16m';
             let returnTimeout;
             let isInteracting = false;
@@ -919,6 +955,30 @@
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
+              
+              // Special handling for laptop model entrance animation
+              if (entry.target.id === 'laptop-model') {
+                entry.target.classList.add('model-entrance');
+                
+                // Animate the camera orbit to face the user over 3 seconds
+                const originalOrbit = '245.46deg 85.66deg 16m'; // Starting position (facing away)
+                const targetOrbit = '65.46deg 85.66deg 16m';   // Target position (facing user)
+                
+                // Add smooth interpolation for the entrance animation
+                entry.target.setAttribute('interpolation-decay', '300'); // Slower interpolation for entrance
+                
+                // Start the rotation animation after a brief delay
+                setTimeout(() => {
+                  entry.target.cameraOrbit = targetOrbit;
+                  console.log('Laptop model rotating to face user');
+                  
+                  // Remove interpolation after animation completes to keep other interactions snappy
+                  setTimeout(() => {
+                    entry.target.removeAttribute('interpolation-decay');
+                    console.log('Entrance animation completed');
+                  }, 3500);
+                }, 300);
+              }
             }
           });
         }, observerOptions);
@@ -928,6 +988,12 @@
         fadeElements.forEach(element => {
           observer.observe(element);
         });
+
+        // Also specifically observe the laptop model for entrance animation
+        const laptopModel = document.getElementById('laptop-model');
+        if (laptopModel) {
+          observer.observe(laptopModel);
+        }
       });
     </script>
 
@@ -960,7 +1026,7 @@
       boxd.style.width = newSize + 'vw';
       boxd.style.height = newSize + 'vh';
 
-      sizeValue.textContent = newSize + '%';
+      sizeValue.textContent = (newSize) + '%';
       gap.style.columnGap = (newSize / 2) + 'vw';
     });
 
