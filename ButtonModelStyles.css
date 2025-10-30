@@ -1,1059 +1,1676 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>ephen</title>
-    <link rel="icon" type="image/svg+xml" href="/Site_Photos/bitmap1.png">
-    <meta charset="utf-8">
-    <meta name="description" content="Elements">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link type="text/css" href="ButtonModelStyles.css" rel="stylesheet"/>
-    <link type="text/css" href="ProfileStyles.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
-    <script src="./script.js"></script>
+/* CSS Reset - Remove default browser margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  
+}
+
+html, body {
+ 
+  padding: 0;
+  overflow-x: hidden;
+  justify-content: center;
+  position: relative;
+}
+
+/* Program bar button styles matching site theme */
+.program-btn {
+  background-color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-radius: 10em;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5em 0.5em;
+  border: px solid #8B4513;
+  box-shadow: 0 0 0 0 #1565c0;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  letter-spacing: 1px;
+}
+.program-btn:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border: 1px solid rgb(63, 63, 63);
+  transform: translateY(-2px) scale(1.05);
+}
+.program-btn:active {
+  background: #ffffff;
+  color: #8B4513;
+  border-color: #ffffffff;
+  transform: scale(0.98);
+}
+/* Blue slider styles */
+#size-slider {
+  accent-color: white;
+}
+input[type=range]#size-slider::-webkit-slider-thumb {
+  background: #70370e;
+}
+input[type=range]#size-slider::-webkit-slider-runnable-track {
+  background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-Radius: 10px;
+}
+input[type=range]#size-slider::-moz-range-thumb {
+  background: #70370e;
+}
+input[type=range]#size-slider::-moz-range-track {
+  background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+input[type=range]#size-slider::-ms-thumb {
+  background: #70370e;
+}
+input[type=range]#size-slider::-ms-fill-lower {
+  background:  linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Hide model-viewer loading progress bar */
+model-viewer #default-progress-bar {
+  display: none !important;
+}
+
+model-viewer .progress-bar {
+  display: none !important;
+}
+
+model-viewer::part(default-progress-bar) {
+  display: none !important;
+}
+
+model-viewer::part(progress-bar) {
+  display: none !important;
+}
+
+/* Model viewer sizing - will be controlled by JavaScript based on columns */
+.model, model-viewer {
+  /*aspect-ratio: 1/1 !important;*/
+  display: block !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+input[type=range]#size-slider::-ms-fill-upper {
+  background: #90caf9;
+}
+:not(:defined) > * {
+  display: none;
+}
+
+.clip-text {
+  font-family: 'Nanum Myeongjo', serif; 
+  font-weight: 400; 
+  font-style: normal; 
+  background: rgb(63, 63, 63);
+  background-size: cover;
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  box-sizing: border-box;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: bold;
+  position: relative;
+  line-height: 1.2;
+  flex-shrink: 0;
+  z-index: 4;
+  width: 100%;
+  padding: 40px 0px 40px 0px;
+  left: 5vw;
+  /* Animation setup */
+  transform: translateX(-60%);
+  opacity: 0;
+  transition: transform 2s ease-out, opacity 0.8s ease-out;
+}
+
+.clip-text.animate-in {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
+.Hotspot {
+  background: #fff;
+  border-radius: 32px;
+  border: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 24px;
+  padding: 8px;
+  position: relative;
+  transition: opacity 0.3s;
+  width: 24px;
+}
+
+.Hotspot:not([data-visible]) {
+  background: transparent;
+  border: 4px solid #fff;
+  box-shadow: none;
+  height: 32px;
+  pointer-events: none;
+  width: 32px;
+}
+
+.Hotspot:focus {
+  border: 4px solid rgb(0, 128, 200);
+  height: 32px;
+  outline: none;
+  width: 32px;
+}
+
+.Hotspot > * {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.HotspotAnnotation{
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.8);
+  display: block;
+  font-family: Futura, Helvetica Neue, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  left: calc(100% + 1em);
+  max-width: 128px;
+  overflow-wrap: break-word;
+  padding: 0.5em 1em;
+  position: absolute;
+  top: 50%;
+  width: max-content;
+}
+
+.Hotspot:not([data-visible]) > * {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(-50% + 4px));
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+#ar-button {
+  background-image: url(ar_icon.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: 12px 50%;
+  background-color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  bottom: 16px;
+  padding: 0px 16px 0px 40px;
+  font-family: Roboto Regular, Helvetica Neue, sans-serif;
+  font-size: 14px;
+  color:#4285f4;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 18px;
+  border: 1px solid #DADCE0;
+}
+
+#ar-button:active {
+  background-color: #E8EAED;
+}
+
+#ar-button:focus {
+  outline: none;
+}
+
+#ar-button:focus-visible {
+  outline: 1px solid #4285f4;
+}
+
+@keyframes circle {
+  from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+  to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+
+@keyframes elongate {
+  from { transform: translateX(100px); }
+  to   { transform: translateX(-100px); }
+}
+
+model-viewer > #ar-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  animation: elongate 2s infinite ease-in-out alternate;
+  display: none;
+}
+
+model-viewer[ar-status="session-started"] > #ar-prompt {
+  display: block;
+}
+
+model-viewer > #ar-prompt > img {
+  animation: circle 4s linear infinite;
+}
+
+
+/* CSS */
+
+.button:active   {
+  box-shadow: none;
+  color: transparent;
+}
+.button:active .button_content {
+  box-shadow: none;
+}
+.button:hover .button_model {
+  transform: translate3d(0, 0, 0);
+  transition: ease-in 0.2s, ease-out 0.3s;
+}
+
+.button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  padding: 2px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15), 10px 10px 1px rgba(0, 0, 0, 0.15);
+  transition: ease-in 0.2s, ease-out 0.3s;
+  width: auto;
+  min-width: fit-content;
+  flex: 1 1 auto;
+  max-width: calc(33.333vw - 27px);
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: #ffffff;
+  border-radius: 8px;
+  z-index: 0;
+}
+
+.button_content {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 -6px #d5d7de, 0 -2px #ffffff;
+  transition: all 0.1s ease-in-out;
+}
+.ButtonTitle{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position:absolute;
+  display: block;
+  text-decoration: none;
+  text-align: left;
+  font-size: 25px;
+  z-index: 1;
+  font-family: 'Arial Black', sans-serif;
+  transform: translate3d(0px, -30px, 0);
+  transition: all 0.1s ease-in-out;
+}
+
+.button_model {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position:relative;
+  top: -0px;
+  display: flex;
+  text-align: center;
+  font-size: 20px;
+  z-index: 1;
+  font-family: 'Arial Black', sans-serif;
+  transition: all 0.1s ease-in-out;
+  transform: translate3d(0, -3px, 0);
+}
+
+.grid {
+margin: 0 5vw; /* 2.5vw space on left and right sides only */
+padding: 0; 
+display: flex;
+flex-wrap: wrap;
+align-items: stretch;
+justify-content: center; 
+column-gap: 30px;
+row-gap: 30px;
+width: calc(100% - 10vw); /* Account for the left and right margins */
+box-sizing: border-box;
+}  
+
+#mslider {
+  position: absolute;
+  bottom: 7px;
+  font-size: 25px;
+  text-align: left;
+  left: 7%;
+}
+
+#pslider {
+  position: absolute;
+  bottom: 11px;
+  text-align: right;
+  left: 90%;
+  font-weight: bold;
+} 
+/*
+.grid-btn, .button_model {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+*/
+
+.my-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.my-box::before {
+  content: '';
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 18px;
+  display: block;
+}
+
+
+
+ body {
+            font-family: sans-serif;
+            background-color: #ffffff;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid-item3 {
+            background: white !important;
+            color: #1d1d1f !important;
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+        }
+
+        .grid-item3:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(45deg, #FFF8DC, #F5DEB3, #DEB887) !important;
+            color: #333 !important;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+
+        p {
+            color: #cccccc;
+            font-size: 12px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .button {
+                max-width: calc(50vw - 30px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .button {
+                max-width: calc(100vw - 40px);
+            }
+            
+            .grid {
+                column-gap: 20px;
+                row-gap: 20px;
+            }
+        }
+.grid2Title {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700; 
+  text-decoration: none;
+  margin-bottom: 10px;
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.grid-item3 p {
+  color: #6e6e73;
+  line-height: 1.6;
+  margin-bottom: 0;
+  margin-top: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 12px;
+}
+
+.grid-item4 {
+            background-color: #cf2323;
+            padding: 20px;
+            border-radius: 80px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: transparent
+  }
+          .grid-item4:hover {
+            transform: translateY(-5px);
+        }
+
+        /* From Uiverse.io by imtausef */ 
+
+#Applications{
+  position:relative;
+  height: auto;
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0px;
+  max-width: 1500px;
+  margin: 0 auto;
+  
+}
+.LapAppsTitle {
+  position: relative;
+  color: 3s1da1f2;
+  font-size: clamp(1px, 8vw, 77px);
+  text-align:center;
+  top:clamp(5px, 8vw, 60px);
+  margin:auto;
+} 
+.computer{
+  height: 40vw; 
+  width: 40vw; 
+  position: relative; 
+  max-width:700px; 
+  max-height:800px;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+.Description{
+  position:relative;
+  margin-left: auto;
+  top:clamp(5px, 10vw, 120px);
+  flex: 1;
+  max-width: 600px;
+}
+h1{
+    font-size: clamp(0rem, 3vw, 2rem);
+}
+h4{
+  margin-top: -5px;
+  display: list-item;
+  left: 2em;
+  font-size: clamp(0rem, 2vw, 1rem);
+}
+
+/* Applications responsive design */
+@media (max-width: 768px) {
+  #Applications {
+    flex-direction: column;
+    text-align: center;
+    height: auto;
+    min-height: auto;
+    gap: 20px;
+  }
+  
+  .computer {
+    height: 50vw;
+    width: 40vw;
+    max-width: 400px;
+    max-height: 400px;
+    margin: 0 auto;
+  }
+  
+  .Description {
+    margin-left: 0;
+    top: 0;
+    text-align: center;
+  }
+  
+  .LapAppsTitle {
+    margin: 0 auto 20px auto;
+  }
+}
+
+/* Programs Container for Row Layout */
+.programs-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 10px;
+    max-width: 1400px;
+    margin: 0 auto;
     
+    flex-wrap: wrap;
+}
 
+/* Programs Card Styling - Updated for Row Layout */
+.programs-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+    max-width: 450px;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    text-align: center;
+    margin: 0;
+}
 
-    <style>
-      #resizable-boxa {
-        margin: -10px;
-        width: 10rem;
-       height: 10rem;
-       
-       transition: all 0.2s ease;
-     }
-           #resizable-boxb {
-            margin: -10px;
-        width: 10rem;
-       height: 10rem;
-       
-       transition: all 0.2s ease;
-     }
-           #resizable-boxc {
-            margin: -10px;
-        width: 10rem;
-       height: 10rem;
-       
-       transition: all 0.2s ease;
-     }
+.programs-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
 
-     #slider-container {
-        width: auto; position:fixed; bottom:120px; 
-        left:50%; transform:translateX(-50%); 
-        background:#fff; padding:10px; border-radius:111px; 
-        box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:99999;
-        height: Auto;
-        bottom: 60px
-      } 
-      #size-slider {
-        justify-content: center;
-        left: 50%;
-        
-      }
+.programs-logo {
+    width: 120px;
+    height: auto;
+    max-width: 120px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    display: block;
+}
 
-      /* Fade-in on scroll animation */
-      .fade-in {
+.programs-logo:hover {
+    transform: scale(1.05);
+}
+
+.programs-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 15px;
+    margin-top: 0;
+    text-align: left;
+}
+
+.programs-description {
+    color: #6e6e73;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    margin-top: 0;
+    list-style: disc;
+    text-align: left;
+    margin-left: 20px;
+    padding-left: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* Responsive design for programs container and cards */
+@media (max-width: 1200px) {
+  .programs-container {
+    gap: 20px;
+    padding: 15px;
+  }
+  
+  .programs-card {
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .programs-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .programs-card {
+    padding: 30px;
+    max-width: 100%;
+    min-width: auto;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .programs-logo {
+    width: 100px;
+    max-width: 100px;
+    margin: 0 auto 20px auto;
+  }
+  
+  .programs-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+/* From Uiverse.io by sekaiking */ 
+.slideButton1 {
+   background-color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-radius: 10em;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  border: 0px solid #464545;
+  box-shadow: 0 0 0 0 black;
+}
+
+.slideButton1:hover {
+  transform: translateY(-4px) translateX(2px);
+  box-shadow: -2px 5px 10px rgb(63, 63, 63), -2px 5px 1px rgba(252, 182, 159, 0.4) !important;
+}
+
+.slideButton1:active {
+  transform: translateY(2px) translateX(-1px);
+  box-shadow: 0 0 0 0 black;
+}
+#explain-it-btn {
+    background-color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-radius: 10em;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  border: 0px solid #64310d;
+  box-shadow: 0 0 0 0 black;
+}
+
+#explain-it-btn:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 10px  rgb(63, 63, 63), 2px 5px 1px rgba(252, 182, 159, 0.4);
+}
+
+#explain-it-btn:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+}
+
+/* slideButton2 class for consistency */
+.slideButton2 {
+  background-color: white;
+  color:  #1565c0;
+  border-radius: 10em;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0.5em 0.5em;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  border: 0px solid #64310d;
+  box-shadow: 0 0 0 0 #64310d;
+}
+
+.slideButton2:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 0 0 #64310d;
+}
+
+.slideButton2:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 #64310d;
+}
+
+/* Selected model styles */
+.button.selected {
+  background: transparent !important;
+  border-color:  transparent !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.button.selected .button_content {
+  border-color: white  !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+.button.selected .ButtonTitle {
+  color: #64310d !important;
+  pointer-events: none !important;
+}
+
+/* Keep model-viewer interactive even when button is selected */
+.button.selected model-viewer,
+.button.selected .button_model model-viewer {
+  pointer-events: auto !important;
+  cursor: grab !important;
+}
+
+/* Active model styles - pressed down effect */
+.button.active {
+  box-shadow: none !important;
+  color: transparent;
+  transform: translateY(2px);
+}
+
+.button.active .button_content {
+  box-shadow: none !important;
+}
+
+/* Grid button layout for row control */
+.grid-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.explanation-text {
+  margin-top: 15px;
+  padding: 15px;
+  background: transparent;
+  border-top: 2px solid rgb(63, 63, 63);
+  border-radius: 0 0 8px 8px;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateY(-10px);
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.explanation-text.show {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 200px;
+  padding: 15px;
+}
+
+.explanation-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  text-align: justify;
+}
+
+/* Responsive adjustments for explanation text */
+@media (max-width: 768px) {
+  .explanation-text.show {
+    padding: 10px;
+    max-height: 150px;
+  }
+  
+  .explanation-text p {
+    font-size: 12px;
+  }
+}
+
+/* Grid restructuring is now handled by JavaScript */
+
+/* Section Background Styling */
+
+/* Hero Section from Portfolio */
+.hero {
+    background: linear-gradient(0deg,  #764ba2, #667eea);
+    min-height: 110vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+    color: white;
+    position: fixed;
+    overflow: hidden;
+    width: 100vw;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}
+   
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+   
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    
+    top:-10vh;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+}
+
+.hero p {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.8s forwards;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 1.1s forwards;
+}
+
+.cta-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeInUp {
+    from {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-
-      .fade-in.visible {
+    }
+    to {
         opacity: 1;
         transform: translateY(0);
-      }
-
-      /* Background Transition Section */
-      .background-transition {
-        height: 1vh;
-        background: rgb(63,63,63);
-        width: 100%;
-        position: relative;
-        top: 110vh;
-        z-index: 10;
-      }
-  
-  
-
-      /* Programming bar button styles */
-      .program-btn {
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-       
-        
-        padding: 8px 16px;
-        border-radius: 12px;
-        margin: 0 5px;
-        cursor: pointer;
-        font-weight: 500;
-      }
-
-      .program-btn:hover {
-   
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      }
-
-      .program-btn.active {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
-      }
-
-
-      /* Program information transition styles */
-      #program-title,
-      .programs-description {
-        transition: opacity 1s ease;
-      }
-
-      /* Programs card smooth transitions */
-      .programs-card {
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow: hidden;
-      }
-
-      .programs-card h1,
-      .programs-card h4 {
-        transition: all 3s ease-in-out, transform 3s ease-in-out;
-      }
-
-      /* Smooth text transitions */
-      #program-title {
-        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-      }
-
-      .programs-description {
-        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-      }
-
-      /* Laptop model entrance animation */
-      #laptop-model {
-        transition: opacity 0.8s ease;
-      }
-
-      #laptop-model.model-entrance {
-        animation: laptopEntrance 3s ease-in-out;
-      }
-
-      @keyframes laptopEntrance {
-        0% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-
-
-    </style>
-
-  </head>
-  <body>
-
-<!-- Hero Section from Portfolio -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1 style="font-family: 'Nanum Myeongjo', serif; font-weight: 400; font-style: normal;">Stephen Yoshida</h1>
-
-        <p>Mechanical Engineer</p>
-    
-      </div>
-    </section>
-
-<!-- Hero/Landing Section -->
-<section class="hero-section">
-  
-</section>
-
-<!-- Control Bars - Moved outside hero-section -->
-<div id="slider-container">
-  <div style="display: flex; align-items: center; width: 100%; gap: 0;">
-    <button class="slideButton1" id="take-apart-btn" style="min-width:120px;">Take it Apart</button>
-    <div style="display: flex; align-items: center; justify-content: center; flex: 1; gap: 8px; margin: 0 24px;">
-      
-      <input type="range" id="size-slider" min="1" max="4" value="3" step="1">
-     
-    </div>
-    <button class="slideButton2" id="explain-it-btn" style="min-width:120px;">Explain it</button>
-  </div>
-  <!-- Removed slider percentage display -->
-</div>
-<div id="program-bar" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 80vw; background: #fff; padding: 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 99998; overflow-x: auto; white-space: nowrap; display: flex; justify-content: flex-start; align-items: center; scrollbar-width: none;">
-    <button class="program-btn" data-variant="solidworks">SolidWorks</button>
-    <button class="program-btn" data-variant="plasticity">Plasticity</button>
-    <button class="program-btn" data-variant="matlab">Matlab</button>
-    <button class="program-btn" data-variant="blender">Blender</button>
-    <button class="program-btn" data-variant="vscode">Visual Studio Code</button>
-    <button class="program-btn" data-variant="creality">Creality Scan</button>
-    <button class="program-btn" data-variant="bambu">Bambu Labs</button>
-    <button class="program-btn" data-variant="arduino">Arduino</button>
-    <button class="program-btn" data-variant="preform">PreForm</button>
-    <button class="program-btn" data-variant="kicad">KiCad</button>
-    <button class="program-btn" data-variant="freecad">FreeCad</button>
-    <button class="program-btn" data-variant="microsoft">Microsoft</button>
-
-  </div>
-</section>
-
-<!-- Background Transition Section -->
-<section class="background-transition"></section>
-
-<!-- Programming/Applications Section -->
-<section class="programming-section">
-      <!-- Header Text -->
-      <div class="container fade-in" style=" margin-top: 60px; margin-bottom: -220px;">
-        <div class="clip-text Programs" >
-          Programs
-        </div>
-      </div>
-
-  <div id="Applications" class="fade-in" style="justify-content: center; display: flex; padding-left: 6vw; padding-right: 6vw;">  
-      <model-viewer id="laptop-model" src="./programsLaptop/laptop_dell_xps.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-          interaction-prompt="none" loading="eager" Class="computer" disable-zoom shadow-intensity="1" camera-orbit="245.46deg 85.66deg 16m" 
-          variant-name="">
-      </model-viewer>
-      <div class="programs-card">
-        <h1 id="program-title" style="font-family: 'Nanum Myeongjo', serif; font-size: clamp(1.5rem, 4vw, 2.8rem); font-weight: 400; font-style: normal; color:#764ba2">Programs</h1>
-        <div id="program-descriptions-container">
-          <!-- Dynamic bullet points will be inserted here -->
-        </div>
-      </div>
-  </div>
-</section>
-
-<!-- My Journey Section -->
-<section id="experience" class="section">
-    <!-- Header Text -->
-    <div class="container fade-in" style="margin-bottom: 30px;">
-        <div class="clip-text">
-            My Journey
-        </div>
-    </div>
-    <div class="timeline-container">
-        <div class="timeline-line"></div>
-        
-        <div class="timeline-item" id="timeLine1">
-            <div class="timeline-icon">
-                <i class="fas fa-briefcase"></i>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-card">
-                    <div class="timeline-date">2021-2023</div>
-                    <div class="timeline-title">Bachelor's of Science</div>
-                    <div class="timeline-company">Mechanical Engineering</div>
-                    <div class="timeline-description">
-                        Developing interactive 3D web applications, creating custom engineering tools, and building modern user interfaces. Specializing in combining engineering precision with creative design.
-                    </div>
-                    <div class="timeline-skills">
-                        <span class="skill-tag">Dynamics</span>
-                        <span class="skill-tag">Kinematics</span>
-                        <span class="skill-tag">Thermodynamics</span>
-                        <span class="skill-tag">Deformable Bodies</span>
-                        <span class="skill-tag">Finite Element Analysis</span>
-                        <span class="skill-tag">Heat Transfer</span>
-                        <span class="skill-tag">Fluid Mechanics</span>
-                        <span class="skill-tag">Classical Control</span>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item" id="timeLine2">
-            <div class="timeline-icon">
-                <i class="fas fa-tools"></i>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-card">
-                    <div class="timeline-date">2023 - 2025</div>
-                    <div class="timeline-title">Master's of Science</div>
-                    <div class="timeline-company">Mechanical Engineering</div>
-                    <div class="timeline-description">
-                        Built custom engineering tools including O-Ring generators, CAD automation scripts, and specification document templates. Bridged the gap between engineering and software development.
-                    </div>
-                    <div class="timeline-skills">
-                        <span class="skill-tag">Modern Controls</span>
-                        <span class="skill-tag">Advanced Robotics</span>
-                        <span class="skill-tag">Advanced Heat Transfer</span>
-                        <span class="skill-tag">Advanced Thermodynamics</span>
-                        <span class="skill-tag">Advanced Deformable Bodies</span>
-                        <span class="skill-tag">Applied Mathmatics</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item" id="timeLine3">
-            <div class="timeline-icon">
-                <i class="fas fa-cogs"></i>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-card">
-                    <div class="timeline-date">2025 - Present</div>
-                    <div class="timeline-title">Mechanical Engineer</div>
-                    <div class="timeline-company">ARM Enterprises</div>
-                    <div class="timeline-description">
-                        Specialized in precision manufacturing and CAD design. Developed innovative solutions for complex engineering challenges while maintaining high standards of quality and efficiency.
-                    </div>
-                    <div class="timeline-skills">
-                        <span class="skill-tag">SolidWorks</span>
-                        <span class="skill-tag">Mechanical Design</span>
-                        
-                        <span class="skill-tag">SLA/FDM Manufacturing</span>
-                        <span class="skill-tag">Quality Control</span>
-                   
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="timeline-item" id="timeLine4">
-            <div class="timeline-icon">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="timeline-content">
-                <div class="timeline-card">
-                    <div class="timeline-date">2025 - Present</div>
-                    <div class="timeline-title">Certification Programs</div>
-                    <div class="timeline-company">Udemy</div>
-                    <div class="timeline-description">
-                        Comprehensive education in mechanical engineering principles, with focus on CAD design, manufacturing processes, and problem-solving methodologies. Graduated with strong foundation in both theoretical and practical applications.
-                    </div>
-                    <div class="timeline-skills">
-                        <span class="skill-tag">Circuit Design</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Front-End Web Development</span>
-                        <span class="skill-tag">PCB Design in KiCad</span>
-                        <span class="skill-tag">Material & Animation in Blender</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-    </div>
-</section>
-
-<!-- Designs Section -->
-<section class="designs-section">
-      <!-- Header Text -->
-      <div class="container fade-in" id="design-section" style="margin-bottom: 30px;">
-        <div class="clip-text">
-          Designs
-        </div>
-      </div>
-
-      <!-- Button With 3D Model -->
-  <div class="grid" id="grid1">
-    <div class="grid-btn fade-in">
-      <button class="button" role="button" data-model="cube">
-          <h3 class="ButtonTitle">Razor</h3>
-                <span class="button_model">
-                  <model-viewer src="./design/design_magneticRazor.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxa" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="-401.1deg 64.06deg 0.2353m" field-of-view="30deg">
-                  </model-viewer>
-                </span>
-          <div class="explanation-text" id="explanation-cube" style="display: none;">
-            <p>This innovative cube design showcases advanced geometric modeling techniques using precision CAD software. The structure demonstrates optimal material distribution while maintaining structural integrity across all six faces. Perfect for architectural applications and geometric studies.</p>
-          </div>
-      </button>
-    </div>  
-    
-    <div class="grid-btn fade-in">
-      <button class="button" role="button" data-model="brewer">
-          <h3 class="ButtonTitle">Brewer</h3>
-                <span class="button_model">
-                  <model-viewer src="./TestCubeAnime/take2.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./TestCubeAnime/poster.webp" 
-                  interaction-prompt="none"  animation-name="CubeAction" alt="Gates" loading="eager" class="model" id="resizable-boxb" disable-tap disable-pan disable-zoom="true" shadow-intensity="1">
-                </model-viewer>
-                </span>
-          <div class="explanation-text" id="explanation-brewer" style="display: none;">
-            <p>The coffee brewer design incorporates ergonomic principles with thermal efficiency optimization. Features include precision temperature control mechanisms, optimal flow dynamics, and user-friendly interface elements. This design balances functionality with aesthetic appeal for the modern kitchen.</p>
-          </div>
-      </button>
-    </div>  
-    <div class="grid-btn fade-in">
-      <button class="button" role="button" data-model="shaver">
-          <h3 class="ButtonTitle">Shaver</h3>
-                <span class="button_model" >
-                  <model-viewer src="./Cubeassets/Untitled.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Cubeassets/poster.webp" 
-                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxc" disable-tap disable-pan disable-zoom="true" shadow-intensity="1" >
-                  </model-viewer>
-                </span>
-          <div class="explanation-text" id="explanation-shaver" style="display: none;">
-            <p>This electric shaver design prioritizes user comfort and cutting efficiency. The ergonomic grip reduces hand fatigue during use, while the precision cutting head adapts to facial contours. Advanced motor technology ensures consistent performance with minimal noise generation.</p>
-          </div>
-      </button>
-    </div>
-    <div class="grid-btn fade-in">
-      <button class="button" role="button" data-model="laptop">
-          <h3 class="ButtonTitle">laptop</h3>
-                <span class="button_model">
-                  <model-viewer src="./Laptop/mvlaptop.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="./Laptop/poster.webp" 
-                  interaction-prompt="none" loading="eager" class="model" id="resizable-boxd" disable-tap disable-pan disable-zoom="true" shadow-intensity="1"camera-orbit="65.52deg 76.52deg 17.83m" field-of-view="30deg">
-                  </model-viewer>
-                </span>
-          <div class="explanation-text" id="explanation-laptop" style="display: none;">
-            <p>This innovative laptop design showcases advanced geometric modeling techniques using precision CAD software. The structure demonstrates optimal material distribution while maintaining structural integrity across all six faces. Perfect for architectural applications and geometric studies.</p>
-          </div>
-      </button>
-    </div>  
-
-  </div>
-</section>
-
-<!-- Tools Section -->
-<section class="tools-section">
-      <div class="container fade-in" >
-        <div class="clip-text" style="padding-top: 50px; padding-bottom: 60px;">
-          Resources
-        </div>
-      </div>
-
-    <section class="grid-container fade-in" style="padding: 0px; justify-content: center;">
-        <iframe src="files.html" style="left:2.5vw; width: 95vw; padding:0; height: 1125px; position: relative; top: -50px;" frameborder="0"></iframe>
- 
-    </section>
-</section>
-
-<!-- Social Media Section -->
-<section class="social-section">
-<!-- From Uiverse.io by adarshpatel111 --> 
-<div class="holographic-stack">
-  
-   
-<a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
-    <div class="holographic-ring" style="top:-20px; animation: rotate reverse 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
-    
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-      <image href="/Site_Photos/instagram.png" height="24" width="24" />
-    </svg>
-    <div class="holographic-pulse"></div>
-     <h4 class="socialName" >Instagram  </h4>
-  </a>
-  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
-    <div class="holographic-ring" style="top:-20px; animation: rotate 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
-    
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-      <image href="/Site_Photos/Github.png" height="24" width="24" />
-    </svg>
-    <div class="holographic-pulse"></div>
-     <h4 class="socialName" >Github  </h4>
-  </a>
-  <a class="holographic-icon github" onclick="selectFile(this)" target="_blank" href="https://github.com/">
-    <div class="holographic-ring" style="top:-20px; animation: rotate reverse 10s linear infinite;filter: drop-shadow(0 0 5px purple);"></div>
-    
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-      <image href="/Site_Photos/linkedIn.png" height="24" width="24" />
-    </svg>
-    <div class="holographic-pulse"></div>
-     <h4 class="socialName" >LinkedIn  </h4>
-  </a>
-   
-
-
-
-
-</section>
-
-
-<!-- JavaScript and Scripts Section -->
-<script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Simple horizontal scroll with mouse wheel
-        var bar = document.getElementById('program-bar');
-        var sliderContainer = document.getElementById('slider-container');
-        var computerModel = document.querySelector('.computer');
-        
-        if (bar) {
-          // Mouse wheel horizontal scroll
-          bar.addEventListener('wheel', function(e) {
-            e.preventDefault();
-            bar.scrollLeft += e.deltaY;
-          }, { passive: false });
-        }
-
-        // Programming bar visibility based on computer model visibility
-        function checkProgrammingBarVisibility() {
-          if (computerModel && bar && sliderContainer) {
-            const rect = computerModel.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            
-            // Show programming bar only when the bottom of the computer model is visible on screen
-            const isBottomVisible = rect.bottom > 0 && rect.bottom <= windowHeight;
-            
-            if (isBottomVisible) {
-              bar.style.display = 'flex';
-              sliderContainer.style.display = 'block';
-            } else {
-              bar.style.display = 'none';
-              sliderContainer.style.display = 'none';
-            }
-          }
-        }
-
-        // Check on scroll and initial load
-        window.addEventListener('scroll', checkProgrammingBarVisibility);
-        window.addEventListener('resize', checkProgrammingBarVisibility);
-        checkProgrammingBarVisibility(); // Initial check
-
-        // Programming bar variant switching functionality
-        function initProgrammingBarVariants() {
-          const laptopModel = document.getElementById('laptop-model');
-          const programBtns = document.querySelectorAll('.program-btn');
-          const programTitle = document.getElementById('program-title');
-          let currentActiveBtn = null;
-          let isLoading = false; // Track loading state to prevent rapid clicks
-
-          // Define variant names that correspond to your 3D model variants
-          // These match the actual variant names in your GLB file
-          const variantMappings = {
-            'solidworks': { loading: 'preFormLoading', loaded: 'bambuStudioLoaded' },
-            'plasticity': { loading: 'bambuStudioLoading', loaded: 'plasticityLoaded' },
-            'matlab': { loading: 'matLabLoading', loaded: 'matLabLoaded' },
-            'blender': { loading: 'blenderLoading', loaded: 'blenderLoaded' },
-            'vscode': { loading: 'bambuStudioLoading', loaded: 'visualStudioCodeLoaded' },
-            'creality': { loading: 'crealityScanLoading', loaded: 'crealityScanLoaded' },
-            'bambu': { loading: 'solidworksLoaded', loaded: 'preFormLoaded' },
-            'arduino': { loading: 'arduinoLoading', loaded: 'arduinoLoaded' },
-            'preform': { loading: 'default', loaded: 'solidworksLoading' },
-            'kicad': { loading: 'bambuStudioLoading', loaded: 'kiCadLoaded' },
-            'freecad': { loading: 'freecadLoading', loaded: 'freecadLoaded' },
-            'microsoft': { loading: 'microsoftLoading', loaded: 'microsoftLoaded' }
-          };
-
-          // Define program information
-          const programInfo = {
-            'default': {
-              title: 'Programs',
-              descriptions: [
-                'Select a program from the bar below to see detailed information',
-                
-              ]
-            },
-            'solidworks': {
-              title: 'SolidWorks',
-              descriptions: [
-                '- Parametric Modeling, Design for Production -',
-                'Complex mold generation for Prototype seals',
-                'Reverse engineering Mesh data "→" Surface',
-                'Engineering drawings and documentation', 
-                'Design for plastic injection molding',
-                'Simulation and finite element analysis',
-                'Material selection and optimization'
-              ]
-            },
-            'plasticity': {
-              title: 'Plasticity',
-              descriptions: [
-                '-Direct Modeling, "CAD for Artists"-',
-                'Advanced NURBS surface modeling',
-                'Industrial design and concept development',
-                'Human Design and Ergonomics'
-              ]
-            },
-            'matlab': {
-              title: 'Matlab',
-              descriptions: [
-                '-Mathematical Computations and Algorithms-',
-                'Data analysis and visualization',
-                'Engineering calculations and simulations',
-                'Control systems design',
-                'Robotics control and inverse kinematics',
-              ]
-            },
-            'blender': {
-              title: 'Blender',
-              descriptions: [
-                '-3D Animation and Visual Effects-',
-                'Product visualization and presentation',
-                'Material and lighting design',
-                'Animation and motion graphics',
-                'Texture baking and UV mapping'
-              ]
-            },
-            'vscode': {
-              title: 'Visual Studio Code',
-              descriptions: [
-                '-Source Code Editor and IDE-',
-                'Front end web development',
-                'Python scripting and automation',
-                'Python alternative to Matlab',
-                'Debugging and testing tools',
-                'Live sharing and collaboration'
-              ]
-            },
-            'creality': {
-              title: 'Creality Scan',
-              descriptions: [
-                '-3D Scanning Mesh Cloud Generation-',
-                'Point cloud processing and mesh generation',
-                'Reverse engineering and CAD integration',
-                'Quality inspection and measurement'
-              ]
-            },
-            'bambu': {
-              title: 'Bambu Labs',
-              descriptions: [
-                '-FDM 3D Printing and Manufacturing-',
-                'Bambu printer dimension and quality calibrations',
-                'Transparent Printing Techniques',
-                'Dissolvable support Interfaces (smooth support surfaces)'
-              ]
-            },
-            'arduino': {
-              title: 'Arduino',
-              descriptions: [
-                '-Embedded systems and IoT development-',
-                'Sensor integration and data acquisition',
-                'Control systems: sensor-actuator algorithms',
-                'Radio communication and wireless protocols'
-              ]
-            },
-            'preform': {
-              title: 'PreForm',
-              descriptions: [
-                '-SLA 3D Printing and Manufacturing-',
-                'Print orientation and layout',
-                'Support structure optimization'
-              ]
-            },
-            'kicad': {
-              title: 'KiCad',
-              descriptions: [
-                '-Electronic Design Automation Suite-',
-                'Schematic capture and component libraries',
-                'Electronic prototyping and manufacturing'
-              ]
-            },
-            'freecad': {
-              title: 'FreeCad',
-              descriptions: [
-                '-Open-source parametric 3D Modeling-',
-                'Technical drawing and documentation',
-                'File Type Conversion and interoperability'
-              ]
-            },
-            'microsoft': {
-              title: 'Microsoft Office',
-              descriptions: [
-                '-Technical documentation and reporting-',
-                'Project planning and data analysis',
-                'Technical writing and documentation',
-                'Professional communication and presentations'
-              ]
-            }
-          };
-
-          if (laptopModel && programBtns.length > 0) {
-            console.log('Setting up programming bar variants, found model and', programBtns.length, 'buttons');
-            
-            // Wait for model to load before setting up variants
-            laptopModel.addEventListener('load', function() {
-              console.log('Laptop model loaded');
-              console.log('Available variants in model:', laptopModel.availableVariants);
-              
-              // List all available variants for debugging
-              if (laptopModel.availableVariants && laptopModel.availableVariants.length > 0) {
-                console.log('Found variants:', laptopModel.availableVariants);
-                laptopModel.availableVariants.forEach((variant, index) => {
-                  console.log(`Variant ${index + 1}: ${variant}`);
-                });
-              } else {
-                console.log('No variants found in the model');
-              }
-              
-              // Set default display without loading Solidworks variant
-              setTimeout(() => {
-                // Just show default program info without loading any 3D variant
-                updateProgramInfo('default');
-                console.log('Default program info displayed (no 3D variant loaded)');
-              }, 500);
-            });
-
-            // Set up event listeners immediately (don't wait for model load)
-            programBtns.forEach(function(btn) {
-              btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Don't allow clicking if already loading
-                if (isLoading) {
-                  console.log('Loading in progress, ignoring click');
-                  return;
-                }
-                
-                const variantName = this.getAttribute('data-variant');
-                console.log('Button clicked:', this.textContent, 'Variant:', variantName);
-                
-                // Remove active and loading states from all buttons
-                programBtns.forEach(function(b) {
-                  b.classList.remove('active', 'loading');
-                });
-                
-                // Add loading state to current button
-                this.classList.add('active', 'loading');
-                currentActiveBtn = this;
-                
-                // Switch to the selected variant
-                switchToVariant(variantName);
-                
-                // Update program information
-                updateProgramInfo(variantName);
-                
-                // Remove loading state after the loading sequence completes
-                setTimeout(() => {
-                  this.classList.remove('loading');
-                }, 2100); // Slightly longer than the variant switch time
-                
-                console.log('Switched to variant:', variantName);
-              });
-            });
-
-            function switchToVariant(variantKey) {
-              if (laptopModel && !isLoading) {
-                isLoading = true; // Set loading state
-                console.log('Attempting to switch to variant:', variantKey);
-                
-                const variantObject = variantMappings[variantKey];
-                
-                if (variantObject && variantObject.loading && variantObject.loaded) {
-                  console.log('Loading sequence for:', variantKey);
-                  console.log('Loading variant:', variantObject.loading);
-                  console.log('Loaded variant:', variantObject.loaded);
-                  
-                  // Step 1: Show loading variant with smooth transition
-                  try {
-                    // Use only variantName property for smoother transitions
-                    laptopModel.variantName = variantObject.loading;
-                    console.log('Set loading variant:', variantObject.loading);
-                    
-                    // Step 2: After 2 seconds, switch to loaded variant with smooth transition
-                    setTimeout(() => {
-                      try {
-                        laptopModel.variantName = variantObject.loaded;
-                        console.log('Switched to loaded variant:', variantObject.loaded);
-                        
-                        // Clear loading state
-                        isLoading = false;
-                        
-                        // Verify the switch worked after transition completes
-                        setTimeout(() => {
-                          console.log('Final variant after loading sequence:', laptopModel.variantName);
-                          console.log('Final variant-name attribute:', laptopModel.getAttribute('variant-name'));
-                        }, 300); // Give time for transition to complete
-                        
-                      } catch (error) {
-                        console.error('Error setting loaded variant:', error);
-                        isLoading = false; // Clear loading state on error
-                      }
-                    }, 2000); // 2 second delay
-                    
-                  } catch (error) {
-                    console.error('Error setting loading variant:', error);
-                    isLoading = false; // Clear loading state on error
-                  }
-                } else {
-                  console.log('No variant mapping found for:', variantKey);
-                  console.log('Available mappings:', Object.keys(variantMappings));
-                  isLoading = false; // Clear loading state
-                }
-              } else if (isLoading) {
-                console.log('Loading in progress, please wait...');
-              } else {
-                console.log('Laptop model not found');
-              }
-            }
-
-            function updateProgramInfo(variantKey) {
-              const info = programInfo[variantKey];
-              const programTitle = document.getElementById('program-title');
-              const descriptionsContainer = document.getElementById('program-descriptions-container');
-              
-              if (info && programTitle && descriptionsContainer) {
-                // Add smooth transition effect with transform
-                programTitle.style.opacity = '0';
-                programTitle.style.transform = 'translateY(-10px)';
-                descriptionsContainer.style.opacity = '0';
-                descriptionsContainer.style.transform = 'translateY(-10px)';
-                
-                setTimeout(() => {
-                  // Update title
-                  programTitle.textContent = info.title;
-                  
-                  // Clear existing descriptions
-                  descriptionsContainer.innerHTML = '';
-                  
-                  // Create new description elements for each bullet point
-                  info.descriptions.forEach((description, index) => {
-                    const descElement = document.createElement('h4');
-                    descElement.className = 'programs-description';
-                    descElement.textContent = description;
-                    descElement.style.opacity = '0';
-                    descElement.style.transform = 'translateY(-10px)';
-                    descriptionsContainer.appendChild(descElement);
-                    
-                    // Stagger the fade-in animation for each bullet point
-                    setTimeout(() => {
-                      descElement.style.opacity = '1';
-                      descElement.style.transform = 'translateY(0)';
-                    }, 50 * index); // 50ms delay between each bullet point
-                  });
-                  
-                  // Fade back in with slide up effect
-                  programTitle.style.opacity = '1';
-                  programTitle.style.transform = 'translateY(0)';
-                  descriptionsContainer.style.opacity = '1';
-                  descriptionsContainer.style.transform = 'translateY(0)';
-                }, 250);
-              }
-            }
-
-            function setActiveButton(btn) {
-              if (currentActiveBtn) {
-                currentActiveBtn.classList.remove('active');
-              }
-              btn.classList.add('active');
-              currentActiveBtn = btn;
-            }
-          } else {
-            console.log('Could not find laptop model or program buttons');
-            console.log('Laptop model found:', !!laptopModel);
-            console.log('Program buttons found:', programBtns.length);
-          }
-        }
-
-        // Initialize programming bar variants
-        try {
-          initProgrammingBarVariants();
-          console.log('Programming bar variants initialized successfully');
-        } catch (error) {
-          console.error('Error initializing programming bar variants:', error);
-        }
-
-        // Initialize auto-return functionality for laptop model
-        function initModelAutoReturn() {
-          const laptopModel = document.getElementById('laptop-model');
-          
-          if (laptopModel) {
-            // Store the original camera orbit position (facing user - the final position after entrance animation)
-            const originalCameraOrbit = '65.46deg 85.66deg 16m';
-            let returnTimeout;
-            let isInteracting = false;
-            let lastCameraOrbit = originalCameraOrbit;
-            
-            // Function to return to original position
-            function returnToOriginalPosition() {
-              if (!isInteracting) {
-                console.log('Model returning to original position with smooth transition');
-                
-                // Use model-viewer's built-in smooth camera transitions
-                // Set a temporary interpolation-decay for smooth movement
-                laptopModel.setAttribute('interpolation-decay', '200');
-                laptopModel.cameraOrbit = originalCameraOrbit;
-                
-                // Remove the interpolation after the movement completes to keep variant changes instant
-                setTimeout(() => {
-                  laptopModel.removeAttribute('interpolation-decay');
-                  console.log('Smooth transition removed - variant changes will be instant again');
-                }, 4500); // Give time for the smooth movement to complete
-              }
-            }
-            
-            // Monitor camera orbit changes
-            function checkCameraChange() {
-              const currentOrbit = laptopModel.cameraOrbit;
-              if (currentOrbit !== lastCameraOrbit) {
-                lastCameraOrbit = currentOrbit;
-                isInteracting = true;
-                // Clear any existing timeout
-                if (returnTimeout) {
-                  clearTimeout(returnTimeout);
-                }
-                console.log('Camera orbit changed:', currentOrbit);
-              }
-            }
-            
-            // Check for camera changes periodically while user might be interacting
-            let cameraCheckInterval;
-            
-            // Start monitoring when user starts interacting
-            ['mousedown', 'touchstart'].forEach(eventType => {
-              laptopModel.addEventListener(eventType, function() {
-                isInteracting = true;
-                if (returnTimeout) {
-                  clearTimeout(returnTimeout);
-                  console.log('User interaction detected, cancelling auto-return');
-                }
-                
-                // Start checking camera changes
-                if (!cameraCheckInterval) {
-                  cameraCheckInterval = setInterval(checkCameraChange, 100);
-                }
-                console.log('User started interacting with model');
-              });
-            });
-            
-            // Stop monitoring and set return timer when user stops interacting
-            ['mouseup', 'touchend'].forEach(eventType => {
-              laptopModel.addEventListener(eventType, function() {
-                isInteracting = false;
-                
-                // Stop checking camera changes
-                if (cameraCheckInterval) {
-                  clearInterval(cameraCheckInterval);
-                  cameraCheckInterval = null;
-                }
-                
-                // Set timeout to return to original position after 3 seconds
-                returnTimeout = setTimeout(returnToOriginalPosition, 0);
-                console.log('User released model, will return to original position in 3 seconds');
-              });
-            });
-            
-            // Also detect when mouse leaves the model area
-            laptopModel.addEventListener('mouseleave', function() {
-              if (isInteracting) {
-                isInteracting = false;
-                
-                // Stop checking camera changes
-                if (cameraCheckInterval) {
-                  clearInterval(cameraCheckInterval);
-                  cameraCheckInterval = null;
-                }
-                
-                returnTimeout = setTimeout(returnToOriginalPosition, 0);
-                console.log('Mouse left model area, will return to original position in 2 seconds');
-              }
-            });
-            
-            console.log('Model auto-return functionality initialized');
-          } else {
-            console.log('Laptop model not found for auto-return functionality');
-          }
-        }
-        
-        // Initialize auto-return functionality
-        try {
-          initModelAutoReturn();
-          console.log('Model auto-return initialized successfully');
-        } catch (error) {
-          console.error('Error initializing model auto-return:', error);
-        }
-
-        // Fade-in scroll animations
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              
-              // Special handling for laptop model entrance animation
-              if (entry.target.id === 'laptop-model') {
-                entry.target.classList.add('model-entrance');
-                
-                // Animate the camera orbit to face the user over 3 seconds
-                const originalOrbit = '245.46deg 85.66deg 16m'; // Starting position (facing away)
-                const targetOrbit = '65.46deg 85.66deg 16m';   // Target position (facing user)
-                
-                // Add smooth interpolation for the entrance animation
-                entry.target.setAttribute('interpolation-decay', '300'); // Slower interpolation for entrance
-                
-                // Start the rotation animation after a brief delay
-                setTimeout(() => {
-                  entry.target.cameraOrbit = targetOrbit;
-                  console.log('Laptop model rotating to face user');
-                  
-                  // Remove interpolation after animation completes to keep other interactions snappy
-                  setTimeout(() => {
-                    entry.target.removeAttribute('interpolation-decay');
-                    console.log('Entrance animation completed');
-                  }, 3500);
-                }, 300);
-              }
-            }
-          });
-        }, observerOptions);
-
-        // Observe all elements with fade-in class
-        const fadeElements = document.querySelectorAll('.fade-in');
-        fadeElements.forEach(element => {
-          observer.observe(element);
-        });
-
-        // Also specifically observe the laptop model for entrance animation
-        const laptopModel = document.getElementById('laptop-model');
-        if (laptopModel) {
-          observer.observe(laptopModel);
-        }
-      });
-    </script>
-
-<script src="./script.js"></script>
-
-
-    <script src="./Cubeassets/script.js"></script>
-    <script src="./Laptop/script.js"></script>
-    <!-- Loads <model-viewer> for browsers: -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-
-  <script>
-    const slider = document.getElementById('size-slider');
-    const boxa = document.getElementById('resizable-boxa');
-    const boxb = document.getElementById('resizable-boxb');
-    const boxc = document.getElementById('resizable-boxc');
-    const boxd = document.getElementById('resizable-boxd');
-    const sizeValue = document.getElementById('size-value');
-    const gap = document.getElementById('grid1');
-
-    slider.addEventListener('input', function() {
-      const newSize = slider.value;
-      boxa.style.width = newSize + 'vw';
-      boxa.style.height = newSize + 'vh';
-  
-      boxb.style.width = newSize + 'vw';
-      boxb.style.height = newSize + 'vh';
-      boxc.style.width = newSize + 'vw';
-      boxc.style.height = newSize + 'vh';
-      boxd.style.width = newSize + 'vw';
-      boxd.style.height = newSize + 'vh';
-
-      sizeValue.textContent = (newSize) + '%';
-      gap.style.columnGap = (newSize / 2) + 'vw';
-    });
-
-    // Scroll animation for Designs and Tools headers
-    const headers = document.querySelectorAll('.clip-text');
-    
-    function checkScroll() {
-      headers.forEach(header => {
-        const headerRect = header.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Trigger animation when bottom of screen reaches the top of the header
-        if (headerRect.top <= windowHeight && headerRect.bottom > 0) {
-          header.classList.add('animate-in');
-        }
-      });
     }
+}
+
+/* Hero Section - Gradient background */
+.hero-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 110vh;
+  z-index: 2;
+}
+
+/* Programming Section - Light blue background */
+.programming-section {
+  background: white;
+  padding-top: 100px;
+  position: relative;
+  z-index: 10;
+  margin-top: 110vh;
+  min-height: 100vh;
+}
+
+
+/* Transition Section - Brown themed */
+.transition-section {
+  background: linear-gradient(135deg, #8B4513 0%, #180c50 100%);
+  padding: 100px 20px 100px 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.transition-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(160,82,45,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.transition-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.transition-image {
+  flex: 1;
+  text-align: center;
+}
+
+.feature-image {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.feature-image:hover {
+  transform: scale(1.05);
+}
+
+.transition-content {
+  flex: 1;
+  text-align: left;
+}
+
+.transition-content h2 {
+  font-size: 3rem;
+  color: #1da1f2;
+  margin-bottom: 30px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.transition-content p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: #ecf0f1;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Designs Section - White/light background */
+.designs-section {
+  background: white;
+  padding: 10px 10px 200px 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.designs-section::before {
+  content: '';
+  position: absolute;
+  margin-left: 26px;
+  margin-right: 26px;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+}
+
+/* Tools Section - White background */
+.tools-section {
+  background: white;
+  padding: 0px 20px 200px 20px;
+  position: relative;
+  color: black;
+  z-index: 10;
+}
+
+/* Social Section - Dark elegant background */
+.social-section {
+  background: transparent;
+ 
+  position: relative;
+  z-index: 10;
+  height: 25vh;
+}
+
+
+
+
+.social-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+ 
+}
+
+.social-container h2 {
+  font-size: 3rem;
+  background: #764ba2 !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 300px;
+  top: 100px;
+  margin: 0 auto;
+  align-items: center;
+  justify-items: center;
+} 
+ 
+
+/* Social media */
+
+ 
+/* From Uiverse.io by adarshpatel111 */ 
+.holographic-stack {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  perspective: 1000px;
+  position: relative;
+  top: 80px;
+}
+
+.holographic-icon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+
+}
+
+.holographic-icon svg {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  z-index: 3;
+  transition: all 0.3s ease;
+  
+}
+
+.holographic-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  background: rgb(63, 63, 63) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: subtract;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: subtract;
+  opacity: 0.8;
+  border-top-color: white;
+  border-bottom-color: white;
+}
+
+.holographic-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    transparent 20%,
+    currentColor 20%,
+    currentColor 30%,
+    transparent 30%,
+    transparent 40%,
+    currentColor 40%,
+    currentColor 50%,
+    transparent 50%
+  );
+  background-size: 15px 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.holographic-pulse {
+  width: 30%;/*////////*/
+  height: 30%; /*////////*/
+  border-radius: 50%;
+  box-shadow: 0 0 15px black;
+  opacity: 0;
+  position: relative;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.holographic-icon.github {
+  color: rgb(109, 24, 109);
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  position: relative;
+  text-decoration: none;
+}
+
+
+/*
+.holographic-icon.github:hover .holographic-ring {
+  border-color: #6c2e02;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+*/
+
+
+
+.holographic-icon:hover {
+  transform: translateY(-10px);
+}
+
+.holographic-icon:hover svg {
+  transform: scale(1.2);
+}
+
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes particles {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 30px 30px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.holographic-icon::before {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 5%;
+  width: 90%;
+  height: 20%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  transform: rotateX(80deg) translateZ(-20px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.holographic-icon:hover::before {
+  opacity: 0.5;
+}
+
+
+.socialName {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  position: relative;
+  top: 10px; /*////////*/
+  left: -2px;
+  color: transparent;
+  transition: color 0.3s ease;
+}
+
+.holographic-icon:hover .socialName {
+  background-color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+
+
+
+
+
+/* Social media containers - consistent height and positioning */
+.social-grid .tooltip-containerd,
+.social-grid .tooltip-containeri,
+.social-grid .tooltip-container {
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 55px !important;
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+  .transition-container {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .transition-content {
+    text-align: center;
+  }
+  
+  .transition-content h2 {
+    font-size: 2.5rem;
+  }
+  
+  .transition-content p {
+    font-size: 1.1rem;
+  }
+  
+  .feature-image {
+    max-width: 300px;
+  }
+  
+  .social-container h2 {
+    font-size: 2.5rem;
+  }
+  
+  .social-grid {
+    gap: 30px;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .programming-section,
+  .designs-section,
+  .tools-section {
+    padding: 100px 10px 0 0;
+  }
+  
+
+  .transition-section,
+  .social-section {
+    padding: 60px 10px;
     
-    // Check on scroll and on page load
-    window.addEventListener('scroll', checkScroll);
-    window.addEventListener('load', checkScroll);
+  }
+  
+  .social-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 300px;
+  }
+}
 
-  </script>
+/* Timeline Styles */
+.timeline-container {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto; 
+}
 
-</body>
-</html>
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 80px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+    justify-content: flex-end;
+    padding-right: 0px;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    justify-content: flex-start;
+    padding-left: -10px;
+}
+
+.timeline-card {
+    background: white;
+    padding: 30px; 
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    border: 4px solid white;
+    z-index: 10;
+}
+
+.timeline-date {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.timeline-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 8px;
+}
+
+.timeline-company {
+    font-size: 1.1rem;
+    color: #667eea;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.timeline-description {
+    color: #6e6e73;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.timeline-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* My Journey Section Styles */
+#experience {
+    background: white;
+    position: relative;
+    z-index: 10;
+}
+
+/* Timeline responsive design */
+@media (max-width: 1000px) {
+    .timeline-line {
+        left: 29px;
+        transform: none;
+    }
+
+ 
+    .timeline-item:nth-child(odd) .timeline-content,
+    .timeline-item:nth-child(even) .timeline-content {
+        justify-content: flex-start;
+        padding-left: 80px;
+        padding-right: 20px;
+    }
+
+    .timeline-icon {
+        left: 30px;
+        transform: translateX(-50%);
+    }
+
+    .timeline-card {
+        max-width: 100%;
+    }
+ 
+    .section{
+      height: 1650px; 
+    }
+}
 
 
 
 
+@media (min-width: 1000px) {
+   #timeLine2{
+    top:-100px;
+   }
+   #timeLine3{
+    top:-200px;
+   } 
+    #timeLine4{
+      top:-300px;
+    }
+    #timeLine5{
+      top:-10000px;
+    }
+    .section{
+      height: 1650px; 
+    }
+}
+
+ 
+
+/* ===========================================
+   RESPONSIVE BREAKPOINTS - BLANK SECTIONS
+   =========================================== */
+
+/* Extra Large Screens (1400px and up) */
+@media (min-width: 1400px) {
+  .Programs {
+    top:-30px
+     }
+    #Applications {
+    padding-bottom:100px;
+     }
+}
+ 
+/* Large Screens (1200px to 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .Programs {
+    top:-70px;
+     }
+     #Applications {
+    padding-bottom:120px;
+     }
+ 
+}
+
+/* Desktop Screens (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .Programs {
+    top:-20px
+     }
+#Applications {
+    padding-bottom:100px;
+     }
+
+}
+
+/* Tablet Landscape (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .Programs {
+    top:-20px
+     }
+     #Applications {
+    top:40px;
+    padding-bottom: 50px;
+     }
+     .section{
+      height: 1700px; 
+     }
+    
+}  
+
+/* Tablet Portrait (576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .Programs {
+    top:-60px;
+     }
+     #Applications {
+    top:40px;
+    padding-bottom: 100px;
+     }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
+     }
+     .section{
+      height: 1800px; 
+     }
+}
+
+/* Mobile Landscape (480px to 575px) */
+@media (min-width: 480px) and (max-width: 575px) {
+  .Programs {
+    top:-90px
+     }
+     #Applications {
+    top:50px;
+    padding-bottom: 130px;
+     }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
+     }
+     .section{
+      height: 2100px; 
+     }
+}
+  
+/* Mobile Portrait (320px to 479px) */
+@media (min-width: 320px) and (max-width: 479px) {
+  .Programs {
+    top:-140px
+     }
+     #Applications {
+    top:0px;
+    padding-bottom: 80px;
+     }
+     #laptop-model{
+      height: 100vw; 
+      width: 100vw; 
+     }
+     .section{
+      height: 2300px; 
+     } 
+}
+
+/* Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .Programs {
+    top:-145px;
+  }
+  #Applications {
+    top:0px;
+    padding-bottom: 90px;
+  }
+  #laptop-model{
+      height: 90vw; 
+      width: 90vw; 
+     }
+}
