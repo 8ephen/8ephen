@@ -3,7 +3,56 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeAnimations();
     initializeAttendeeCards();
+    populateSquadAttendees();
 });
+// Squad attendee data
+const squadAttendees = [
+    { name: 'Dan Delos Santos', hotel: 'Paris', room: '', is21: true, phone: '(555) 123-4567' },    
+    { name: 'Stephen Yoshida', hotel: 'Paris', room: '', is21: true, phone: '(530) 768-4352' },
+    { name: 'Luis Ramos', hotel: 'Paris', room: '', is21: true, phone: '(310) 982-8814' }
+    // Add more attendees as needed
+];
+
+// Populate squad attendee buttons with dropdowns
+function populateSquadAttendees() {
+    const grid = document.querySelector('.attendees-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    squadAttendees.forEach((attendee, idx) => {
+        const card = document.createElement('div');
+        card.className = 'attendee-card';
+
+        // Button
+        const btn = document.createElement('button');
+        btn.className = 'dropdown-btn';
+        btn.type = 'button';
+        btn.innerHTML = `<i class="fas fa-user"></i> ${attendee.name}`;
+        btn.onclick = function(event) {
+            event.stopPropagation();
+            toggleDropdown(idx, 'squad');
+        };
+        card.appendChild(btn);
+
+        // Dropdown
+        const dropdown = document.createElement('div');
+        dropdown.className = 'dropdown-content';
+        dropdown.id = `squad-dropdown-${idx}`;
+        dropdown.innerHTML = `
+            <div class="info-item"><strong>Hotel:</strong> ${attendee.hotel ? attendee.hotel : 'N/A'}</div>
+            <div class="info-item"><strong>Room:</strong> ${attendee.room}</div>
+            <div class="info-item"><strong>21+?</strong> ${attendee.is21 ? 'Yes' : 'No'}</div>
+            <div class="info-item"><strong>Phone:</strong> ${attendee.phone ? attendee.phone : 'N/A'}</div>
+        `;
+        card.appendChild(dropdown);
+
+        grid.appendChild(card);
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        document.querySelectorAll('.dropdown-content.active').forEach(dd => dd.classList.remove('active'));
+    });
+}
 
 // Initialize attendee card animations
 function initializeAttendeeCards() {
