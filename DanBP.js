@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // Squad attendee data
 const squadAttendees = [
-    { name: 'Dan Delos Santos', hotel: 'Paris', room: '', is21: true, phone: '(555) 123-4567' },    
+    { name: 'Dan Delos Santos', hotel: 'Paris', room: '', is21: true, phone: '(818) 422-7511' },    
     { name: 'Stephen Yoshida', hotel: 'Paris', room: '', is21: true, phone: '(530) 768-4352' },
     { name: 'Luis Ramos', hotel: 'Paris', room: '', is21: true, phone: '(310) 982-8814' }
     // Add more attendees as needed
