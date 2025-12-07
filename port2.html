@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Wireframe Template</title>
+	<style>
+		:root {
+			--cream: #f5f0e6;
+			--dark-grey: #2e2e2e;
+			--gap: 16px;
+			--radius: 12px;
+			--max-width: 1200px;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; }
+	html, body { overflow-x: hidden; }
+	body {
+		margin: 0;
+		background: var(--cream);
+		color: #fff;
+		font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+		overflow-x: hidden;
+	}
+	.page { 
+		min-height: 100dvh; 
+		overflow-x: hidden; 
+		width: 100%; 
+	}
+		.container { width: 100%; max-width: min(var(--max-width), 100vw); margin: 0 auto; padding: min(var(--gap), 3vw); box-sizing: border-box; overflow: hidden; }
+		section { width: 100%; overflow-x: hidden; }
+
+		.box { 
+			background: var(--dark-grey); 
+			border-radius: var(--radius); 
+			outline: 1px solid #1b1b1b; 
+			transition: all 0.3s ease;
+		}
+		.label { padding: 12px 16px; color: #dcdcdc; }
+
+		/* Hero header (no boxes), full viewport height */
+		header { min-height: 100vh; display: flex; align-items: center; }
+		/* Optional: add a subtle guide label in hero */
+		.hero-label { color: #444; background: rgba(255,255,255,0.4); padding: 8px 12px; border-radius: 8px; }
+		
+		/* Laptop 3D model styling */
+		#laptop-model {
+			width: 100%;
+			height: 100%;
+			min-height: 400px;
+			opacity: 0;
+			transition: opacity 3s ease-in;
+		}
+		#laptop-model.fade-in {
+			opacity: 1;
+		}
+		/* Hide model-viewer loading bar */
+		#laptop-model::part(default-progress-bar) {
+			display: none;
+		}
+		#laptop-model.model-entrance {
+			animation: laptopEntrance 3s ease-in-out;
+		}
+		@keyframes laptopEntrance {
+			0% { opacity: 0.7; }
+			50% { opacity: 1; }
+			100% { opacity: 1; }
+		}
+		
+		footer .box { 
+			height: 25vh;
+			min-height: 25vh;
+		}
+		.footer-wrapper {
+			position: relative;
+			width: 100%;
+		}
+		footer {
+			position: relative;
+			z-index: 10;
+			transition: all 0.3s ease;
+			width: 100%;
+		}
+		footer.sticky {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+		}
+		.scroll-spacer {
+			height: 100vh;
+			width: 100%;
+		}
+		
+		/* Footer content styling */
+		.footer-content {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: calc(var(--gap) * 2);
+			padding: 32px;
+			height: 100%;
+			box-sizing: border-box;
+		}
+		.footer-section {
+			display: flex;
+			flex-direction: column;
+			font-size: clamp(0.9rem, 2vh, 1.1rem);
+			font-weight: 600;
+			color: #f5f5f5;
+			margin: 0;
+		}
+		.footer-links {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: clamp(4px, 0.8vh, 8px);
+		}
+		.footer-link {
+			color: #aaa;
+			text-decoration: none;
+			font-size: clamp(0.75rem, 1.8vh, 0.95rem);
+			transition: color 0.2s ease;
+		}
+		.footer-link:hover {
+			color: #fff;
+		}
+		.footer-bottom {
+			grid-column: 1 / -1;
+			padding-top: 0px;
+			border-top: 1px solid #3a3a3a;
+			text-align: center;
+		}
+		.footer-copyright {
+			color: #666;
+			font-size: clamp(0.7rem, 1.6vh, 0.85rem);
+			margin: 0;
+		} 
+		
+		@media (max-width: 720px) {
+			.footer-content {
+				grid-template-columns: fr;
+				gap: var(--gap);
+				padding: 4px 24px 4px 24px;
+			}
+		}
+		
+		/* Program bar styles */
+		#program-bar {
+			position: fixed;
+			bottom: 60px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 80vw;
+			background: #fff;
+			padding: 10px;
+			border-radius: 20px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+			z-index: 99998;
+			overflow-x: auto;
+			white-space: nowrap;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			scrollbar-width: none;
+			opacity: 1;
+			transition: opacity 2.4s ease;
+		}
+		#program-bar.fade-out {
+			opacity: 0;
+			pointer-events: none;
+		}
+		#program-bar::-webkit-scrollbar { display: none; }
+		.program-btn {
+			transition: all 0.3s ease;
+			border: 2px solid transparent;
+			padding: 8px 16px;
+			border-radius: 12px;
+			margin: 0 5px;
+			cursor: pointer;
+			font-weight: 500;
+			background: transparent;
+		}
+		.program-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+		}
+		.program-btn.active {
+			transform: translateY(-2px);
+			background: var(--dark-grey);
+			color: #fff;
+		}
+		.program-btn.loading {
+			opacity: 0.6;
+			cursor: wait;
+			animation: pulse 1s infinite;
+		}
+		@keyframes pulse {
+			0%, 100% { opacity: 0.6; }
+			50% { opacity: 0.9; }
+		}
+		
+		/* Program info display */
+		.program-info-display {
+			padding: 24px;
+		}
+		.program-info-title {
+			font-size: 1.5rem;
+			font-weight: 600; 
+			color: #f5f5f5;
+			margin: 0 0 16px 0;
+		}
+		.program-info-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.program-info-list li {
+			color: #aaa;
+			margin-bottom: 8px;
+			line-height: 1.4;
+		}
+
+		/* First row: two equally sized boxes */
+		.two-up {
+			display: grid;
+			gap: var(--gap);
+			grid-template-columns: 1fr 1fr;
+			align-items: start;
+			position: relative;
+			overflow: hidden;
+			max-width: 100%;
+			width: 100%;
+		}
+		.two-up .box { min-height: 400px; width: 100%; max-width: 100%; box-sizing: border-box; }
+		.two-up .box:nth-child(1) {
+			background: transparent;
+			outline: none;
+		}
+		/* Box 2 slides in from behind Box 1 on desktop */
+		@media (min-width: 721px) {
+			.two-up {
+				position: relative;
+			}
+			.two-up .box:nth-child(1) {
+				position: relative;
+				z-index: 2;
+				grid-column: 1;
+			}
+			.two-up .box:nth-child(2) {
+				opacity: 0;
+				visibility: hidden;
+				transform: translateX(-50%);
+				transition: transform 2s ease-out, opacity 2s ease-out, visibility 0s 2s;
+				position: relative;
+				z-index: 1;
+				grid-column: 2;
+			}
+				.two-up.animate .box:nth-child(2) {
+					opacity: 1;
+					visibility: visible;
+					transform: translateX(0);
+					transition: transform 2s ease-out, opacity 2s ease-out, visibility 0s;
+				}
+				.program-info-display {
+			padding: 24px;
+			position: relative;
+			left: -10vw;    
+			} 
+			}
+
+		/* Timeline indicator between Row 1 and Row 2 */
+		.timeline {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--gap);
+			margin: calc(var(--gap) * 2) 0 0 0;
+			padding: 0;
+			position: relative;
+			z-index: 3;
+		}
+		.timeline-label {
+			background: transparent;
+			color: var(--cream);
+			padding: 12px 24px;
+			border-radius: var(--radius);
+			font-size: 1.1rem;
+			font-weight: 600;
+			outline: none;
+			transition: color 0.8s ease;
+		}
+		.timeline-label.visible {
+			color: var(--dark-grey);
+		}
+		.timeline-arrow {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--cream);
+			font-size: 2rem;
+			position: relative;
+			transition: color 0.8s ease;
+		}
+		.timeline-arrow.visible {
+			color: #444;
+		}
+		.timeline-arrow::before,
+		.timeline-arrow::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			height: 2px;
+			background: var(--cream);
+			transition: background 0.8s ease;
+		}
+		.timeline-arrow.visible::before,
+		.timeline-arrow.visible::after {
+			background: #444;
+		}
+		.timeline-arrow::before {
+			left: 0;
+			right: 50%;
+		}
+		.timeline-arrow::after {
+			left: 50%;
+			right: 0;
+		}
+		
+		/* Overlay that covers content below timeline */
+		.content-overlay {
+			position: fixed;
+			left: 0;
+			width: 100%;
+			background: var(--cream);
+			z-index: 5;
+			pointer-events: none;
+			opacity: 1;
+			transition: opacity 2.4s ease;
+		}
+		.content-overlay.fade-out {
+			opacity: 0;
+		}
+
+		/* Row 2: Gantry that scrolls left on hover */
+		.gantry {
+			position: relative;
+			overflow-x: auto;
+			overflow-y: hidden;
+			border-radius: var(--radius);
+			max-width: 100%;
+			/* Hide scrollbars across browsers */
+			scrollbar-width: none; /* Firefox */
+			-ms-overflow-style: none; /* IE/Edge legacy */
+			z-index: 3;
+		}
+		.gantry::-webkit-scrollbar { display: none; } /* WebKit */
+		.gantry .track {
+			display: flex;
+			gap: var(--gap);
+			width: max-content;
+			padding-bottom: 2px;
+			will-change: transform;
+		}
+		.gantry-arrow {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #444;
+			font-size: 2rem;
+			flex-shrink: 0;
+			width: 32px;
+			opacity: 0;
+			transition: opacity 0.8s ease-in;
+		}
+		.gantry.animate .gantry-arrow {
+			opacity: 1;
+			transition-delay: 3.6s; /* After all boxes finish (1.6s delay + 2s animation) */
+		}
+		/* Auto movement when hovered */
+		@keyframes gantry-slide {
+			0% { transform: translateX(0); }
+			100% { transform: translateX(25%); }
+		}
+		.gantry .box { flex: 0 0 min(400px, 90vw); min-height: 240px; max-width: min(400px, 90vw); width: auto; }
+		/* Row 2 panels slide up on viewport entry */
+		.gantry .box {
+			opacity: 0;
+			transform: translateY(200px);
+			transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-out;
+		}
+		.gantry.animate .box { opacity: 1; transform: translateY(0); }
+		.gantry.animate .box:nth-child(1) { transition-delay: 1.6s; }  /* Panel 1 */
+		.gantry.animate .box:nth-child(3) { transition-delay: 1.2s; }  /* Panel 2 */
+		.gantry.animate .box:nth-child(5) { transition-delay: 0.8s; }  /* Panel 3 */
+		.gantry.animate .box:nth-child(7) { transition-delay: 0.4s; }  /* Panel 4 */
+		.gantry.animate .box:nth-child(9) { transition-delay: 0s; }    /* Panel 5 */
+		
+		/* Auto-scroll animation from right to left */
+		.gantry.auto-scroll {
+			scroll-behavior: smooth;
+		}
+
+		/* Grid row: responsive 2/4 columns */
+		.grid-row {
+			display: grid;
+			gap: var(--gap);
+			grid-template-columns: repeat(4, 1fr);
+			align-items: start;
+			max-width: 100%;
+		}
+		.grid-row .box { min-height: 220px; width: 100%; max-width: 100%; box-sizing: border-box; }
+
+		/* Product card styling */
+		.product-card {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			padding: 0;
+			overflow: hidden;
+		}
+		.product-image {
+			width: 100%;
+			height: 250px;  
+			background: linear-gradient(135deg, #3a3a3a 0%, #2e2e2e 100%);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #666;
+			font-size: 3rem;
+			border-bottom: 1px solid #1b1b1b;
+		}
+		.product-info {
+			padding: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			flex: 1;
+		}
+		.product-title {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: #f5f5f5;
+			margin: 0;
+			cursor: pointer;
+			transition: color 0.2s ease;
+		}
+		.product-title:hover {
+			color: #fff;
+		}
+		.product-desc {
+			font-size: 0.85rem;
+			color: #aaa;
+			line-height: 1.4;
+			margin: 0;
+		}
+		.product-price {
+			font-size: 1.25rem;
+			font-weight: 700;
+			color: #fff;
+			margin: 8px 0;
+		}
+		.product-btn {
+			background: #f5f0e6;
+			color: #2e2e2e;
+			border: none;
+			padding: 12px 20px;
+			border-radius: 8px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			text-align: center;
+		}
+		.product-btn:hover {
+			background: #fff;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+		}
+
+		/* Full-page razor overlay */
+		.razor-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: var(--cream);
+			z-index: 9998;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			opacity: 0;
+			pointer-events: none;
+		}
+		.razor-overlay.active {
+			display: flex;
+			animation: fadeIn 1s ease forwards;
+			pointer-events: auto;
+		}
+		@keyframes fadeIn {
+			0% { opacity: 0; }
+			100% { opacity: 1; }
+		}
+		.razor-overlay.fade-out {
+			animation: fadeOut 0.4s ease forwards;
+		}
+		@keyframes fadeOut {
+			0% { opacity: 1; }
+			100% { opacity: 0; }
+		}
+		.razor-overlay-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 48px;
+			height: 48px;
+			background: var(--dark-grey);
+			border: none;
+			border-radius: 50%;
+			color: var(--cream);
+			font-size: 24px;
+			cursor: pointer;
+			z-index: 10000;
+			transition: all 0.2s ease;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.razor-overlay-close:hover {
+			background: #3a3a3a;
+			transform: scale(1.1);
+		}
+
+		/* Razor card positioning when overlay is active */
+		#razor-model.overlay-active {
+			position: absolute;
+			z-index: 9999;
+		}
+		#razor-model.overlay-active.animate-center {
+			animation: moveToCenter 1.2s cubic-bezier(0.25, 0.46, 0.3, 0.94) 0s forwards;
+		}
+		#razor-model.overlay-active.animate-back {
+			animation: moveBack 1.2s cubic-bezier(0.25, 0.46, 0.3, 0.94) forwards;
+		}
+		@keyframes moveToCenter {
+			to {
+				left: 50vw;
+				transform: translateX(-50%);
+				width: 60vw;
+				height: 60vh;
+			}
+		}
+		@keyframes moveBack {
+			from {
+				left: 50vw;
+				transform: translateX(-50%);
+				width: 60vw;
+				height: 60vh;
+			}
+			to {
+				left: var(--original-left);
+				transform: none;
+				width: var(--original-width);
+				height: var(--original-height);
+			}
+		}
+
+		.sections { display: grid; gap: var(--gap); grid-template-columns: repeat(3, 1fr); }
+		.sections .box { min-height: 180px; }
+
+		@media (max-width: 1024px) {
+			.two-up { grid-template-columns: 1fr; }
+			.gantry .box { flex: 0 0 min(350px, 85vw); max-width: 85vw; width: auto; }
+		}
+		@media (max-width: 720px) {
+			.container { padding: 12px; }
+			header .box { min-height: 64px; }
+			.two-up { grid-template-columns: 1fr; }
+			.two-up .box { min-height: 220px; }
+			.gantry .box { flex: 0 0 min(280px, 85vw); max-width: 85vw; min-height: 220px; width: auto; }
+			.grid-row { grid-template-columns: repeat(2, 1fr); }
+		}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<header>
+			<div class="container">
+				<div class="hero-label">Hero (100vh)</div>
+			</div>
+		</header>
+
+		<section>
+			<div class="container two-up">
+			<div class="box">
+			<model-viewer id="laptop-model" src="./Port2Assets/laptop_dell_xps.glb" 
+				ar ar-modes="webxr scene-viewer quick-look" 
+				camera-controls 
+				tone-mapping="neutral" 
+				poster="./Port2Assets/poster.webp" 
+				interaction-prompt="none" 
+				loading="eager" 
+				disable-zoom
+				disable-tap 
+				shadow-intensity="1" 
+				camera-orbit="245.46deg 85.66deg 15m">
+			</model-viewer>
+			</div>
+				<div class="box program-info-display">
+					<h2 class="program-info-title" id="program-title">Programs</h2>
+					<ul class="program-info-list" id="program-descriptions">
+						<li>Select a program from the bar below to see detailed information</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		
+		<!-- Program Bar -->
+		<div id="program-bar">
+			<button class="program-btn" data-variant="solidworks">SolidWorks</button>
+			<button class="program-btn" data-variant="plasticity">Plasticity</button>
+			<button class="program-btn" data-variant="matlab">Matlab</button>
+			<button class="program-btn" data-variant="blender">Blender</button>
+			<button class="program-btn" data-variant="vscode">Visual Studio Code</button>
+			<button class="program-btn" data-variant="creality">Creality Scan</button>
+			<button class="program-btn" data-variant="bambu">Bambu Labs</button>
+			<button class="program-btn" data-variant="arduino">Arduino</button>
+			<button class="program-btn" data-variant="preform">PreForm</button>
+			<button class="program-btn" data-variant="kicad">KiCad</button>
+			<button class="program-btn" data-variant="freecad">FreeCad</button>
+			<button class="program-btn" data-variant="microsoft">Microsoft</button>
+		</div>
+
+		<section>
+			<div class="container timeline">
+				<div class="timeline-label">Present</div>
+				<div class="timeline-arrow"></div>
+				<div class="timeline-label">Past</div>
+			</div>
+		</section>
+		
+		<!-- Overlay that fades out when timeline reaches center -->
+		<div class="content-overlay" id="content-overlay"></div>
+
+	<section>
+		<div class="container">
+			<div class="gantry">
+				<div class="track">
+					<div class="box"><div class="label">Row 2 - Panel 1</div></div>
+					<div class="gantry-arrow">→</div>
+					<div class="box"><div class="label">Row 2 - Panel 2</div></div>
+					<div class="gantry-arrow">→</div>
+					<div class="box"><div class="label">Row 2 - Panel 3</div></div>
+					<div class="gantry-arrow">→</div>
+					<div class="box"><div class="label">Row 2 - Panel 4</div></div>
+					<div class="gantry-arrow">→</div>
+					<div class="box"><div class="label">Row 2 - Panel 5</div></div>
+				</div>
+			</div>
+		</div>
+	</section>		<section style="margin-top: calc(var(--gap) * 3);">
+			<div class="container grid-row">
+				
+			<div class="box product-card" id="razor-card">
+				<div class="product-image">
+				<model-viewer id="razor-model" src="./Port2Assets/design_magneticRazor.glb" 
+					ar ar-modes="webxr scene-viewer quick-look" 
+					camera-controls 
+					tone-mapping="neutral" 
+					poster="./Port2Assets/poster.webp" 
+					interaction-prompt="none" 
+					loading="eager" 
+					disable-zoom
+					disable-tap 
+					shadow-intensity="1" 
+					camera-orbit="0.74deg 75.37deg 0.2353m" 
+					field-of-view="30deg"
+					interpolation-decay="200"
+					style="width: 100%; height: 100%;">
+				</model-viewer>
+				</div>
+				<div class="product-info">
+					<h3 class="product-title" id="razor-title">Mag Razor</h3>
+					<p class="product-desc">Disposable razor handle with quick razor replacement.</p>
+				</div>
+			</div>
+                <div class="box product-card">
+					<div class="product-image">🎨</div>
+					<div class="product-info">
+						<h3 class="product-title">Product Name</h3>
+						<p class="product-desc">Disposable razor handle with quick razor replacement.</p>
+					</div>
+				</div>
+				<div class="box product-card">
+					<div class="product-image">🎨</div>
+					<div class="product-info">
+						<h3 class="product-title">Product Name</h3>
+						<p class="product-desc">Disposable razor handle with quick razor replacement.</p>
+					</div>
+				</div>
+                <div class="box product-card">
+					<div class="product-image">🎨</div>
+					<div class="product-info">
+						<h3 class="product-title">Product Name</h3>
+						<p class="product-desc">Disposable razor handle with quick razor replacement.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Razor Overlay -->
+		<div class="razor-overlay" id="razor-overlay">
+			<button class="razor-overlay-close" id="razor-overlay-close">×</button>
+		</div>
+
+		<div style="height: calc(var(--gap) * 3);"></div>
+
+		<div class="footer-wrapper">
+			<footer>
+				<div class="container">
+					<div class="box footer-content">
+						<div class="footer-section">
+							<h3 class="footer-heading">Connect</h3>
+							<div class="footer-links">
+								<a href="https://github.com" target="_blank" class="footer-link">GitHub</a>
+								<a href="https://linkedin.com" target="_blank" class="footer-link">LinkedIn</a>
+								<a href="https://twitter.com" target="_blank" class="footer-link">Twitter</a>
+								<a href="mailto:contact@example.com" class="footer-link">Email</a>
+							</div>
+						</div>
+						<div class="footer-section">
+							<h3 class="footer-heading">Resources</h3>
+							<div class="footer-links">
+								<a href="#" class="footer-link">Resume</a>
+								<a href="#" class="footer-link">Portfolio</a>
+								<a href="#" class="footer-link">Blog</a>
+								<a href="#" class="footer-link">Projects</a>
+							</div>
+						</div>
+						<div class="footer-section">
+							<h3 class="footer-heading">About</h3>
+							<div class="footer-links">
+								<a href="#" class="footer-link">About Me</a>
+								<a href="#" class="footer-link">Skills</a>
+								<a href="#" class="footer-link">Experience</a>
+								<a href="#" class="footer-link">Contact</a>
+							</div>
+						</div>
+						<div class="footer-bottom">
+							<p class="footer-copyright">© 2025 All rights reserved.</p>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<div class="scroll-spacer"></div>
+		</div>
+	</div>
+
+	<script>
+		// Row 1 Box 2 slide-in animation and laptop rotation on viewport entry
+		(function() {
+			const twoUp = document.querySelector('.two-up');
+			const laptopModel = document.getElementById('laptop-model');
+			if (!twoUp || !laptopModel) return;
+			
+			const isDesktop = window.innerWidth > 720;
+			let hasAnimated = false;
+			let isReady = false;
+			
+			// Wait for model to load
+			laptopModel.addEventListener('load', () => {
+				isReady = true;
+			}, { once: true });
+			
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting && !hasAnimated && window.scrollY > 50) {
+					hasAnimated = true;
+					
+					// Trigger laptop fade-in (works on all devices)
+					laptopModel.classList.add('fade-in');
+					
+					// Start laptop rotation if model is ready (works on all devices)
+					if (isReady) {
+						startLaptopRotation();
+					} else {
+						laptopModel.addEventListener('load', startLaptopRotation, { once: true });
+					}
+					
+					// Desktop-only: Trigger Box 2 slide animation
+					if (isDesktop) {
+						twoUp.classList.add('animate');
+					}
+					
+					observer.unobserve(twoUp);
+				}
+			});
+		}, { threshold: 0.2 });			function startLaptopRotation() {
+				// Parse current camera orbit
+				const orbitString = laptopModel.getAttribute('camera-orbit');
+				const parts = orbitString.split(' ');
+				const currentTheta = parseFloat(parts[0]);
+				const currentPhi = parseFloat(parts[1]);
+				const currentRadius = parts[2];
+				
+				const duration = 3000;
+				const startTime = performance.now();
+				
+				function animateRotation(currentTime) {
+					const elapsed = currentTime - startTime;
+					const progress = Math.min(elapsed / duration, 1);
+					const easeProgress = progress < 0.5
+						? 2 * progress * progress
+						: 1 - Math.pow(-2 * progress + 2, 2) / 2;
+					
+					const currentRotation = currentTheta + (180 * easeProgress);
+					laptopModel.cameraOrbit = `${currentRotation}deg ${currentPhi} ${currentRadius}`;
+					
+					if (progress < 1) {
+						requestAnimationFrame(animateRotation);
+					}
+				}
+				
+				requestAnimationFrame(animateRotation);
+			}
+			
+			observer.observe(twoUp);
+		})();
+		
+		// Program bar visibility based on row 1 box 2 position and timeline overlay
+		(function() {
+			const programInfoDisplay = document.querySelector('.program-info-display');
+			const programBar = document.getElementById('program-bar');
+			const overlay = document.getElementById('content-overlay');
+			if (!programInfoDisplay || !programBar || !overlay) return;
+			
+			function checkProgramBarVisibility() {
+				const rect = programInfoDisplay.getBoundingClientRect();
+				const viewportHeight = window.innerHeight;
+				const overlayFadedOut = overlay.classList.contains('fade-out');
+				
+				// Fade out if box 2 is out of viewport OR if overlay is faded out
+				if (rect.bottom < 0 || rect.top > viewportHeight || overlayFadedOut) {
+					programBar.classList.add('fade-out');
+				} else {
+					programBar.classList.remove('fade-out');
+				}
+			}
+			
+			window.addEventListener('scroll', checkProgramBarVisibility);
+			window.addEventListener('resize', checkProgramBarVisibility);
+			checkProgramBarVisibility(); // Initial check
+		})();
+		
+		// Fade out overlay when timeline reaches center of screen
+		(function() {
+			const timeline = document.querySelector('.timeline');
+			const overlay = document.getElementById('content-overlay');
+			const gantry = document.querySelector('.gantry');
+			const programBar = document.getElementById('program-bar');
+			if (!timeline || !overlay || !gantry) return;
+			
+			let gantryAnimated = false;
+			
+			function checkTimelinePosition() {
+				const rect = timeline.getBoundingClientRect();
+				const viewportCenter = window.innerHeight / 2;
+			const timelineCenter = rect.top + (rect.height / 2);
+			
+			// Position overlay to start above timeline to prevent glitching
+			// Add 10px adjustment for mobile viewport
+			const mobileAdjustment = window.innerWidth <= 720 ? 10 : 0;
+			const overlayTop = Math.max(0, rect.top - 50 + mobileAdjustment);
+			overlay.style.top = overlayTop + 'px';
+			overlay.style.height = (window.innerHeight - overlayTop) + 'px';				// When timeline center is at or past viewport center, fade out overlay and trigger gantry
+				if (timelineCenter <= viewportCenter) {
+					overlay.classList.add('fade-out');
+					// Trigger program bar check
+					window.dispatchEvent(new Event('scroll'));
+					
+					// Make timeline labels visible
+					const timelineLabels = timeline.querySelectorAll('.timeline-label');
+					const timelineArrow = timeline.querySelector('.timeline-arrow');
+					timelineLabels.forEach(label => label.classList.add('visible'));
+					if (timelineArrow) timelineArrow.classList.add('visible');
+					
+					// Trigger gantry animations
+					if (!gantryAnimated) {
+						gantryAnimated = true;
+						gantry.classList.add('animate');
+						gantry.classList.add('auto-scroll');
+						
+						// Start gantry auto-scroll animation
+						const boxes = gantry.querySelectorAll('.box');
+						if (boxes.length > 0) {
+							const firstBox = boxes[0];
+							const gantryWidth = gantry.offsetWidth;
+							const boxWidth = firstBox.offsetWidth;
+							const targetScroll = firstBox.offsetLeft - (gantryWidth / 2) + (boxWidth / 2);
+							const startScroll = gantry.scrollLeft;
+							const distance = targetScroll - startScroll;
+							
+							const duration = 4000;
+							const startTime = performance.now();
+							
+							function smoothScroll(currentTime) {
+								const elapsed = currentTime - startTime;
+								const progress = Math.min(elapsed / duration, 1);
+								const easeProgress = progress < 0.5
+									? 2 * progress * progress
+									: 1 - Math.pow(-2 * progress + 2, 2) / 2;
+								
+								gantry.scrollLeft = startScroll + (distance * easeProgress);
+								
+								if (progress < 1) {
+									requestAnimationFrame(smoothScroll);
+								}
+							}
+							
+							requestAnimationFrame(smoothScroll);
+						}
+					}
+				} else {
+					overlay.classList.remove('fade-out');
+					// Trigger program bar check
+					window.dispatchEvent(new Event('scroll'));
+				}
+			}
+			
+			// Initialize gantry scroll position
+			gantry.scrollLeft = gantry.scrollWidth;
+			
+			window.addEventListener('scroll', checkTimelinePosition);
+			window.addEventListener('resize', checkTimelinePosition);
+			checkTimelinePosition(); // Initial check
+		})();
+		
+		// Razor model camera movement on hover
+		(function() {
+			const razorCard = document.getElementById('razor-card');
+			const razorModel = document.getElementById('razor-model');
+			if (!razorCard || !razorModel) return;
+			
+			const defaultOrbit = "0.74deg 75.37deg 0.2353m";
+			const hoverOrbit = "-38.89deg 63.89deg 0.2353m";
+			let isOverlayActive = false;
+			
+			razorCard.addEventListener('mouseenter', () => {
+				if (!isOverlayActive) {
+					razorModel.cameraOrbit = hoverOrbit;
+				}
+			});
+			
+			razorCard.addEventListener('mouseleave', () => {
+				if (!isOverlayActive) {
+					razorModel.cameraOrbit = defaultOrbit;
+				}
+			});
+			
+			// Export function to control hover state
+			window.setRazorOverlayActive = (active) => {
+				isOverlayActive = active;
+			};
+		})();
+
+		// Razor title click to show full-page overlay
+		(function() {
+			const razorTitle = document.getElementById('razor-title');
+			const razorModel = document.getElementById('razor-model');
+			const razorOverlay = document.getElementById('razor-overlay');
+			const overlayClose = document.getElementById('razor-overlay-close');
+			if (!razorTitle || !razorModel || !razorOverlay || !overlayClose) return;
+			
+			// Open overlay when title is clicked
+			razorTitle.addEventListener('click', () => {
+				// Disable hover behavior
+				if (window.setRazorOverlayActive) {
+					window.setRazorOverlayActive(true);
+				}
+				
+				// Get the model's current position
+				const modelRect = razorModel.getBoundingClientRect();
+				
+				// Ensure minimum size to prevent loading issues
+				const modelWidth = Math.max(modelRect.width, 250);
+				const modelHeight = Math.max(modelRect.height, 250);
+				
+				// Store original values as CSS variables
+				razorModel.style.setProperty('--original-left', modelRect.left + 'px');
+				razorModel.style.setProperty('--original-width', modelWidth + 'px');
+				razorModel.style.setProperty('--original-height', modelHeight + 'px');
+				
+				// Make model absolute at its current position (relative to page, not viewport)
+				razorModel.classList.add('overlay-active');
+				razorModel.style.left = modelRect.left + 'px';
+				razorModel.style.top = (modelRect.top + window.scrollY) + 'px';
+				razorModel.style.width = modelWidth + 'px';
+				razorModel.style.height = modelHeight + 'px';
+				
+				// Show overlay
+				razorOverlay.style.display = 'flex';
+				razorOverlay.classList.remove('fade-out');
+				setTimeout(() => {
+					razorOverlay.classList.add('active');
+					// Start model animation after overlay fades in
+					razorModel.classList.add('animate-center');
+				}, 10);
+			});
+			
+			// Close overlay
+			const closeOverlay = () => {
+				// Start overlay fade out
+				razorOverlay.classList.remove('active');
+				razorOverlay.classList.add('fade-out');
+				
+				// Start reverse animation on model
+				razorModel.classList.remove('animate-center');
+				razorModel.classList.add('animate-back');
+				
+				// Wait for animation to complete before cleanup
+				setTimeout(() => {
+					// Reset model completely
+					razorModel.classList.remove('overlay-active', 'animate-back');
+					razorModel.style.cssText = 'width: 100%; height: 100%;';
+					razorModel.style.removeProperty('--original-left');
+					razorModel.style.removeProperty('--original-width');
+					razorModel.style.removeProperty('--original-height');
+					
+					// Re-enable hover behavior
+					if (window.setRazorOverlayActive) {
+						window.setRazorOverlayActive(false);
+					}
+					
+					razorOverlay.style.display = 'none';
+					razorOverlay.classList.remove('fade-out');
+				}, 1200);
+			};
+			
+			overlayClose.addEventListener('click', closeOverlay);
+			
+			// Close on escape key
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape' && razorOverlay.classList.contains('active')) {
+					closeOverlay();
+				}
+			});
+			
+			// Close when clicking outside the model
+			razorOverlay.addEventListener('click', (e) => {
+				if (e.target === razorOverlay) {
+					closeOverlay();
+				}
+			});
+		})();
+
+		// Handle gantry hover scrolling
+		(function() {
+			const gantry = document.querySelector('.gantry');
+			if (!gantry) return;
+
+			// Redirect vertical wheel to horizontal scroll within gantry
+			gantry.addEventListener('wheel', (e) => {
+				if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+					const atRightEdge = gantry.scrollLeft >= (gantry.scrollWidth - gantry.clientWidth - 1);
+					const atLeftEdge = gantry.scrollLeft <= 1;
+					const scrollingDown = e.deltaY > 0;
+					const scrollingUp = e.deltaY < 0;
+					
+					// At left edge: scroll down moves gantry right, scroll up allows page scroll
+					if (atLeftEdge && scrollingDown) {
+						gantry.scrollLeft += e.deltaY;
+						e.preventDefault();
+						return;
+					}
+					
+					// At right edge: scroll up moves gantry left, scroll down allows page scroll
+					if (atRightEdge && scrollingUp) {
+						gantry.scrollLeft += e.deltaY;
+						e.preventDefault();
+						return;
+					}
+					
+					// At edges with page scroll direction: allow page scroll
+					if ((atLeftEdge && scrollingUp) || (atRightEdge && scrollingDown)) {
+						return; // Don't prevent, allow page scroll
+					}
+					
+					// In middle or moving gantry: normal horizontal scroll
+					gantry.scrollLeft += e.deltaY;
+					e.preventDefault();
+				}
+			}, { passive: false });
+
+			// For touch: while touching inside gantry, prevent page vertical scrolling
+			const lockPageScroll = () => {
+				document.body.style.overflowY = 'hidden';
+				document.body.style.overscrollBehaviorY = 'none';
+			};
+			const unlockPageScroll = () => {
+				document.body.style.overflowY = '';
+				document.body.style.overscrollBehaviorY = '';
+			};
+			gantry.addEventListener('touchstart', lockPageScroll, { passive: true });
+			gantry.addEventListener('touchend', unlockPageScroll, { passive: true });
+			gantry.addEventListener('touchcancel', unlockPageScroll, { passive: true });
+		})();
+
+		// Sticky footer when scrolling through spacer
+		(function() {
+			const footer = document.querySelector('footer');
+			const spacer = document.querySelector('.scroll-spacer');
+			if (!footer || !spacer) return;
+
+			let footerNaturalBottom = null;
+
+			const checkFooterPosition = () => {
+				// Calculate footer's natural bottom position (where it would be without sticky)
+				if (footerNaturalBottom === null) {
+					const footerRect = footer.getBoundingClientRect();
+					footerNaturalBottom = footerRect.bottom + window.scrollY;
+				}
+
+				const scrollY = window.scrollY;
+				const viewportHeight = window.innerHeight;
+				const scrollBottom = scrollY + viewportHeight;
+				
+				// If we've scrolled past where footer naturally ends, make it sticky
+				if (scrollBottom >= footerNaturalBottom) {
+					footer.classList.add('sticky');
+				} else {
+					footer.classList.remove('sticky');
+				}
+			};
+
+			window.addEventListener('scroll', checkFooterPosition);
+			window.addEventListener('resize', () => {
+				footerNaturalBottom = null;
+				footer.classList.remove('sticky');
+				setTimeout(checkFooterPosition, 10);
+			});
+			
+			// Initial check after layout settles
+			setTimeout(checkFooterPosition, 100);
+		})();
+		
+		// Program bar functionality with variant switching
+		(function() {
+			let isLoading = false;
+			
+			// Variant mappings for loading animations
+			const variantMappings = {
+				'solidworks': { loading: 'preFormLoading', loaded: 'bambuStudioLoaded' },
+				'plasticity': { loading: 'bambuStudioLoading', loaded: 'plasticityLoaded' },
+				'matlab': { loading: 'matLabLoading', loaded: 'matLabLoaded' },
+				'blender': { loading: 'blenderLoading', loaded: 'blenderLoaded' },
+				'vscode': { loading: 'bambuStudioLoading', loaded: 'visualStudioCodeLoaded' },
+				'creality': { loading: 'crealityScanLoading', loaded: 'crealityScanLoaded' },
+				'bambu': { loading: 'solidworksLoaded', loaded: 'preFormLoaded' },
+				'arduino': { loading: 'arduinoLoading', loaded: 'arduinoLoaded' },
+				'preform': { loading: 'default', loaded: 'solidworksLoading' },
+				'kicad': { loading: 'bambuStudioLoading', loaded: 'kiCadLoaded' },
+				'freecad': { loading: 'freecadLoading', loaded: 'freecadLoaded' },
+				'microsoft': { loading: 'microsoftLoading', loaded: 'microsoftLoaded' }
+			};
+			
+			const programInfo = {
+				'default': {
+					title: 'Programs',
+					descriptions: [
+						'Select a program from the bar below to see detailed information'
+					]
+				},
+				solidworks: {
+					title: "SolidWorks",
+					descriptions: [
+						"- Parametric Modeling, Design for Production -",
+						"Complex mold generation for Prototype seals",
+						"Reverse engineering Mesh data → Surface",
+						"Engineering drawings and documentation",
+						"Design for plastic injection molding",
+						"Simulation and finite element analysis",
+						"Material selection and optimization"
+					]
+				},
+				plasticity: {
+					title: "Plasticity",
+					descriptions: [
+						"-Direct Modeling, CAD for Artists-",
+						"Advanced NURBS surface modeling",
+						"Industrial design and concept development",
+						"Human Design and Ergonomics"
+					]
+				},
+				matlab: {
+					title: "MatLab",
+					descriptions: [
+						"-Mathematical Computations and Algorithms-",
+						"Data analysis and visualization",
+						"Engineering calculations and simulations",
+						"Control systems design",
+						"Robotics control and inverse kinematics"
+					]
+				},
+				blender: {
+					title: "Blender",
+					descriptions: [
+						"-3D Animation and Visual Effects-",
+						"Product visualization and presentation",
+						"Material and lighting design",
+						"Animation and motion graphics",
+						"Texture baking and UV mapping"
+					]
+				},
+				vscode: {
+					title: "Visual Studio Code",
+					descriptions: [
+						"-Source Code Editor and IDE-",
+						"Front end web development",
+						"Python scripting and automation",
+						"Python alternative to Matlab",
+						"Debugging and testing tools",
+						"Live sharing and collaboration"
+					]
+				},
+				creality: {
+					title: "Creality Scan",
+					descriptions: [
+						"-3D Scanning Mesh Cloud Generation-",
+						"Point cloud processing and mesh generation",
+						"Reverse engineering and CAD integration",
+						"Quality inspection and measurement"
+					]
+				},
+				bambu: {
+					title: "Bambu Labs",
+					descriptions: [
+						"-FDM 3D Printing and Manufacturing-",
+						"Bambu printer dimension and quality calibrations",
+						"Transparent Printing Techniques",
+						"Dissolvable support Interfaces (smooth support surfaces)"
+					]
+				},
+				arduino: {
+					title: "Arduino",
+					descriptions: [
+						"-Embedded systems and IoT development-",
+						"Sensor integration and data acquisition",
+						"Control systems: sensor-actuator algorithms",
+						"Radio communication and wireless protocols"
+					]
+				},
+				preform: {
+					title: "PreForm",
+					descriptions: [
+						"-SLA 3D Printing and Manufacturing-",
+						"Print orientation and layout",
+						"Support structure optimization"
+					]
+				},
+				kicad: {
+					title: "KiCad",
+					descriptions: [
+						"-Electronic Design Automation Suite-",
+						"Schematic capture and component libraries",
+						"Electronic prototyping and manufacturing"
+					]
+				},
+				freecad: {
+					title: "FreeCAD",
+					descriptions: [
+						"-Open-source parametric 3D Modeling-",
+						"Technical drawing and documentation",
+						"File Type Conversion and interoperability"
+					]
+				},
+				microsoft: {
+					title: "Microsoft Office",
+					descriptions: [
+						"-Technical documentation and reporting-",
+						"Project planning and data analysis",
+						"Technical writing and documentation",
+						"Professional communication and presentations"
+					]
+				}
+			};
+
+			const programButtons = document.querySelectorAll('.program-btn');
+			const programTitle = document.getElementById('program-title');
+			const programDescriptions = document.getElementById('program-descriptions');
+			const laptopModel = document.getElementById('laptop-model');
+
+			if (!programButtons.length || !programTitle || !programDescriptions) return;
+
+			function updateProgramInfo(variant) {
+				const info = programInfo[variant] || programInfo['default'];
+
+				programTitle.textContent = info.title;
+				programDescriptions.innerHTML = '';
+				
+				info.descriptions.forEach(desc => {
+					const li = document.createElement('li');
+					li.textContent = desc;
+					programDescriptions.appendChild(li);
+				});
+			}
+
+			function switchToVariant(variantKey) {
+				if (!laptopModel || isLoading) return;
+				
+				isLoading = true;
+				console.log('Switching to variant:', variantKey);
+				
+				const variantObject = variantMappings[variantKey];
+				
+				if (variantObject && variantObject.loading && variantObject.loaded) {
+					try {
+						// Show loading variant
+						laptopModel.variantName = variantObject.loading;
+						console.log('Loading variant:', variantObject.loading);
+						
+						// After 2 seconds, switch to loaded variant
+						setTimeout(() => {
+							try {
+								laptopModel.variantName = variantObject.loaded;
+								console.log('Loaded variant:', variantObject.loaded);
+								isLoading = false;
+							} catch (error) {
+								console.error('Error setting loaded variant:', error);
+								isLoading = false;
+							}
+						}, 2000);
+						
+					} catch (error) {
+						console.error('Error setting loading variant:', error);
+						isLoading = false;
+					}
+				} else {
+					// No variant animation, just check if variant exists
+					if (laptopModel.availableVariants && laptopModel.availableVariants.includes(variantKey)) {
+						laptopModel.variantName = variantKey;
+					}
+					isLoading = false;
+				}
+			}
+
+			// Wait for laptop model to load
+			if (laptopModel) {
+				laptopModel.addEventListener('load', () => {
+					console.log('Laptop model loaded');
+					console.log('Available variants:', laptopModel.availableVariants);
+					
+					// Set default display
+					setTimeout(() => {
+						updateProgramInfo('default');
+					}, 500);
+				});
+			}
+
+			// Set up button click handlers
+			programButtons.forEach(btn => {
+				btn.addEventListener('click', () => {
+					if (isLoading) return;
+					
+					const variant = btn.getAttribute('data-variant');
+					
+					// Remove active and loading from all buttons
+					programButtons.forEach(b => {
+						b.classList.remove('active', 'loading');
+					});
+					
+					// Add active and loading to clicked button
+					btn.classList.add('active', 'loading');
+					
+					// Update program info
+					updateProgramInfo(variant);
+					
+					// Switch variant
+					switchToVariant(variant);
+					
+					// Remove loading state after animation
+					setTimeout(() => {
+						btn.classList.remove('loading');
+					}, 2100);
+				});
+			});
+		})();
+	</script>
+	
+	<!-- Loads <model-viewer> for 3D models -->
+	<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</body>
+</html>
