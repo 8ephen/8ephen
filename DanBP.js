@@ -10,7 +10,14 @@ const squadAttendees = [
     { name: 'Dan Delos Santos', hotel: 'Paris', room: '', is21: true, phone: '(818) 422-7511' },    
     { name: 'Stephen Yoshida', hotel: 'Paris', room: '', is21: true, phone: '(530) 768-4352' },
     { name: 'Luis Ramos', hotel: 'Paris', room: '', is21: true, phone: '(310) 982-8814' },
-    { name: 'Logan Marley', hotel: 'Paris', room: '', is21: true, phone: '(209) 918-8532' }
+    { name: 'Logan Marley', hotel: 'Paris', room: '', is21: true, phone: '(209) 918-8532' },
+    { name: 'Daniel N', hotel: 'Paris', room: '', is21: true, phone: '---' },
+    { name: 'Peter Ma', hotel: 'Paris', room: '', is21: true, phone: '(714) 906-7149' },
+    { name: 'Ethan Bray', hotel: 'Paris', room: '', is21: true, phone: '(916) 500-9951' },
+    { name: 'Jarrett Miller', hotel: 'Paris', room: '', is21: true, phone: '(714) 406-6254' },
+    { name: 'Matthew Boehmer Worth', hotel: 'Paris', room: '', is21: true, phone: '(877) 465-3361' },
+    { name: 'Tommy Trommald', hotel: 'Paris', room: '', is21: true, phone: '(949) 514-4592' },
+    { name: 'Sergio Lopez', hotel: 'Paris', room: '', is21: true, phone: '(323) 571-7377' },
     // Add more attendees as needed
 ];
 
