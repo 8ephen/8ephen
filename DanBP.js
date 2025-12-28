@@ -11,7 +11,7 @@ const squadAttendees = [
     { name: 'Stephen Yoshida', hotel: 'Paris', room: '', is21: true, phone: '(530) 768-4352' },
     { name: 'Luis Ramos', hotel: 'Paris', room: '', is21: true, phone: '(310) 982-8814' },
     { name: 'Logan Marley', hotel: 'Paris', room: '', is21: true, phone: '(209) 918-8532' },
-    { name: 'Daniel N', hotel: 'Paris', room: '', is21: true, phone: '---' },
+    { name: 'Devon Kurisu', hotel: 'Paris', room: '', is21: true, phone: '(925) 446-0057' },
     { name: 'Peter Ma', hotel: 'Paris', room: '', is21: true, phone: '(714) 906-7149' },
     { name: 'Ethan Bray', hotel: 'Paris', room: '', is21: true, phone: '(916) 500-9951' },
     { name: 'Jarrett Miller', hotel: 'Paris', room: '', is21: true, phone: '(714) 406-6254' },
