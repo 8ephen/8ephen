@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Practice - Falling Letters</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #gameArea {
+            position: absolute;
+            top: 0;
+            left: 180px;
+            right: 180px;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .falling-letter {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 36px;
+            font-weight: 600;
+            color: #1f2937;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 60px;
+            transition: background 0.2s;
+        }
+
+        .falling-letter.correct {
+            background: rgba(52, 211, 153, 0.9);
+            color: white;
+            animation: correct-pulse 0.3s ease;
+        }
+
+        .falling-letter.incorrect {
+            background: rgba(248, 113, 113, 0.9);
+            color: white;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes correct-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* Left Control Panel */
+        .left-panel {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 180px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .button-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .hand-toggle {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #1f2937;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hand-toggle:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(1.05);
+        }
+
+        .hand-toggle.active {
+            background: rgba(52, 211, 153, 0.9);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: white;
+        }
+
+        .panel-label {
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+
+        /* Right Control Panel */
+        .right-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 180px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            gap: 10px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .speed-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .speed-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slider-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="range"] {
+            width: 60px;
+            height: 200px;
+            writing-mode: bt-lr; /* IE */
+            -webkit-appearance: slider-vertical; /* WebKit */
+            appearance: slider-vertical;
+            background: transparent;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .speed-value {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .pause-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .pause-overlay.visible {
+            display: flex;
+        }
+
+        .pause-message {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+        }
+
+        .pause-message h1 {
+            font-size: 48px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        .pause-message p {
+            font-size: 20px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Control Panel -->
+    <div class="left-panel">
+        <div class="speed-label">Speed</div>
+        <div class="slider-container">
+            <input type="range" id="speedSlider" min="1" max="10" value="5" orient="vertical">
+            <div class="speed-value" id="speedValue">100<br><span style="font-size: 12px;">CPM</span></div>
+        </div>
+        <div style="color: white; font-size: 10px; text-align: center; margin-top: 20px; line-height: 1.3;">Not Meant for<br>Mobile Use</div>
+    </div>
+
+    <!-- Right Control Panel -->
+    <div class="right-panel">
+        <div class="panel-label">Number Row</div>
+        <div class="button-grid">
+            <button class="hand-toggle" id="numbers">1 2 3 4 5<br>6 7 8 9 0</button>
+            <button class="hand-toggle" id="symbols">! @ # $ %<br>^ & * ( )</button>
+        </div>
+        
+        <div class="panel-label">Top Row</div>
+        <div class="button-grid">
+            <button class="hand-toggle" id="leftTopRow">Left<br>q w e r t</button>
+            <button class="hand-toggle" id="rightTopRow">Right<br>y u i o p</button>
+        </div>
+        
+        <div class="panel-label">Home Row</div>
+        <div class="button-grid">
+            <button class="hand-toggle active" id="leftHand">Left<br>a s d f g</button>
+            <button class="hand-toggle active" id="rightHand">Right<br>h j k l ;</button>
+        </div>
+        
+        <div class="panel-label">Bottom Row</div>
+        <div class="button-grid">
+            <button class="hand-toggle" id="leftBottomRow">Left<br>z x c v b</button>
+            <button class="hand-toggle" id="rightBottomRow">Right<br>n m , . /</button>
+        </div>
+        
+        <div class="panel-label">Punctuation</div>
+        <div class="button-section">
+            <button class="hand-toggle" id="punctuation">_ - + = ` ~ " ' : ; ?<br>/ &gt; &lt; . , | \ [ ] { }</button>
+        </div>
+    </div>
+
+    <!-- Game Area -->
+    <div id="gameArea"></div>
+
+    <!-- Pause Overlay -->
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-message">
+            <h1>PAUSED</h1>
+            <p>Press SPACE to resume</p>
+        </div>
+    </div>
+
+    <script>
+        // Character sets
+        const leftHandChars = ['a', 's', 'd', 'f', 'g'];
+        const rightHandChars = ['h', 'j', 'k', 'l', ';'];
+        const leftTopRowChars = ['q', 'w', 'e', 'r', 't'];
+        const rightTopRowChars = ['y', 'u', 'i', 'o', 'p'];
+        const leftBottomRowChars = ['z', 'x', 'c', 'v', 'b'];
+        const rightBottomRowChars = ['n', 'm', ',', '.', '/'];
+        const punctuationChars = ['_', '-', '+', '=', '`', '~', '"', "'", ':', ';', '?', '/', '>', '<', '.', ',', '|', '\\', '[', ']', '{', '}'];
+        const numberChars = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+        const symbolChars = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')'];
+        
+        // Game state
+        let leftHandActive = true;
+        let rightHandActive = true;
+        let leftTopRowActive = false;
+        let rightTopRowActive = false;
+        let leftBottomRowActive = false;
+        let rightBottomRowActive = false;
+        let punctuationActive = false;
+        let numbersActive = false;
+        let symbolsActive = false;
+        let fallingLetters = [];
+        let score = 0;
+        let gameRunning = false;
+        let gamePaused = false;
+        let fallSpeed = 2; // pixels per frame
+        let spawnInterval = 2000; // ms between new letters
+        let lastSpawnTime = 0;
+        let recentKeyPresses = [];
+
+        const gameArea = document.getElementById('gameArea');
+        const gameAreaRect = gameArea.getBoundingClientRect();
+
+        function getActiveCharacters() {
+            let chars = [];
+            if (leftHandActive) chars = chars.concat(leftHandChars);
+            if (rightHandActive) chars = chars.concat(rightHandChars);
+            if (leftTopRowActive) chars = chars.concat(leftTopRowChars);
+            if (rightTopRowActive) chars = chars.concat(rightTopRowChars);
+            if (leftBottomRowActive) chars = chars.concat(leftBottomRowChars);
+            if (rightBottomRowActive) chars = chars.concat(rightBottomRowChars);
+            if (punctuationActive) chars = chars.concat(punctuationChars);
+            if (numbersActive) chars = chars.concat(numberChars);
+            if (symbolsActive) chars = chars.concat(symbolChars);
+            return chars;
+        }
+
+        function getRandomCharacter() {
+            const activeChars = getActiveCharacters();
+            return activeChars[Math.floor(Math.random() * activeChars.length)];
+        }
+
+        function createFallingLetter() {
+            const activeChars = getActiveCharacters();
+            if (activeChars.length === 0) return; // Don't create letters if no character sets are active
+            
+            const letter = document.createElement('div');
+            letter.className = 'falling-letter';
+            letter.textContent = getRandomCharacter();
+            
+            const gameWidth = gameArea.clientWidth;
+            const randomX = Math.random() * (gameWidth - 80); // 80 is approx letter width
+            
+            letter.style.left = randomX + 'px';
+            letter.style.top = '-80px';
+            
+            gameArea.appendChild(letter);
+            
+            fallingLetters.push({
+                element: letter,
+                char: letter.textContent,
+                y: -80,
+                x: randomX
+            });
+        }
+
+        function updateGame() {
+            if (!gamePaused) {
+                const currentTime = Date.now();
+                
+                // Spawn new letters
+                if (currentTime - lastSpawnTime > spawnInterval) {
+                    createFallingLetter();
+                    lastSpawnTime = currentTime;
+                }
+
+                // Update falling letters
+                fallingLetters.forEach((letterObj, index) => {
+                    letterObj.y += fallSpeed;
+                    letterObj.element.style.top = letterObj.y + 'px';
+
+                    // Remove letters that fell off screen
+                    if (letterObj.y > gameArea.clientHeight) {
+                        letterObj.element.remove();
+                        fallingLetters.splice(index, 1);
+                    }
+                });
+
+                // Update stats (keeping track internally even though not displayed)
+                updateStats();
+            }
+
+            if (gameRunning) {
+                requestAnimationFrame(updateGame);
+            }
+        }
+
+        function updateStats() {
+            const now = Date.now();
+            const threeSecondsAgo = now - 3000;
+            
+            recentKeyPresses = recentKeyPresses.filter(time => time > threeSecondsAgo);
+            const cpm = recentKeyPresses.length * (60 / 3);
+            
+            // Stats are tracked internally but not displayed
+        }
+
+        function startGame() {
+            if (!gameRunning) {
+                gameRunning = true;
+                lastSpawnTime = Date.now();
+                updateGame();
+            }
+        }
+
+        // Keyboard input handler
+        document.addEventListener('keydown', (e) => {
+            // Handle spacebar for pause
+            if (e.key === ' ' || e.code === 'Space') {
+                e.preventDefault();
+                gamePaused = !gamePaused;
+                document.getElementById('pauseOverlay').classList.toggle('visible');
+                return;
+            }
+
+            // Don't process other keys if paused
+            if (gamePaused) return;
+
+            const pressedKey = e.key;
+            const allChars = leftHandChars.concat(rightHandChars, leftTopRowChars, rightTopRowChars, leftBottomRowChars, rightBottomRowChars, punctuationChars, numberChars, symbolChars);
+
+            if (!allChars.includes(pressedKey)) return;
+
+            let letterHit = false;
+
+            // Check if any falling letter matches the pressed key
+            for (let i = 0; i < fallingLetters.length; i++) {
+                if (fallingLetters[i].char === pressedKey) {
+                    // Hit!
+                    fallingLetters[i].element.classList.add('correct');
+                    
+                    setTimeout(() => {
+                        if (fallingLetters[i]) {
+                            fallingLetters[i].element.remove();
+                            fallingLetters.splice(i, 1);
+                        }
+                    }, 200);
+
+                    score++;
+                    recentKeyPresses.push(Date.now());
+                    letterHit = true;
+                    break;
+                }
+            }
+
+            // If key pressed but no match, show incorrect visual on all matching chars
+            if (!letterHit) {
+                fallingLetters.forEach(letterObj => {
+                    if (letterObj.char === pressedKey) {
+                        letterObj.element.classList.add('incorrect');
+                        setTimeout(() => {
+                            letterObj.element.classList.remove('incorrect');
+                        }, 300);
+                    }
+                });
+            }
+        });
+
+        // Toggle buttons
+        document.getElementById('leftHand').addEventListener('click', function() {
+            leftHandActive = !leftHandActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('rightHand').addEventListener('click', function() {
+            rightHandActive = !rightHandActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('leftTopRow').addEventListener('click', function() {
+            leftTopRowActive = !leftTopRowActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('rightTopRow').addEventListener('click', function() {
+            rightTopRowActive = !rightTopRowActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('leftBottomRow').addEventListener('click', function() {
+            leftBottomRowActive = !leftBottomRowActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('rightBottomRow').addEventListener('click', function() {
+            rightBottomRowActive = !rightBottomRowActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('punctuation').addEventListener('click', function() {
+            punctuationActive = !punctuationActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('numbers').addEventListener('click', function() {
+            numbersActive = !numbersActive;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('symbols').addEventListener('click', function() {
+            symbolsActive = !symbolsActive;
+            this.classList.toggle('active');
+        });
+
+        // Speed slider
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+
+        speedSlider.addEventListener('input', function() {
+            const speed = parseInt(this.value);
+            const cpm = speed * 20; // Convert slider value to CPM
+            speedValue.innerHTML = `${cpm}<br><span style="font-size: 12px;">CPM</span>`;
+            
+            // Update fall speed (1-10 scale, where 10 is fastest)
+            fallSpeed = speed * 0.5; // 0.5 to 5 pixels per frame
+            
+            // Update spawn interval (faster = more frequent)
+            spawnInterval = 3000 - (speed * 250); // 2750ms to 500ms
+        });
+
+        // Start the game
+        startGame();
+    </script>
+</body>
+</html>
