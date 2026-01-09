@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace UI</title>
+    <link rel="icon" type="image/png" href="Site_Photos/bitmap1.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            padding: 20px;
+            padding-bottom: 100px; /* Space for app bar */
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* Quick Links Panel - Hidden by default */
+        .quick-links {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quick-links h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .quick-link-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-link-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .quick-link-item img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        /* Workspace Info */
+        .workspace-info {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+        }
+
+        .workspace-info h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .workspace-info p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Dashboard Content Area */
+        .dashboard-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        .dashboard-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dashboard-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .dashboard-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .dashboard-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* App sections */
+        .app-section {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .app-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* File list styling */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .file-icon img {
+            max-width: 32px;
+            max-height: 32px;
+            object-fit: contain;
+        }
+
+        .file-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-info {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .file-type {
+            display: inline-block;
+        }
+
+        /* Bottom Application Bar */
+        .app-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 0 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 70px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        .app-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .app-icon.active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .app-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+
+        .app-icon span {
+            color: white;
+            font-size: 11px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .app-bar {
+                gap: 10px;
+            }
+
+            .app-icon {
+                width: 70px;
+            }
+
+            .app-icon img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .app-icon span {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+                padding-bottom: 110px;
+            }
+
+            .app-bar {
+                height: 100px;
+                flex-wrap: wrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .app-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .app-icon img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .app-icon span {
+                font-size: 9px;
+            }
+
+            .workspace-info h2 {
+                font-size: 2em;
+            }
+
+            .workspace-info p {
+                font-size: 1em;
+            }
+
+            .file-item {
+                padding: 12px 15px;
+            }
+
+            .file-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .file-icon img {
+                max-width: 28px;
+                max-height: 28px;
+            }
+
+            .file-name {
+                font-size: 14px;
+            }
+
+            .file-info {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="content-area">
+                <!-- Quick Links Panel (Top Right) -->
+                <div class="quick-links" id="quickLinks">
+                    <!-- Links will be dynamically inserted here -->
+                </div>
+                
+                <!-- Dashboard Content -->
+                <div class="dashboard-content" id="dashboardContent">
+                    <!-- Default welcome view -->
+                    <div class="app-section active" id="section-welcome">
+                        <div class="workspace-info">
+                            <h2>Welcome to Your Workspace</h2>
+                            <p>Select an application below to get started</p>
+                        </div>
+                    </div>
+
+                    <!-- KiCad Section -->
+                    <div class="app-section" id="section-kicad">
+                        <div class="file-list">
+                            <a class="file-item" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Falstad.ico" alt="Falstad"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Falstad .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Circuit Visualization Tool</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Blender Section -->
+                    <div class="app-section" id="section-blender">
+                        <div class="file-list">
+                            <div class="file-item" style="cursor: default; opacity: 0.9;">
+                                <div class="file-icon"><img src="Site_Photos/tutorial1.png" alt="Texture Baking"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Texture Baking</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Images • Baked Texture Samples</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="file-item" style="cursor: default; opacity: 0.9;">
+                                <div class="file-icon"><img src="Site_Photos/tutorial1.png" alt="Rigging With Bones"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Rigging With Bones</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Images • Blender Bone Rigging Tutorial</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="file-item" href="https://www.planyourroom.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/PlanYourRoom.png" alt="Plan Your Room"></div>
+                                <div class="file-details">
+                                    <div class="file-name">PlanYourRoom .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • 2D Furniture Layout Visualizer</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://1drv.ms/u/c/1f8acae2f1f82e2f/IQAElKkFb6tlRYbtASGn5zl5Ae2857Q-8mMoLiJqcxOqTbo?e=4EBRJr" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/TopoExport.ico" alt="STEPper"></div>
+                                <div class="file-details">
+                                    <div class="file-name">STEPper</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Download • Blender add-on to import Step files</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://texturelabs.org/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/textureLabs.png" alt="Texture Labs"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TextureLabs .org</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Surface Texture Gallery</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://texturefabrik.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/textureFabrik.png" alt="Texture Fabrik"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TextureFabrik .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Textures, Patterns, and Graphics</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Bambu Labs Section -->
+                    <div class="app-section" id="section-bambu">
+                        <div class="file-list">
+                            <a class="file-item" href="/BambuLabs/a1MiniModifications.3mf" download="a1MiniModifications.3mf">
+                                <div class="file-icon"><img src="Site_Photos/idea.png" alt="A1 Mini Modifications"></div>
+                                <div class="file-details">
+                                    <div class="file-name">A1 Mini Printed Modifications</div>
+                                    <div class="file-info">
+                                        <span class="file-type">3mf • Complete Print Project Of A1 Mini Modifications</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/printedToolsForElectronics.3mf" download="printedToolsForElectronics.3mf">
+                                <div class="file-icon"><img src="Site_Photos/idea.png" alt="Electronics Tools"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Printed Tools For Electronics</div>
+                                    <div class="file-info">
+                                        <span class="file-type">3mf • Print Project Of Electronics Tools</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/PrintsForFriends.3mf" download="PrintsForFriends.3mf">
+                                <div class="file-icon"><img src="Site_Photos/idea.png" alt="Prints for Friends"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Prints for Friends</div>
+                                    <div class="file-info">
+                                        <span class="file-type">3mf • Recent prints for friends</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="file-item" style="cursor: default; opacity: 0.9;">
+                                <div class="file-icon"><img src="Site_Photos/BambuLabs.ico" alt="Print Profiles"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Location _ Printer _ Material _ LayerHeight _ Feature</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Calibrated Profiles For Print Dimensions and Quality</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="file-item" href="/BambuLabs/Arm_X1E_Abs_0.20mm_HipsSupp.json" download="Arm_X1E_Abs_0.20mm_HipsSupp.json">
+                                <div class="file-icon"><img src="Site_Photos/3d-printing.png" alt="ABS Profile"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Arm _ X1E _ Abs _ 0.20mm _ HipsSupp</div>
+                                    <div class="file-info">
+                                        <span class="file-type">json • Dimension Calibrated For Petg ±0.05mm, with Desolvable Supports</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/Arm_X1E_Abs_0.20mm.json" download="Arm_X1E_Abs_0.20mm.json">
+                                <div class="file-icon"><img src="Site_Photos/3d-printing.png" alt="ABS Profile"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Arm _ X1E _ Abs _ 0.20mm</div>
+                                    <div class="file-info">
+                                        <span class="file-type">json • Dimension Calibrated For Petg ±0.05mm</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/Arm_X1E_Abs_0.08mm.json" download="Arm_X1E_Abs_0.08mm.json">
+                                <div class="file-icon"><img src="Site_Photos/3d-printing.png" alt="ABS Profile"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Arm _ X1E _ Abs _ 0.08mm</div>
+                                    <div class="file-info">
+                                        <span class="file-type">json • Dimension Calibrated ±0.05mm</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/Arm_X1E_Petg_0.20mm.json" download="Arm_X1E_Petg_0.20mm.json">
+                                <div class="file-icon"><img src="Site_Photos/3d-printing.png" alt="PETG Profile"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Arm _ X1E _ Petg _ 0.20mm</div>
+                                    <div class="file-info">
+                                        <span class="file-type">json • Dimension Calibrated ±0.05mm</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/BambuLabs/Arm_X1E_Petg_0.20mm_Clear.json" download="Arm_X1E_Petg_0.20mm_Clear.json">
+                                <div class="file-icon"><img src="Site_Photos/3d-printing.png" alt="PETG Clear Profile"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Arm _ X1E _ Petg _ 0.20mm _ Clear</div>
+                                    <div class="file-info">
+                                        <span class="file-type">json • Profile For Max Transparency Using Clear PETG Filament</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Copilot Section -->
+                    <div class="app-section" id="section-copilot">
+                        <div class="file-list">
+                            <a class="file-item" href="https://chatgpt.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/ChatGPT.ico" alt="ChatGPT"></div>
+                                <div class="file-details">
+                                    <div class="file-name">ChatGPT .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Multi-Use LLM</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://gemini.google.com/app" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Gemini.png" alt="Gemini"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Gemini .Google .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Multi-Use LLM</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://copilot.microsoft.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Copilot.ico" alt="Copilot"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Copilot .microsoft .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Multi-Use LLM</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://tinywow.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/TinyWow.png" alt="TinyWow"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TinyWow .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • AI Tools Suite; File Type conv, Image / Video Editor</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://math-gpt.ai/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Math-gpt.ico" alt="Math GPT"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Math-GPT .ai</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • AI Step by Step Guide Through Physics</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.wolframalpha.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/wolframalpha.png" alt="WolframAlpha"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Wolframalpha .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Mathematical Derivations Using Symbolic AI</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.napkin.ai/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Napkin.ico" alt="Napkin AI"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Napkin .ai</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • AI Text Visualizer For Presentations</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- VSCode Section -->
+                    <div class="app-section" id="section-vscode">
+                        <div class="file-list">
+                            <a class="file-item" href="https://python-control.readthedocs.io/en/0.10.2/examples/python-control_tutorial.html" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/PythonControl.ico" alt="Python Control"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Python-Control .ReadTheDocs .io</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Python Control Systems Library</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="file-item" style="cursor: default; opacity: 0.9;">
+                                <div class="file-icon"><img src="Site_Photos/code.png" alt="Python Mathematics Setup"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Python Mathematics Setup (View)</div>
+                                    <div class="file-info">
+                                        <span class="file-type">txt • Set-up and Imports for Using Python Like Matlab</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="file-item" href="https://getbootstrap.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/getbootstrap.ico" alt="Bootstrap"></div>
+                                <div class="file-details">
+                                    <div class="file-name">GetBootStrap .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • HTML/CSS/Javascript UI Library</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://react.dev/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/React.ico" alt="React"></div>
+                                <div class="file-details">
+                                    <div class="file-name">React .dev</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Animated UI</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://uiverse.io" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/uiverse.png" alt="Uiverse"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Uiverse .io</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • HTML/CSS UI Library</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://reactbits.dev/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/ReactBits.ico" alt="ReactBits"></div>
+                                <div class="file-details">
+                                    <div class="file-name">ReactBits .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Reactive UI Components</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/NordicSemi.webp" alt="Nordic Semiconductor"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Nordic Semiconductor Academy</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Certification Course on NRF Connect SDK Fundamentals</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.unicorn.studio/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/UnicornStudio.png" alt="Unicorn Studio"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Unicorn .studio</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Creative Studio for Digital Experiences</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://uiball.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/uiball.png" alt="UIBall"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Uiball .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Website Loaders</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://github.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/github.png" alt="GitHub"></div>
+                                <div class="file-details">
+                                    <div class="file-name">GitHub .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Document Version Control / Static Site Hosting</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- LibreOffice Section -->
+                    <div class="app-section" id="section-libreoffice">
+                        <div class="file-list">
+                            <a class="file-item" href="/Reference/BlankReport.docx" download="BlankReport.docx">
+                                <div class="file-icon"><img src="Site_Photos/WordDoc.png" alt="Report Template"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Report Template</div>
+                                    <div class="file-info">
+                                        <span class="file-type">docx • Report Template</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="Reference/QualityInspection_(Product)_(Batch)_(Box) (Date M-D-Y).xlsx" download="QualityInspection_(Product)---(Batch)_(Pass/Fail)_(DateY-M-D).xlsx">
+                                <div class="file-icon"><img src="Site_Photos/Excel.png" alt="Quality Inspection Template"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Quality Inspection Template</div>
+                                    <div class="file-info">
+                                        <span class="file-type">xlsx • Quality Inspection Template</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/Reference/BlankReport.docx" download="IssueReport_(Product)---(Batch)_(MainIssue)_(Date Y-M-D).docx">
+                                <div class="file-icon"><img src="Site_Photos/WordDoc.png" alt="Issue Report Template"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Issue Report Template</div>
+                                    <div class="file-info">
+                                        <span class="file-type">docx • Issue Report Template</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/Reference/BlankReport.docx" download="PerformanceReport_(Product)---(Batch)_(PerformanceFactor)_(Date Y-M-D).docx">
+                                <div class="file-icon"><img src="Site_Photos/WordDoc.png" alt="Performance Report Template"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Performance Report Template</div>
+                                    <div class="file-info">
+                                        <span class="file-type">docx • Performance Report Template</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="/Reference/BlankInspectionGuide.docx" download="QualityControl_(Product)---(Version#).docx">
+                                <div class="file-icon"><img src="Site_Photos/WordDoc.png" alt="Quality Control Template"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Quality Control Template</div>
+                                    <div class="file-info">
+                                        <span class="file-type">docx • Quality Control Template</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Inkscape Section -->
+                    <div class="app-section" id="section-inkscape">
+                        <div class="file-list">
+                            <div class="file-item" style="cursor: default; opacity: 0.9;">
+                                <div class="file-icon"><img src="Site_Photos/copy.png" alt="Keyboard Shortcuts"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Keyboard Shortcuts</div>
+                                    <div class="file-info">
+                                        <span class="file-type">txt • Inkscape Keyboard Shortcuts</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="file-item" href="https://fonts.google.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/GoogleFonts.png" alt="Google Fonts"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Fonts .Google .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Fonts Visualizer With Embedded Code</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.templatemaker.nl/en/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/templateMaker.png" alt="Template Maker"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TemplateMaker .nl</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Outline Template Tool for Custom Boxes/Sizes</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.pacdora.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/pacdora.ico" alt="Pacdora"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Pacdora .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Product and Packaging Renders</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://textbehindimage.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/TextBehindImage.ico" alt="Text Behind Image"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TextBehindImage .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Text Behind Subjects/Items</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.flaticon.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/Flaticon.png" alt="Flaticon"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Flaticon .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Icons (Credit section in additional tabs)</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://fontmojo.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/FontMojo.ico" alt="Font Mojo"></div>
+                                <div class="file-details">
+                                    <div class="file-name">FontMojo .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Preview Text Fonts For HTML</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://transparenttextures.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/transparenttextures.png" alt="Transparent Textures"></div>
+                                <div class="file-details">
+                                    <div class="file-name">TransparentTextures .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Wall Paper Textures</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.kittl.com/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/kittle.png" alt="Kittl"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Kittl .com</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Logo Design, Mock-ups, and Visualization</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://minimal.gallery/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/minimal.png" alt="Minimal Gallery"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Minimal .gallery</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Website Design Inspiration Gallery</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.supahero.io/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/supahero.avif" alt="Supahero"></div>
+                                <div class="file-details">
+                                    <div class="file-name">supahero .io</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Website Hero Design Inspiration Gallery</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.footer.design/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/footer.png" alt="Footer Design"></div>
+                                <div class="file-details">
+                                    <div class="file-name">Footer .design</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Website Footer Design Inspiration Gallery</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="file-item" href="https://www.cta.gallery/" target="_blank">
+                                <div class="file-icon"><img src="Site_Photos/CtaGallery.avif" alt="CTA Gallery"></div>
+                                <div class="file-details">
+                                    <div class="file-name">CTA . gallery</div>
+                                    <div class="file-info">
+                                        <span class="file-type">Website • Website Hero Design Inspiration Gallery (Call-To-Action)</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Application Bar -->
+        <div class="app-bar">
+            <div class="app-icon" data-app="windows" title="Dashboard">
+                <img src="Site_Photos/bitmap1.png" alt="Windows">
+                <span>Dashboard</span>
+            </div>
+            <div class="app-icon" data-app="arduino" title="Arduino">
+                <img src="Site_Photos/arduino.ico" alt="Arduino">
+                <span>Arduino</span>
+            </div>
+            <div class="app-icon" data-app="bambu" title="Bambu Labs">
+                <img src="Site_Photos/BambuLabs.ico" alt="Bambu Labs">
+                <span>Bambu</span>
+            </div>
+            <div class="app-icon" data-app="blender" title="Blender">
+                <img src="Site_Photos/blender.png" alt="Blender">
+                <span>Blender</span>
+            </div>
+            <div class="app-icon" data-app="chrome" title="Chrome">
+                <img src="Site_Photos/Google_Chrome_icon_(February_2022).svg.png" alt="Chrome">
+                <span>Chrome</span>
+            </div>
+            <div class="app-icon" data-app="copilot" title="Copilot">
+                <img src="Site_Photos/Copilot.ico" alt="Copilot">
+                <span>Copilot</span>
+            </div>
+            <div class="app-icon" data-app="freecad" title="FreeCAD">
+                <img src="Site_Photos/FreeCad.ico" alt="FreeCAD">
+                <span>FreeCAD</span>
+            </div>
+            <div class="app-icon" data-app="inkscape" title="Inkscape">
+                <img src="Site_Photos/inkscape.png" alt="Inkscape">
+                <span>Inkscape</span>
+            </div>
+            <div class="app-icon" data-app="kicad" title="KiCad">
+                <img src="Site_Photos/Kicad.ico" alt="KiCad">
+                <span>KiCad</span>
+            </div>
+            <div class="app-icon" data-app="libreoffice" title="LibreOffice">
+                <img src="Site_Photos/LibreOffice_7.5_Writer_Icon.svg.png" alt="LibreOffice">
+                <span>LibreOffice</span>
+            </div>
+            <div class="app-icon" data-app="vscode" title="VS Code">
+                <img src="Site_Photos/VSCode.ico" alt="VS Code">
+                <span>VSCode</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quick Links Data (now empty as per request)
+        const appLinks = {};
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const appIcons = document.querySelectorAll('.app-icon');
+            
+            appIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const appName = this.getAttribute('data-app');
+                    handleAppClick(appName);
+                    
+                    // Update active state
+                    appIcons.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    const num = parseInt(e.key);
+                    if (num >= 1 && num <= 9) {
+                        e.preventDefault();
+                        const icons = document.querySelectorAll('.app-icon');
+                        if (icons[num - 1]) {
+                            icons[num - 1].click();
+                        }
+                    }
+                }
+            });
+        });
+
+        function handleAppClick(appName) {
+            switch(appName) {
+                case 'windows':
+                    showAppSection('welcome');
+                    updateQuickLinks([]);
+                    break;
+                case 'arduino':
+                    updateMainContent('Arduino IDE', 'Arduino development environment and tools will appear here.');
+                    updateQuickLinks([]);
+                    break;
+                case 'chrome':
+                    updateMainContent('Chrome', 'Browser bookmarks and web tools will appear here.');
+                    updateQuickLinks([]);
+                    break;
+                case 'freecad':
+                    updateMainContent('FreeCAD', 'CAD projects and resources will appear here.');
+                    updateQuickLinks([]);
+                    break;
+                case 'bambu':
+                    showAppSection('bambu');
+                    updateQuickLinks(appLinks['bambu'] || []);
+                    break;
+                case 'blender':
+                    showAppSection('blender');
+                    updateQuickLinks(appLinks['blender'] || []);
+                    break;
+                case 'copilot':
+                    showAppSection('copilot');
+                    updateQuickLinks(appLinks['copilot'] || []);
+                    break;
+                case 'inkscape':
+                    showAppSection('inkscape');
+                    updateQuickLinks(appLinks['inkscape'] || []);
+                    break;
+                case 'kicad':
+                    showAppSection('kicad');
+                    updateQuickLinks(appLinks['kicad'] || []);
+                    break;
+                case 'libreoffice':
+                    showAppSection('libreoffice');
+                    updateQuickLinks(appLinks['libreoffice'] || []);
+                    break;
+                case 'vscode':
+                    showAppSection('vscode');
+                    updateQuickLinks(appLinks['vscode'] || []);
+                    break;
+                default:
+                    showAppSection('welcome');
+            }
+        }
+
+        function showAppSection(sectionName) {
+            const sections = document.querySelectorAll('.app-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const targetSection = document.getElementById(`section-${sectionName}`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
+
+        function updateQuickLinks(links) {
+            const quickLinksPanel = document.getElementById('quickLinks');
+            
+            if (!links || links.length === 0) {
+                quickLinksPanel.style.display = 'none';
+                return;
+            }
+            
+            quickLinksPanel.style.display = 'block';
+            
+            let linksHTML = '<h3>Quick Links</h3><div class="quick-links-grid">';
+            links.forEach(link => {
+                linksHTML += `
+                    <a href="${link.url}" class="quick-link-item" target="_blank">
+                        <img src="${link.icon}" alt="${link.name}">
+                        <span>${link.name}</span>
+                    </a>
+                `;
+            });
+            linksHTML += '</div>';
+            
+            quickLinksPanel.innerHTML = linksHTML;
+        }
+
+        function updateMainContent(title, description) {
+            const sections = document.querySelectorAll('.app-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const welcomeSection = document.getElementById('section-welcome');
+            welcomeSection.innerHTML = `
+                <div class="workspace-info">
+                    <h2>${title}</h2>
+                    <p>${description}</p>
+                </div>
+            `;
+            welcomeSection.classList.add('active');
+        }
+
+        // Add fade-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
