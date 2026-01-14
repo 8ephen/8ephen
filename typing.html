@@ -555,10 +555,10 @@
             speedValue.innerHTML = `${cpm}<br><span style="font-size: 12px;">CPM</span>`;
             
             // Update fall speed (1-10 scale, where 10 is fastest)
-            fallSpeed = speed * 0.8; // 0.5 to 5 pixels per frame
+            fallSpeed = speed * 0.1; // 0.5 to 5 pixels per frame
             
             // Update spawn interval (faster = more frequent)
-            spawnInterval = 3000 - (speed * 250); // 2750ms to 500ms
+            spawnInterval = 2600 - (speed * 250); // 2750ms to 500ms
         });
 
         // Start the game
@@ -566,4 +566,5 @@
     </script>
 </body>
 </html>
+
 
