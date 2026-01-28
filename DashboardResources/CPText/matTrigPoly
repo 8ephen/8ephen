@@ -1,0 +1,39 @@
+function [a,b] = TrigPoly(x, m, t1, tN) 
+% 
+%  TrigPoly approximates or interpolates a set of equally spaced  
+%  data (t1, x1), ... , (tN, xN) by a trigonometric polynomial of degree m. 
+%     [a,b] = TrigPoly(x, m, t1, tN) where 
+% 
+%       
+%       
+%       
+% 
+%       
+%    
+x = [x1 x2 ... xN], 
+m is the degree of the trigonometric polynomial, 
+t1 and tN define the interval endpoints (interval open at tN), 
+a and b are the vectors of coefficients of the polynomial. 
+%  Case(1) Approximation if 2*m + 1 < N, 
+%  Case(2) Interpolation if 2*m + 1 = N  or  2*m = N. 
+N = length(x); 
+% Consider an equally-spaced data from s=0 to s=2*pi 
+h = 2*pi/N; s = 0:h:2*pi-h; s = s'; 
+a = zeros(m,1);  % Pre-allocate 
+b = a; 
+for i = 1:m 
+a(i) = x*cos(i*s); b(i) = x*sin(i*s); 
+end 
+a = 2*a/N; b = 2*b/N; a0 = sum(x)/N; 
+if N == 2*m 
+a(m) = a(m)/2; 
+end 
+ss = linspace(0,2*pi*(N-1)/N,500);   % 500 points for plotting 
+xx = a0 + a(1)*cos(ss) + b(1)*sin(ss); 
+for i = 2:m 
+xx = xx + a(i)*cos(i*ss) + b(i)*sin(i*ss); 
+end 
+t = N*((tN-t1)/(2*pi*(N-1)))*s + t1;   % Transform from s to t 
+tt = N*((tN-t1)/(2*pi*(N-1)))*ss + t1; 
+plot(tt,xx,t,x,'o') 
+a = [a0;a]; 

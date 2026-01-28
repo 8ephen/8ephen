@@ -1,0 +1,23 @@
+function y = Taylor2_ODE(f,fp,x,y0) 
+% 
+% Taylor2_ODE uses the 2nd-order Taylor method to solve a first-order IVP 
+% in the form y' = f(x,y), y(x0) = y0. 
+% 
+%  y = Taylor2_ODE(f,x,y0), where 
+% 
+%       
+%       
+%       
+% 
+%       
+% 
+f, fp are anonymous functions representing f(x,y) and f'(x,y), 
+x is a vector representing the mesh points, 
+y0 is a scalar representing the initial value of y,   
+y is the vector of solution estimates at the mesh points. 
+y = 0*x;    
+% Pre-allocate 
+y(1) = y0; h = x(2)-x(1); n = length(x); 
+for i = 1:n-1 
+y(i+1) = y(i)+h*(f(x(i),y(i))+(1/2)*h*fp(x(i),y(i))); 
+end 

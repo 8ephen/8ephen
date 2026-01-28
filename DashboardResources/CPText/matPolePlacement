@@ -1,0 +1,37 @@
+clear 
+clc
+%(A)
+syms m L x1 x2 g u b s 
+div=m*L^2
+main=-b*x2+m*g*L*sin(x1)+u 
+xd=[x2; main/div]        %example dynamic system
+
+%(B)
+A=simplify(subs(jacobian(xd,[x1 x2]),[x1 x2 u], [0 0 0]))  %system linearization
+B=simplify(subs(jacobian(xd,[u]),[x1 x2 u],[0 0 0]))
+C=[1 0]
+D=0
+
+%(c)
+    % controllability
+rank([B A*B])  %rank=2<3 Cannot Transform into CCF
+    % observability
+rank([C; C*A]) %rank=2<3 Cannot Transform into OCF
+
+%(D)   %pole placement controller for full-state feedback at -3+-0.5i
+poly([-3+0.5i, -3-0.5i]) 
+u=[B A*B]
+charu=A^2+6*A+9.25*eye(2) 
+K=[0 1]/u*charu
+xdk=(A-B*K)
+
+%(E)  %observer pole placement at -6
+poly([-6 -6])
+v=[C;C*A]
+charv= A^2+12*A+36*eye(2)
+l=charv/v*[0;1]
+xdl=[A-B*K, B*K; zeros(2), A-l*C]
+
+%(F)  %Stability Analysis
+eig(xdl)
+eig(A)
