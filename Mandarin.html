@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Mandarin Falling Words</title>
+	<style>
+		:root {
+			--bg: #0f172a;
+			--panel: #111827;
+			--accent: #22d3ee;
+			--accent-2: #a78bfa;
+			--text: #e5e7eb;
+			--muted: #94a3b8;
+			--danger: #f87171;
+			--success: #34d399;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+			background: radial-gradient(1200px 800px at 20% -10%, #1e293b, var(--bg));
+			color: var(--text);
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.app {
+			display: grid;
+			grid-template-columns: 240px 1fr 300px;
+			gap: 16px;
+			padding: 16px;
+			height: 100vh;
+		}
+
+		.panel {
+			background: rgba(17, 24, 39, 0.9);
+			border: 1px solid rgba(148, 163, 184, 0.2);
+			border-radius: 16px;
+			padding: 16px;
+			backdrop-filter: blur(6px);
+		}
+
+		.panel h2 {
+			margin: 0 0 12px;
+			font-size: 18px;
+		}
+
+		.controls label {
+			display: block;
+			margin: 12px 0 6px;
+			color: var(--muted);
+			font-size: 13px;
+		}
+
+		.controls input[type="range"] {
+			width: 100%;
+		}
+
+		.button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			padding: 10px 12px;
+			border: none;
+			border-radius: 10px;
+			background: linear-gradient(135deg, var(--accent), var(--accent-2));
+			color: #0b1020;
+			font-weight: 600;
+			cursor: pointer;
+			margin-top: 8px;
+		}
+
+		.button.secondary {
+			background: #1f2937;
+			color: var(--text);
+			border: 1px solid rgba(148, 163, 184, 0.2);
+		}
+
+		.game-area {
+			position: relative;
+			overflow: hidden;
+			border-radius: 16px;
+			background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(2, 6, 23, 0.9));
+			border: 1px solid rgba(148, 163, 184, 0.15);
+			padding: 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.hud {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			color: var(--muted);
+			font-size: 14px;
+		}
+
+		.hud .stat {
+			background: rgba(15, 23, 42, 0.7);
+			padding: 6px 10px;
+			border-radius: 10px;
+			border: 1px solid rgba(148, 163, 184, 0.2);
+		}
+
+		#playfield {
+			position: relative;
+			flex: 1;
+			border-radius: 12px;
+			border: 1px dashed rgba(148, 163, 184, 0.25);
+			overflow: hidden;
+		}
+
+		.word {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 28px;
+			font-weight: 600;
+			padding: 6px 12px;
+			border-radius: 10px;
+			background: rgba(15, 23, 42, 0.7);
+			border: 1px solid rgba(148, 163, 184, 0.3);
+			box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+			white-space: nowrap;
+		}
+
+		.word.primary {
+			font-size: 32px;
+			border-color: var(--accent);
+			box-shadow: 0 10px 25px rgba(34, 211, 238, 0.25);
+		}
+
+		.word.secondary {
+			font-size: 24px;
+			opacity: 0.75;
+			border-color: rgba(167, 139, 250, 0.7);
+		}
+
+		.input-row {
+			display: flex;
+			gap: 8px;
+		}
+
+		.input-row input {
+			flex: 1;
+			padding: 10px 12px;
+			border-radius: 10px;
+			border: 1px solid rgba(148, 163, 184, 0.3);
+			background: rgba(15, 23, 42, 0.6);
+			color: var(--text);
+			font-size: 16px;
+		}
+
+		.missed-list {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			max-height: calc(100vh - 140px);
+			overflow: auto;
+		}
+
+		.missed-item {
+			padding: 10px;
+			border-radius: 10px;
+			background: rgba(31, 41, 55, 0.8);
+			border: 1px solid rgba(248, 113, 113, 0.3);
+		}
+
+		.missed-item .zh {
+			font-size: 18px;
+			color: var(--text);
+			font-weight: 600;
+		}
+
+		.missed-item .en {
+			color: var(--muted);
+			font-size: 14px;
+		}
+
+		.footer {
+			font-size: 12px;
+			color: var(--muted);
+			margin-top: 8px;
+		}
+	</style>
+</head>
+<body>
+	<div class="app">
+		<div class="panel controls">
+			<h2>Controls</h2>
+			<label for="speedRange">Fall speed</label>
+			<input id="speedRange" type="range" min="40" max="220" value="110" />
+			<div class="footer">Higher = faster</div>
+
+			<button id="toggleMode" class="button">Falling: Mandarin → Type English</button>
+			<button id="muteBtn" class="button secondary">Mute Audio</button>
+			<button id="hideBtn" class="button secondary">Hide Falling Words</button>
+			<button id="pauseBtn" class="button secondary">Pause</button>
+			<button id="resetBtn" class="button secondary">Reset</button>
+		</div>
+
+		<div class="game-area">
+			<div class="hud">
+				<div class="stat">Score: <span id="score">0</span></div>
+				<div class="stat">Missed: <span id="missedCount">0</span></div>
+				<div class="stat">Mode: <span id="modeLabel">Mandarin → English</span></div>
+			</div>
+
+			<div id="playfield"></div>
+
+			<div class="input-row">
+				<input id="answerInput" type="text" autocomplete="off" placeholder="Type translation of the lowest word and press Enter" />
+			</div>
+		</div>
+
+		<div class="panel">
+			<h2>Missed Words</h2>
+			<div id="missedList" class="missed-list"></div>
+		</div>
+	</div>
+
+	<script>
+		const baseWords = [
+			{ zh: "gong chang", en: "factory" },
+			{ zh: "sheng chan", en: "production" },
+			{ zh: "gong yi", en: "process" },
+			{ zh: "gong duan", en: "station" },
+			{ zh: "ban ci", en: "shift" },
+			{ zh: "zhi liang", en: "quality" },
+			{ zh: "jian yan", en: "inspection" },
+			{ zh: "he ge", en: "pass" },
+			{ zh: "bu he ge", en: "fail" },
+			{ zh: "bu liang", en: "defect" },
+			{ zh: "quexian", en: "flaw" },
+			{ zh: "gong chai", en: "tolerance" },
+			{ zh: "chi cun", en: "dimension" },
+			{ zh: "chang du", en: "length" },
+			{ zh: "kuan du", en: "width" },
+			{ zh: "gao du", en: "height" },
+			{ zh: "hou du", en: "thickness" },
+			{ zh: "zhi jing", en: "diameter" },
+			{ zh: "ban ben", en: "revision" },
+			{ zh: "ban tu", en: "drawing" },
+			{ zh: "liao hao", en: "part number" },
+			{ zh: "wu liao", en: "material" },
+			{ zh: "gang", en: "steel" },
+			{ zh: "lv", en: "aluminum" },
+			{ zh: "su liao", en: "plastic" },
+			{ zh: "gong ju", en: "tooling" },
+			{ zh: "mo ju", en: "mold" },
+			{ zh: "jia ju", en: "fixture" },
+			{ zh: "zhi ju", en: "jig" },
+			{ zh: "ji qi", en: "machine" },
+			{ zh: "she bei", en: "equipment" },
+			{ zh: "jia gong", en: "machining" },
+			{ zh: "qie xiao", en: "cutting" },
+			{ zh: "zuan kong", en: "drilling" },
+			{ zh: "da mo", en: "grinding" },
+			{ zh: "han jie", en: "welding" },
+			{ zh: "zhuang pei", en: "assembly" },
+			{ zh: "ce shi", en: "testing" },
+			{ zh: "bao zhuang", en: "packaging" },
+			{ zh: "chu huo", en: "shipment" },
+			{ zh: "gong cheng shi", en: "engineer" },
+			{ zh: "zhu guan", en: "supervisor" },
+			{ zh: "tuan dui", en: "team" },
+			{ zh: "an quan", en: "safety" },
+			{ zh: "feng xian", en: "risk" },
+			{ zh: "wen ti", en: "problem" },
+			{ zh: "fang an", en: "solution" },
+			{ zh: "gai jin", en: "improvement" }
+		];
+
+		const descriptors = [
+			{ zh: "gao", en: "high" },
+			{ zh: "di", en: "low" },
+			{ zh: "jing", en: "precision" },
+			{ zh: "kuai", en: "fast" },
+			{ zh: "man", en: "slow" },
+			{ zh: "zi dong", en: "automatic" },
+			{ zh: "ban zi dong", en: "semi-automatic" },
+			{ zh: "shou dong", en: "manual" },
+			{ zh: "zhong", en: "heavy" },
+			{ zh: "qing", en: "light" },
+			{ zh: "wen ding", en: "stable" },
+			{ zh: "bu wen ding", en: "unstable" },
+			{ zh: "zhao ji", en: "urgent" },
+			{ zh: "chang qi", en: "long-term" },
+			{ zh: "lin shi", en: "temporary" },
+			{ zh: "re", en: "hot" },
+			{ zh: "leng", en: "cold" },
+			{ zh: "gan", en: "dry" },
+			{ zh: "shi", en: "wet" },
+			{ zh: "xin", en: "new" },
+			{ zh: "jiu", en: "old" },
+			{ zh: "biao zhun", en: "standard" },
+			{ zh: "fei biao zhun", en: "nonstandard" },
+			{ zh: "shou fa", en: "first-article" },
+			{ zh: "da liang", en: "mass" },
+			{ zh: "shi yan", en: "experimental" },
+			{ zh: "ke kao", en: "reliable" },
+			{ zh: "jing ji", en: "cost-effective" },
+			{ zh: "jing mi", en: "fine" },
+			{ zh: "cu", en: "coarse" }
+		];
+
+		const nouns = [
+			{ zh: "gong yi", en: "process" },
+			{ zh: "gong xu", en: "operation" },
+			{ zh: "gong wei", en: "workstation" },
+			{ zh: "she bei", en: "equipment" },
+			{ zh: "ji qi", en: "machine" },
+			{ zh: "mo ju", en: "mold" },
+			{ zh: "jia ju", en: "fixture" },
+			{ zh: "zhi ju", en: "jig" },
+			{ zh: "gong ju", en: "tooling" },
+			{ zh: "liang ju", en: "gauge" },
+			{ zh: "ban tu", en: "drawing" },
+			{ zh: "gui ge", en: "spec" },
+			{ zh: "zi liao", en: "document" },
+			{ zh: "liao jian", en: "material" },
+			{ zh: "ling jian", en: "part" },
+			{ zh: "zong cheng", en: "assembly" },
+			{ zh: "gong ju che", en: "tool cart" },
+			{ zh: "cang ku", en: "warehouse" },
+			{ zh: "bao zhuang", en: "packaging" },
+			{ zh: "yun shu", en: "transport" },
+			{ zh: "an quan", en: "safety" },
+			{ zh: "zhi liang", en: "quality" },
+			{ zh: "ce shi", en: "testing" },
+			{ zh: "wei hu", en: "maintenance" },
+			{ zh: "guan li", en: "management" }
+		];
+
+		const generatedWords = [];
+		for (const descriptor of descriptors) {
+			for (const noun of nouns) {
+				generatedWords.push({
+					zh: `${descriptor.zh} ${noun.zh}`.trim(),
+					en: `${descriptor.en} ${noun.en}`.trim()
+				});
+				if (generatedWords.length >= 500) break;
+			}
+			if (generatedWords.length >= 500) break;
+		}
+
+		const extraWords = [
+			{ zh: "ni hao", en: "hello" },
+			{ zh: "zao", en: "morning greeting" },
+			{ zh: "wan shang hao", en: "good evening" },
+			{ zh: "xie xie", en: "thank you" },
+			{ zh: "bu ke qi", en: "you are welcome" },
+			{ zh: "dui bu qi", en: "sorry" },
+			{ zh: "mei guan xi", en: "no problem" },
+			{ zh: "qing", en: "please" },
+			{ zh: "zai jian", en: "goodbye" },
+			{ zh: "zao shang hao", en: "good morning" },
+			{ zh: "wo", en: "I" },
+			{ zh: "ni", en: "you" },
+			{ zh: "ta", en: "he or she" },
+			{ zh: "ta men", en: "they" },
+			{ zh: "wo men", en: "we" },
+			{ zh: "ni men", en: "you all" },
+			{ zh: "zhe", en: "this" },
+			{ zh: "na", en: "that" },
+			{ zh: "zhe li", en: "here" },
+			{ zh: "na li", en: "there" },
+			{ zh: "shui", en: "who" },
+			{ zh: "shen me", en: "what" },
+			{ zh: "na li", en: "where" },
+			{ zh: "shen me shi hou", en: "when" },
+			{ zh: "wei shen me", en: "why" },
+			{ zh: "zen me", en: "how" },
+			{ zh: "yao", en: "need" },
+			{ zh: "xiang yao", en: "want" },
+			{ zh: "neng", en: "can" },
+			{ zh: "keyi", en: "may" },
+			{ zh: "ying gai", en: "should" },
+			{ zh: "yao qiu", en: "require" },
+			{ zh: "qing qiu", en: "request" },
+			{ zh: "gen ju", en: "according to" },
+			{ zh: "jian cha", en: "inspect" },
+			{ zh: "ce liang", en: "measure" },
+			{ zh: "shu ru", en: "input" },
+			{ zh: "shu chu", en: "output" },
+			{ zh: "qi dong", en: "start" },
+			{ zh: "ting zhi", en: "stop" },
+			{ zh: "zan ting", en: "pause" },
+			{ zh: "ji xu", en: "continue" },
+			{ zh: "da kai", en: "open" },
+			{ zh: "guan bi", en: "close" },
+			{ zh: "suo", en: "lock" },
+			{ zh: "jie suo", en: "unlock" },
+			{ zh: "jia", en: "add" },
+			{ zh: "jian", en: "subtract" },
+			{ zh: "ti huan", en: "replace" },
+			{ zh: "wei hu", en: "maintain" },
+			{ zh: "xiu li", en: "repair" },
+			{ zh: "bao yang", en: "service" },
+			{ zh: "tiao zheng", en: "adjust" },
+			{ zh: "xiao zhun", en: "calibrate" },
+			{ zh: "dui zhun", en: "align" },
+			{ zh: "jian gu", en: "strengthen" },
+			{ zh: "jia gu", en: "reinforce" },
+			{ zh: "jian hua", en: "simplify" },
+			{ zh: "you hua", en: "optimize" },
+			{ zh: "fen xi", en: "analyze" },
+			{ zh: "ji lu", en: "record" },
+			{ zh: "bao gao", en: "report" },
+			{ zh: "que ren", en: "confirm" },
+			{ zh: "tong zhi", en: "notify" },
+			{ zh: "shen he", en: "review" },
+			{ zh: "pi zhun", en: "approve" },
+			{ zh: "ju jue", en: "reject" },
+			{ zh: "kai shi", en: "begin" },
+			{ zh: "jie shu", en: "finish" },
+			{ zh: "an zhuang", en: "install" },
+			{ zh: "chai xie", en: "disassemble" },
+			{ zh: "zu he", en: "assemble" },
+			{ zh: "bao hu", en: "protect" },
+			{ zh: "jing gao", en: "warn" },
+			{ zh: "gao su", en: "tell" },
+			{ zh: "xie diao", en: "coordinate" },
+			{ zh: "he zuo", en: "collaborate" },
+			{ zh: "fen pei", en: "assign" },
+			{ zh: "zhi chi", en: "support" },
+			{ zh: "pei he", en: "cooperate" },
+			{ zh: "an pai", en: "arrange" },
+			{ zh: "yu suan", en: "budget" },
+			{ zh: "cheng ben", en: "cost" },
+			{ zh: "gong qi", en: "schedule" },
+			{ zh: "yan qi", en: "delay" },
+			{ zh: "jia kuai", en: "speed up" },
+			{ zh: "jiang di", en: "reduce" },
+			{ zh: "zeng jia", en: "increase" },
+			{ zh: "zuo ce", en: "left side" },
+			{ zh: "you ce", en: "right side" },
+			{ zh: "shang", en: "up" },
+			{ zh: "xia", en: "down" },
+			{ zh: "qian", en: "front" },
+			{ zh: "hou", en: "back" },
+			{ zh: "nei", en: "inside" },
+			{ zh: "wai", en: "outside" },
+			{ zh: "dui", en: "correct" },
+			{ zh: "cuo", en: "wrong" },
+			{ zh: "hao", en: "good" },
+			{ zh: "cha", en: "bad" },
+			{ zh: "wan cheng", en: "complete" },
+			{ zh: "bu zu", en: "insufficient" },
+			{ zh: "gu zhang", en: "malfunction" },
+			{ zh: "ting dian", en: "power outage" }
+		];
+
+		const allWords = [...baseWords, ...generatedWords, ...extraWords];
+
+		const playfield = document.getElementById("playfield");
+		const answerInput = document.getElementById("answerInput");
+		const scoreEl = document.getElementById("score");
+		const missedCountEl = document.getElementById("missedCount");
+		const missedList = document.getElementById("missedList");
+		const speedRange = document.getElementById("speedRange");
+		const toggleModeBtn = document.getElementById("toggleMode");
+		const muteBtn = document.getElementById("muteBtn");
+		const hideBtn = document.getElementById("hideBtn");
+		const modeLabel = document.getElementById("modeLabel");
+		const pauseBtn = document.getElementById("pauseBtn");
+		const resetBtn = document.getElementById("resetBtn");
+
+		let fallingMode = "zh";
+		let speed = Number(speedRange.value);
+		let score = 0;
+		let missed = 0;
+		let isPaused = false;
+		let speechReady = true;
+		let isMuted = false;
+		let hideWords = false;
+		let spawnIntervalMs = 900;
+		let lastSpawnTime = performance.now();
+		const bankSize = 10;
+		let wordBank = [];
+		let remainingPool = [];
+
+		const state = {
+			active: [],
+			nextWordId: 0,
+			lastSpokenId: null
+		};
+
+		function shuffle(array) {
+			for (let i = array.length - 1; i > 0; i -= 1) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[array[i], array[j]] = [array[j], array[i]];
+			}
+			return array;
+		}
+
+		function initWordBank() {
+			remainingPool = allWords.map((w, index) => ({
+				...w,
+				id: index,
+				seen: false,
+				correctStreak: 0,
+				forceHint: false
+			}));
+			shuffle(remainingPool);
+			wordBank = [];
+			refillWordBank();
+		}
+
+		function refillWordBank() {
+			while (wordBank.length < bankSize && remainingPool.length > 0) {
+				wordBank.push(remainingPool.pop());
+			}
+		}
+
+		function getRandomWord() {
+			if (wordBank.length === 0) {
+				return null;
+			}
+			return wordBank[Math.floor(Math.random() * wordBank.length)];
+		}
+
+		function maskLetters(text) {
+			return text.replace(/[A-Za-z0-9]/g, "*");
+		}
+
+		function formatWordText(word, showHint) {
+			if (fallingMode === "zh") {
+				if (showHint) {
+					const zhPart = hideWords ? maskLetters(word.zh) : word.zh;
+					return `${zhPart} — ${word.en}`;
+				}
+				return hideWords ? maskLetters(word.zh) : word.zh;
+			}
+			return hideWords ? maskLetters(word.en) : word.en;
+		}
+
+		const lanes = [20, 40, 60, 80];
+
+		function createWord() {
+			const data = getRandomWord();
+			if (!data) return;
+			const el = document.createElement("div");
+			el.className = "word";
+			el.dataset.zh = data.zh;
+			el.dataset.en = data.en;
+			el.dataset.id = String(state.nextWordId++);
+			const lane = lanes[Math.floor(Math.random() * lanes.length)];
+			const startY = -40 - (state.active.length * 60);
+			el.style.left = `${lane}%`;
+			el.style.top = `${startY}px`;
+			const showHint = !data.seen || data.forceHint;
+			data.seen = true;
+			data.forceHint = false;
+			el.textContent = formatWordText(data, showHint);
+			playfield.appendChild(el);
+			state.active.push({
+				id: Number(el.dataset.id),
+				el,
+				y: startY,
+				data,
+				showHint
+			});
+			updateWordStyles();
+			speakSecondWord();
+		}
+
+		function updateWordStyles() {
+			const sorted = [...state.active].sort((a, b) => b.y - a.y);
+			state.active.forEach(item => item.el.classList.remove("primary", "secondary"));
+			if (sorted[0]) {
+				sorted[0].el.classList.add("primary");
+			}
+			if (sorted[1]) {
+				sorted[1].el.classList.add("secondary");
+			}
+		}
+
+		function speakSecondWord() {
+			if (isMuted || !speechReady || !("speechSynthesis" in window)) return;
+			const sorted = [...state.active].sort((a, b) => b.y - a.y);
+			const second = sorted[1];
+			if (!second) return;
+			if (state.lastSpokenId === second.id) return;
+			const utterance = new SpeechSynthesisUtterance(second.data.zh);
+			utterance.lang = "zh-CN";
+			speechReady = false;
+			utterance.onend = () => { speechReady = true; };
+			speechSynthesis.cancel();
+			speechSynthesis.speak(utterance);
+			state.lastSpokenId = second.id;
+		}
+
+		function removeWord(item, wasMissed = false) {
+			item.el.remove();
+			state.active = state.active.filter(w => w.id !== item.id);
+			if (wasMissed) {
+				item.data.correctStreak = 0;
+				item.data.forceHint = true;
+				missed += 1;
+				missedCountEl.textContent = String(missed);
+				const missedItem = document.createElement("div");
+				missedItem.className = "missed-item";
+				missedItem.innerHTML = `<div class="zh">${item.data.zh}</div><div class="en">${item.data.en}</div>`;
+				missedList.prepend(missedItem);
+			}
+			updateWordStyles();
+			speakSecondWord();
+		}
+
+		function getLowestWord() {
+			if (state.active.length === 0) return null;
+			return state.active.reduce((lowest, item) => (item.y > lowest.y ? item : lowest));
+		}
+
+		function normalizeText(value) {
+			return value.trim().toLowerCase().replace(/\s+/g, " ");
+		}
+
+		function checkAnswer(value) {
+			const normalized = normalizeText(value);
+			if (!normalized) return false;
+			const matches = state.active.filter(item => {
+				const expected = fallingMode === "zh" ? item.data.en : item.data.zh;
+				return normalizeText(expected) === normalized;
+			});
+			if (matches.length > 0) {
+				const target = matches.reduce((lowest, item) => (item.y > lowest.y ? item : lowest));
+				target.data.correctStreak += 1;
+				if (target.data.correctStreak >= 3) {
+					wordBank = wordBank.filter(word => word.id !== target.data.id);
+					refillWordBank();
+				}
+				score += 1;
+				scoreEl.textContent = String(score);
+				removeWord(target);
+				return true;
+			}
+			return false;
+		}
+
+		function toggleMode() {
+			fallingMode = fallingMode === "zh" ? "en" : "zh";
+			toggleModeBtn.textContent = fallingMode === "zh"
+				? "Falling: Mandarin → Type English"
+				: "Falling: English → Type Mandarin";
+			modeLabel.textContent = fallingMode === "zh" ? "Mandarin → English" : "English → Mandarin";
+			state.active.forEach(item => {
+				item.el.textContent = formatWordText(item.data, item.showHint);
+			});
+			updateWordStyles();
+			speakSecondWord();
+		}
+
+		function updateSpawnInterval() {
+			const min = 350;
+			const max = 1200;
+			const t = (speed - 40) / (220 - 40);
+			spawnIntervalMs = Math.round(max - (max - min) * t);
+		}
+
+		function tick() {
+			if (isPaused) return;
+			const now = performance.now();
+			const height = playfield.clientHeight;
+			state.active.forEach(item => {
+				item.y += speed / 60;
+				item.el.style.top = `${item.y}px`;
+			});
+
+			const missedItems = state.active.filter(item => item.y > height - 40);
+			missedItems.forEach(item => removeWord(item, true));
+
+			if (now - lastSpawnTime >= spawnIntervalMs) {
+				if (state.active.length < 12) {
+					createWord();
+				}
+				lastSpawnTime = now;
+			}
+			updateWordStyles();
+		}
+
+		function resetGame() {
+			state.active.forEach(item => item.el.remove());
+			state.active = [];
+			missedList.innerHTML = "";
+			score = 0;
+			missed = 0;
+			scoreEl.textContent = "0";
+			missedCountEl.textContent = "0";
+			state.lastSpokenId = null;
+			initWordBank();
+			createWord();
+		}
+
+		speedRange.addEventListener("input", () => {
+			speed = Number(speedRange.value);
+			updateSpawnInterval();
+		});
+
+		toggleModeBtn.addEventListener("click", toggleMode);
+
+		muteBtn.addEventListener("click", () => {
+			isMuted = !isMuted;
+			muteBtn.textContent = isMuted ? "Unmute Audio" : "Mute Audio";
+			if (isMuted) {
+				speechSynthesis.cancel();
+			} else {
+				speakSecondWord();
+			}
+		});
+
+		hideBtn.addEventListener("click", () => {
+			hideWords = !hideWords;
+			hideBtn.textContent = hideWords ? "Show Falling Words" : "Hide Falling Words";
+			state.active.forEach(item => {
+				item.el.textContent = formatWordText(item.data, item.showHint);
+			});
+		});
+
+		pauseBtn.addEventListener("click", () => {
+			isPaused = !isPaused;
+			pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+		});
+
+		resetBtn.addEventListener("click", resetGame);
+
+		let lastValue = "";
+		answerInput.addEventListener("input", () => {
+			const current = answerInput.value;
+			if (current === lastValue) return;
+			lastValue = current;
+			const matched = checkAnswer(current);
+			if (lastValue !== answerInput.value) {
+				lastValue = answerInput.value;
+			}
+			if (matched) {
+				answerInput.value = "";
+				lastValue = "";
+			}
+		});
+
+		function init() {
+			initWordBank();
+			updateSpawnInterval();
+			createWord();
+			setInterval(tick, 1000 / 60);
+		}
+
+		init();
+	</script>
+</body>
+</html>
