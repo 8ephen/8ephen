@@ -8,10 +8,15 @@
 		:root {
 			--bg: #0f172a;
 			--panel: #111827;
+			grid-template-rows: 1fr;
 			--accent: #22d3ee;
 			--accent-2: #a78bfa;
 			--text: #e5e7eb;
 			--muted: #94a3b8;
+
+		.app > * {
+			min-height: 0;
+		}
 			--danger: #f87171;
 			--success: #34d399;
 		}
@@ -19,6 +24,9 @@
 		* { box-sizing: border-box; }
 
 		body {
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
 			margin: 0;
 			font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 			background: radial-gradient(1200px 800px at 20% -10%, #1e293b, var(--bg));
@@ -30,9 +38,26 @@
 		.app {
 			display: grid;
 			grid-template-columns: 240px 1fr 300px;
+			grid-template-rows: 1fr;
 			gap: 16px;
 			padding: 16px;
 			height: 100vh;
+		}
+
+		.app > * {
+			min-height: 0;
+		}
+
+		.side-column {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			height: 100%;
+		}
+
+		.side-column .panel {
+			flex: 1;
+			min-height: 0;
 		}
 
 		.panel {
@@ -41,6 +66,9 @@
 			border-radius: 16px;
 			padding: 16px;
 			backdrop-filter: blur(6px);
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
 		}
 
 		.panel h2 {
@@ -57,6 +85,58 @@
 
 		.controls input[type="range"] {
 			width: 100%;
+		}
+
+		.stepper {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.stepper button {
+			width: 34px;
+			height: 34px;
+			border-radius: 10px;
+			border: 1px solid rgba(148, 163, 184, 0.3);
+			background: rgba(15, 23, 42, 0.6);
+			color: var(--text);
+			font-size: 18px;
+			cursor: pointer;
+		}
+
+		.stepper button:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		.stepper .value {
+			min-width: 32px;
+			text-align: center;
+			font-weight: 600;
+			color: var(--text);
+		}
+
+		.source-toggle {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-bottom: 8px;
+		}
+
+		.source-toggle button {
+			padding: 6px 10px;
+			border-radius: 10px;
+			border: 1px solid rgba(148, 163, 184, 0.3);
+			background: rgba(15, 23, 42, 0.6);
+			color: var(--text);
+			font-size: 13px;
+			cursor: pointer;
+		}
+
+		.source-toggle button.active {
+			border-color: var(--accent);
+			background: rgba(34, 211, 238, 0.15);
+			box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2) inset;
 		}
 
 		.button {
@@ -90,6 +170,7 @@
 			display: flex;
 			flex-direction: column;
 			gap: 12px;
+			min-height: 0;
 		}
 
 		.hud {
@@ -127,7 +208,9 @@
 			background: rgba(15, 23, 42, 0.7);
 			border: 1px solid rgba(148, 163, 184, 0.3);
 			box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-			white-space: nowrap;
+			max-width: calc(100% - 16px);
+			white-space: normal;
+			text-align: center;
 		}
 
 		.word.primary {
@@ -161,7 +244,18 @@
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-			max-height: calc(100vh - 140px);
+			flex: 1;
+			min-height: 0;
+			overflow: visible;
+		}
+
+		.current-list {
+			overflow: visible;
+		}
+
+		.list-container {
+			flex: 1;
+			min-height: 0;
 			overflow: auto;
 		}
 
@@ -170,6 +264,13 @@
 			border-radius: 10px;
 			background: rgba(31, 41, 55, 0.8);
 			border: 1px solid rgba(248, 113, 113, 0.3);
+		}
+
+		.current-item {
+			padding: 10px;
+			border-radius: 10px;
+			background: rgba(31, 41, 55, 0.8);
+			border: 1px solid rgba(34, 211, 238, 0.3);
 		}
 
 		.missed-item .zh {
@@ -195,8 +296,23 @@
 		<div class="panel controls">
 			<h2>Controls</h2>
 			<label for="speedRange">Fall speed</label>
-			<input id="speedRange" type="range" min="40" max="220" value="110" />
+			<input id="speedRange" type="range" min="20" max="360" value="20" />
 			<div class="footer">Higher = faster</div>
+
+			<label for="bankSizeValue">Word bank size</label>
+			<div class="stepper">
+				<button id="bankDec" type="button" aria-label="Decrease word bank size">−</button>
+				<span id="bankSizeValue" class="value">10</span>
+				<button id="bankInc" type="button" aria-label="Increase word bank size">+</button>
+			</div>
+
+			<label>Word sources</label>
+			<div class="source-toggle" role="group" aria-label="Word sources">
+				<button type="button" data-source="base" class="active">Base</button>
+				<button type="button" data-source="nouns" class="active">Nouns</button>
+				<button type="button" data-source="descriptors" class="active">Descriptors</button>
+				<button type="button" data-source="extras" class="active">Extras</button>
+			</div>
 
 			<button id="toggleMode" class="button">Falling: Mandarin → Type English</button>
 			<button id="muteBtn" class="button secondary">Mute Audio</button>
@@ -219,9 +335,19 @@
 			</div>
 		</div>
 
-		<div class="panel">
-			<h2>Missed Words</h2>
-			<div id="missedList" class="missed-list"></div>
+		<div class="side-column">
+			<div class="panel">
+				<h2>Missed Words</h2>
+				<div class="list-container">
+					<div id="missedList" class="missed-list"></div>
+				</div>
+			</div>
+			<div class="panel">
+				<h2>Current Words</h2>
+				<div class="list-container">
+					<div id="currentList" class="missed-list current-list"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -284,7 +410,7 @@
 			{ zh: "kuai", en: "fast" },
 			{ zh: "man", en: "slow" },
 			{ zh: "zi dong", en: "automatic" },
-			{ zh: "ban zi dong", en: "semi-automatic" },
+			
 			{ zh: "shou dong", en: "manual" },
 			{ zh: "zhong", en: "heavy" },
 			{ zh: "qing", en: "light" },
@@ -301,7 +427,7 @@
 			{ zh: "jiu", en: "old" },
 			{ zh: "biao zhun", en: "standard" },
 			{ zh: "fei biao zhun", en: "nonstandard" },
-			{ zh: "shou fa", en: "first-article" },
+			
 			{ zh: "da liang", en: "mass" },
 			{ zh: "shi yan", en: "experimental" },
 			{ zh: "ke kao", en: "reliable" },
@@ -454,16 +580,32 @@
 			{ zh: "wan cheng", en: "complete" },
 			{ zh: "bu zu", en: "insufficient" },
 			{ zh: "gu zhang", en: "malfunction" },
-			{ zh: "ting dian", en: "power outage" }
+			{ zh: "yan jiu", en: "research" },
+			{ zh: "fa ming", en: "invent" },
+			{ zh: "chuang xin", en: "innovate" },
+			{ zh: "xue xi", en: "learn" },
+			{ zh: "jiao xue", en: "teach" },
+			{ zh: "xian fa", en: "develop" },
+			{ zh: "tui guang", en: "promote" },
+			{ zh: "ying yong", en: "apply" },
+			{ zh: "gou zao", en: "construct" },
+			{ zh: "she ji", en: "design" },
+			{ zh: "zhi zuo", en: "manufacture" },
+			{ zh: "yun ying", en: "operate" },
+			{ zh: "guan li", en: "manage" },
+			{ zh: "ce lue", en: "strategize" },
+			{ zh: "cai liao", en: "procure" },
+			{ zh: "yun shu", en: "logistics" }
 		];
 
-		const allWords = [...baseWords, ...generatedWords, ...extraWords];
+		let allWords = [...baseWords, ...generatedWords, ...extraWords];
 
 		const playfield = document.getElementById("playfield");
 		const answerInput = document.getElementById("answerInput");
 		const scoreEl = document.getElementById("score");
 		const missedCountEl = document.getElementById("missedCount");
 		const missedList = document.getElementById("missedList");
+		const currentList = document.getElementById("currentList");
 		const speedRange = document.getElementById("speedRange");
 		const toggleModeBtn = document.getElementById("toggleMode");
 		const muteBtn = document.getElementById("muteBtn");
@@ -471,6 +613,10 @@
 		const modeLabel = document.getElementById("modeLabel");
 		const pauseBtn = document.getElementById("pauseBtn");
 		const resetBtn = document.getElementById("resetBtn");
+		const bankDec = document.getElementById("bankDec");
+		const bankInc = document.getElementById("bankInc");
+		const bankSizeValue = document.getElementById("bankSizeValue");
+		const sourceButtons = Array.from(document.querySelectorAll("[data-source]"));
 
 		let fallingMode = "zh";
 		let speed = Number(speedRange.value);
@@ -478,13 +624,22 @@
 		let missed = 0;
 		let isPaused = false;
 		let speechReady = true;
+		let speechUnlocked = false;
 		let isMuted = false;
 		let hideWords = false;
 		let spawnIntervalMs = 900;
 		let lastSpawnTime = performance.now();
-		const bankSize = 10;
+		let bankSize = 10;
+		const bankSizeMin = 5;
+		const bankSizeMax = 30;
 		let wordBank = [];
 		let remainingPool = [];
+		const sourceState = {
+			base: true,
+			nouns: true,
+			descriptors: true,
+			extras: true
+		};
 
 		const state = {
 			active: [],
@@ -500,13 +655,36 @@
 			return array;
 		}
 
+		function buildWordPool() {
+			let pool = [];
+			if (sourceState.base) pool = pool.concat(baseWords);
+			if (sourceState.nouns) pool = pool.concat(nouns);
+			if (sourceState.descriptors) pool = pool.concat(descriptors);
+			if (sourceState.extras) pool = pool.concat(extraWords);
+			if (pool.length === 0) {
+				sourceState.base = true;
+				pool = baseWords.slice();
+			}
+			allWords = pool;
+			return pool;
+		}
+
+		function updateSourceButtons() {
+			sourceButtons.forEach(button => {
+				const key = button.dataset.source;
+				button.classList.toggle("active", Boolean(sourceState[key]));
+			});
+		}
+
 		function initWordBank() {
-			remainingPool = allWords.map((w, index) => ({
+			const pool = buildWordPool();
+			remainingPool = pool.map((w, index) => ({
 				...w,
 				id: index,
 				seen: false,
 				correctStreak: 0,
-				forceHint: false
+				forceHint: false,
+				missedOnce: false
 			}));
 			shuffle(remainingPool);
 			wordBank = [];
@@ -517,6 +695,35 @@
 			while (wordBank.length < bankSize && remainingPool.length > 0) {
 				wordBank.push(remainingPool.pop());
 			}
+		}
+
+		function updateBankControls() {
+			bankSizeValue.textContent = String(bankSize);
+			bankDec.disabled = bankSize <= bankSizeMin;
+			bankInc.disabled = bankSize >= bankSizeMax;
+		}
+
+		function updateCurrentList() {
+			if (!currentList) return;
+			const sorted = [...state.active].sort((a, b) => b.y - a.y);
+			currentList.innerHTML = "";
+			sorted.forEach(item => {
+				const row = document.createElement("div");
+				row.className = "current-item";
+				row.innerHTML = `<div class="zh">${item.data.zh}</div><div class="en">${item.data.en}</div>`;
+				currentList.appendChild(row);
+			});
+		}
+
+		function applyBankSizeChange(delta) {
+			const nextSize = Math.max(bankSizeMin, Math.min(bankSizeMax, bankSize + delta));
+			if (nextSize === bankSize) return;
+			bankSize = nextSize;
+			if (wordBank.length > bankSize) {
+				wordBank = wordBank.slice(0, bankSize);
+			}
+			refillWordBank();
+			updateBankControls();
 		}
 
 		function getRandomWord() {
@@ -553,13 +760,19 @@
 			el.dataset.id = String(state.nextWordId++);
 			const lane = lanes[Math.floor(Math.random() * lanes.length)];
 			const startY = -40 - (state.active.length * 60);
-			el.style.left = `${lane}%`;
 			el.style.top = `${startY}px`;
 			const showHint = !data.seen || data.forceHint;
 			data.seen = true;
 			data.forceHint = false;
 			el.textContent = formatWordText(data, showHint);
 			playfield.appendChild(el);
+			const playfieldWidth = playfield.clientWidth;
+			const wordWidth = el.offsetWidth;
+			const targetX = (lane / 100) * playfieldWidth;
+			const minX = (wordWidth / 2) + 6;
+			const maxX = playfieldWidth - (wordWidth / 2) - 6;
+			const clampedX = Math.max(minX, Math.min(maxX, targetX));
+			el.style.left = `${clampedX}px`;
 			state.active.push({
 				id: Number(el.dataset.id),
 				el,
@@ -568,7 +781,8 @@
 				showHint
 			});
 			updateWordStyles();
-			speakSecondWord();
+			speakLowestWord();
+			updateCurrentList();
 		}
 
 		function updateWordStyles() {
@@ -582,19 +796,41 @@
 			}
 		}
 
-		function speakSecondWord() {
-			if (isMuted || !speechReady || !("speechSynthesis" in window)) return;
-			const sorted = [...state.active].sort((a, b) => b.y - a.y);
-			const second = sorted[1];
-			if (!second) return;
-			if (state.lastSpokenId === second.id) return;
-			const utterance = new SpeechSynthesisUtterance(second.data.zh);
+		function unlockSpeech() {
+			if (speechUnlocked || !("speechSynthesis" in window)) return;
+			const unlocker = new SpeechSynthesisUtterance(" ");
+			unlocker.volume = 0;
+			speechSynthesis.resume();
+			speechSynthesis.speak(unlocker);
+			speechUnlocked = true;
+			answerInput.focus();
+			if (!isMuted) {
+				speakLowestWord();
+			}
+		}
+
+		function speakWord(item) {
+			if (!item || isMuted || !speechReady || !speechUnlocked || !("speechSynthesis" in window)) return;
+			if (state.lastSpokenId === item.id) return;
+			const includeEnglish = item.showHint && fallingMode === "zh";
+			const spokenText = includeEnglish
+				? `${item.data.zh}. ${item.data.en}`
+				: item.data.zh;
+			const utterance = new SpeechSynthesisUtterance(spokenText);
 			utterance.lang = "zh-CN";
 			speechReady = false;
 			utterance.onend = () => { speechReady = true; };
+			utterance.onerror = () => { speechReady = true; };
 			speechSynthesis.cancel();
+			speechSynthesis.resume();
 			speechSynthesis.speak(utterance);
-			state.lastSpokenId = second.id;
+			state.lastSpokenId = item.id;
+		}
+
+		function speakLowestWord() {
+			const lowest = getLowestWord();
+			if (!lowest) return;
+			speakWord(lowest);
 		}
 
 		function removeWord(item, wasMissed = false) {
@@ -603,6 +839,7 @@
 			if (wasMissed) {
 				item.data.correctStreak = 0;
 				item.data.forceHint = true;
+				item.data.missedOnce = true;
 				missed += 1;
 				missedCountEl.textContent = String(missed);
 				const missedItem = document.createElement("div");
@@ -611,12 +848,18 @@
 				missedList.prepend(missedItem);
 			}
 			updateWordStyles();
-			speakSecondWord();
+			speakLowestWord();
+			updateCurrentList();
 		}
 
 		function getLowestWord() {
 			if (state.active.length === 0) return null;
 			return state.active.reduce((lowest, item) => (item.y > lowest.y ? item : lowest));
+		}
+
+		function getNextWord() {
+			if (state.active.length === 0) return null;
+			return state.active.reduce((next, item) => (item.y < next.y ? item : next));
 		}
 
 		function normalizeText(value) {
@@ -655,14 +898,17 @@
 				item.el.textContent = formatWordText(item.data, item.showHint);
 			});
 			updateWordStyles();
-			speakSecondWord();
+			speakLowestWord();
 		}
 
 		function updateSpawnInterval() {
-			const min = 350;
-			const max = 1200;
-			const t = (speed - 40) / (220 - 40);
-			spawnIntervalMs = Math.round(max - (max - min) * t);
+			const min = 200;
+			const max = 1800;
+			const rangeMin = Number(speedRange.min);
+			const rangeMax = Number(speedRange.max);
+			const t = (speed - rangeMin) / (rangeMax - rangeMin);
+			const clamped = Math.max(0, Math.min(1, t));
+			spawnIntervalMs = Math.round(max - (max - min) * clamped);
 		}
 
 		function tick() {
@@ -690,6 +936,7 @@
 			state.active.forEach(item => item.el.remove());
 			state.active = [];
 			missedList.innerHTML = "";
+			if (currentList) currentList.innerHTML = "";
 			score = 0;
 			missed = 0;
 			scoreEl.textContent = "0";
@@ -704,6 +951,21 @@
 			updateSpawnInterval();
 		});
 
+		sourceButtons.forEach(button => {
+			button.addEventListener("click", () => {
+				const key = button.dataset.source;
+				sourceState[key] = !sourceState[key];
+				if (!Object.values(sourceState).some(Boolean)) {
+					sourceState[key] = true;
+				}
+				updateSourceButtons();
+				initWordBank();
+			});
+		});
+
+		bankDec.addEventListener("click", () => applyBankSizeChange(-1));
+		bankInc.addEventListener("click", () => applyBankSizeChange(1));
+
 		toggleModeBtn.addEventListener("click", toggleMode);
 
 		muteBtn.addEventListener("click", () => {
@@ -712,7 +974,7 @@
 			if (isMuted) {
 				speechSynthesis.cancel();
 			} else {
-				speakSecondWord();
+				speakLowestWord();
 			}
 		});
 
@@ -746,12 +1008,37 @@
 			}
 		});
 
+		answerInput.addEventListener("keydown", (event) => {
+			if (event.code !== "Backslash" && event.key !== "\\") return;
+			event.preventDefault();
+			const lowest = getLowestWord();
+			if (!lowest) return;
+			removeWord(lowest, true);
+			answerInput.value = "";
+			lastValue = "";
+		});
+
 		function init() {
 			initWordBank();
+			updateBankControls();
+			updateSourceButtons();
 			updateSpawnInterval();
 			createWord();
+			updateCurrentList();
+			answerInput.focus();
 			setInterval(tick, 1000 / 60);
 		}
+
+		["click", "keydown", "touchstart"].forEach(evt => {
+			document.addEventListener(evt, unlockSpeech, { once: true, passive: true });
+		});
+
+		document.addEventListener("visibilitychange", () => {
+			if (document.visibilityState === "visible" && !isMuted) {
+				speechSynthesis.resume();
+				speakLowestWord();
+			}
+		});
 
 		init();
 	</script>
