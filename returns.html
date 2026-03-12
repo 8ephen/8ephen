@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product Return Reasons — Frequency Pie</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#fafafa; }
+    body { display:flex; flex-direction:column; padding:20px; align-items:center; }
+    #productsContainer { width:100%; max-width:1400px; display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:30px; justify-items:center; }
+    .product-section { background:#fff; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:24px; display:flex; flex-direction:column; align-items:center; width:100%; }
+    h2 { margin-bottom:12px; color:#333; font-size:1rem; text-align:center; }
+    .status { font-size:0.85rem; color:#666; margin-bottom:10px; min-height:20px; }
+    .chart-outer { display:inline-flex; flex-direction:column; align-items:center; gap:10px; }
+    .chart-wrapper { position:relative; display:inline-block; width:280px; height:280px; }
+    .chart-wrapper canvas { position:absolute; top:0; left:0; width:280px !important; height:280px !important; }
+    .chart-wrapper img { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:196px; height:196px; object-fit:contain; z-index:1; pointer-events:none; }
+    .chart-tooltip { background:rgba(0,0,0,0.78); color:#fff; padding:8px 14px; border-radius:6px; font-size:0.85rem; pointer-events:none; opacity:0; transition:opacity 0.15s; white-space:nowrap; z-index:100; line-height:1.6; min-height:42px; }
+    .error { color:#d32f2f; padding:10px; background:#ffebee; border-radius:4px; margin-bottom:10px; }
+    .loading { color:#1976d2; }
+    /* Modal image list */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:#fff; border-radius:12px; padding:24px; max-width:90vw; width:560px; position:relative; display:flex; flex-direction:column; align-items:center; gap:16px; }
+    .modal-title { font-size:1.1rem; font-weight:600; color:#333; text-align:center; }
+    .modal-img-list { width:100%; max-height:70vh; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding-right:4px; }
+    .modal-img-item { width:100%; background:#f4f4f4; border-radius:8px; min-height:180px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .modal-img-item img { width:100%; height:auto; max-height:520px; object-fit:contain; }
+    .modal-img-list .no-img { color:#999; font-size:0.9rem; padding:20px; text-align:center; }
+    .modal-close { position:absolute; top:12px; right:14px; background:none; border:none; font-size:1.4rem; cursor:pointer; color:#666; line-height:1; }
+  </style>
+</head>
+<body>
+  <h1 style="margin-bottom:24px; width:100%; max-width:1400px;">Product Return Reasons</h1>
+  <div id="productsContainer"></div>
+
+  <!-- Image list modal -->
+  <div class="modal-overlay" id="carouselModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">&#x2715;</button>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-img-list" id="modalImgList"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    // ========== CONFIGURATION (add as many products as needed) ==========
+    const CONFIG_LIST = [
+      {
+        title: 'Micro Cafe Brewer',
+        sheetUrl: 'https://docs.google.com/spreadsheets/d/1ijebTbd4saTbICExBXEt9rMr-AHp9fmiivLos-FRqFE/edit?gid=0#gid=0',
+        columnName: 'Bad Component',
+        imageColumns: ['Image 1','Image 2','Image 3','Image 4','Image 5','Image 6','Image 7'],
+        imageBaseUrl: '',
+        productIconUrl: './Icons/Micro%20Cafe%20%5BMic%5D.ico',
+      },
+      {
+        title: 'Auto Juicer',
+        sheetUrl: 'https://docs.google.com/spreadsheets/d/1ijebTbd4saTbICExBXEt9rMr-AHp9fmiivLos-FRqFE/edit?gid=22040312#gid=22040312',
+        columnName: 'Bad Component',
+        imageColumns: ['Image 1','Image 2','Image 3','Image 4','Image 5','Image 6','Image 7'],
+        imageBaseUrl: '',  // If your sheet stores paths like photos/file.jpg, set base URL here.
+        productIconUrl: './Icons/Auto%20Juicer%20%5BAuj%5D.ico',
+      },
+    ];
+    // ===================================================================
+
+    const COLORS = [ '#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba' ];
+    const productData = {};  // stores full row data per productId
+
+    // --- Vertical scroll popup logic ---
+    function openImageList(label, images, unresolvedCount = 0) {
+      const list = document.getElementById('modalImgList');
+      document.getElementById('modalTitle').textContent = label;
+      if (!images.length) {
+        const extra = unresolvedCount > 0 ? ` Found ${unresolvedCount} file path(s) that need imageBaseUrl.` : '';
+        list.innerHTML = `<div class="no-img">No images available for this category.${extra}</div>`;
+      } else {
+        list.innerHTML = images.map((src, idx) => {
+          const safe = escapeHtml(src);
+          return `<div class="modal-img-item"><img src="${safe}" alt="return image ${idx + 1}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=&quot;no-img&quot;>Image could not load. Make sure the Drive file is set to &quot;Anyone with the link can view&quot;.</span>'" /></div>`;
+        }).join('');
+      }
+      document.getElementById('carouselModal').classList.add('open');
+    }
+
+    document.getElementById('modalClose').addEventListener('click', () => document.getElementById('carouselModal').classList.remove('open'));
+    document.getElementById('carouselModal').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
+    document.addEventListener('keydown', e => {
+      const modal = document.getElementById('carouselModal');
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'Escape') modal.classList.remove('open');
+    });
+
+    function parseSheetUrl(url) {
+      const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      const id = match ? match[1] : null;
+      const gid = new URL(url).searchParams.get('gid') || '0';
+      return { id, gid };
+    }
+
+    function csvExportUrl(sheetId, gid) {
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+    }
+
+    function generateColors(n) {
+      const out = [];
+      for (let i = 0; i < n; i++) out.push(COLORS[i % COLORS.length]);
+      return out;
+    }
+
+    // Convert Google Drive view/share links to direct embeddable image URLs
+    function driveToImgUrl(url) {
+      if (!url) return url;
+      const match = url.match(/(?:drive\.google\.com\/(?:file\/d\/|open\?id=)|docs\.google\.com\/.*?\/d\/)([a-zA-Z0-9_-]{20,})|[?&]id=([a-zA-Z0-9_-]{20,})/);
+      if (match) {
+        const id = match[1] || match[2];
+        return `https://drive.google.com/thumbnail?id=${id}&sz=w1200`;
+      }
+      return url;
+    }
+
+    function normalizeHeader(name) {
+      return (name || '').toString().trim().toLowerCase();
+    }
+
+    function getRowValueByHeader(row, desiredHeader) {
+      const target = normalizeHeader(desiredHeader);
+      const key = Object.keys(row).find(k => normalizeHeader(k) === target);
+      return key ? (row[key] || '') : '';
+    }
+
+    function toDisplayImageUrl(raw, baseUrl) {
+      const v = (raw || '').toString().trim();
+      if (!v) return '';
+      if (/\.(mp4|mov|avi|mkv|webm)(\?|$)/i.test(v)) return '';
+      if (/^(videos)\//i.test(v) || /\/videos\//i.test(v)) return '';
+      if (/youtube\.com|youtu\.be|vimeo\.com|dailymotion\.com/i.test(v)) return '';
+      if (/^https?:\/\//i.test(v)) return driveToImgUrl(v);
+      if (/^(photos|images|uploads)\//i.test(v)) {
+        if (!baseUrl) return '';
+        return `${baseUrl.replace(/\/$/, '')}/${v}`;
+      }
+      return driveToImgUrl(v);
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]);
+    }
+
+    function createProductHTML(productId) {
+      return `
+        <div class="product-section">
+          <h2>${CONFIG_LIST[productId].title}</h2>
+          <div class="status" id="status-${productId}"></div>
+          <div class="chart-outer">
+            <div class="chart-wrapper">
+              <canvas id="pieChart-${productId}"></canvas>
+              <img class="productIcon" id="icon-${productId}" alt="product icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2'/></svg>" />
+            </div>
+            <div class="chart-tooltip" id="tooltip-${productId}"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderChart(productId, labels, data) {
+      const ctx = document.getElementById(`pieChart-${productId}`);
+      const colors = generateColors(labels.length);
+      const config = CONFIG_LIST[productId];
+      const chart = new Chart(ctx, {
+        type: 'pie',
+        data: { 
+          labels, 
+          datasets: [{ 
+            data, 
+            backgroundColor: colors 
+          }] 
+        },
+        options: { 
+          responsive: false,
+          maintainAspectRatio: false,
+          onClick: (event, elements) => {
+            if (!elements.length) return;
+            const label = labels[elements[0].index];
+            const rows = productData[productId] || [];
+            const imgCols = config.imageColumns || [];
+            const matchingRows = rows.filter(r => (r[config.columnName] || '').toString().trim() === label);
+            let unresolvedCount = 0;
+            const images = matchingRows.flatMap(r => imgCols
+              .map(col => getRowValueByHeader(r, col))
+              .filter(Boolean)
+              .map(raw => {
+                const out = toDisplayImageUrl(raw, config.imageBaseUrl || '');
+                if (!out && /^(photos|images|uploads)\//i.test(raw.toString().trim())) unresolvedCount += 1;
+                return out;
+              })
+              .filter(Boolean)
+            );
+            openImageList(label, images, unresolvedCount);
+          },
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              enabled: false,
+              external: function(context) {
+                let tooltip = document.getElementById(`tooltip-${productId}`);
+                if (!tooltip) return;
+                if (context.tooltip.opacity === 0) { tooltip.style.opacity = 0; return; }
+                const item = context.tooltip.dataPoints[0];
+                const total = item.dataset.data.reduce((s,x) => s+x, 0);
+                const pct = ((item.parsed / total) * 100).toFixed(1);
+                tooltip.innerHTML = `<strong>${escapeHtml(item.label)}</strong><br>${item.parsed} returns — ${pct}%`;
+                tooltip.style.opacity = 1;
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function loadAndAnalyze(productId) {
+      const config = CONFIG_LIST[productId];
+      const statusEl = document.getElementById(`status-${productId}`);
+      const iconEl = document.getElementById(`icon-${productId}`);
+      
+      if (config.productIconUrl) iconEl.src = config.productIconUrl;
+
+      const { id, gid } = parseSheetUrl(config.sheetUrl);
+      if (!id) {
+        statusEl.innerHTML = '<span class="error">Error: Could not parse sheet URL.</span>';
+        return;
+      }
+
+      statusEl.innerHTML = '<span class="loading">Loading sheet...</span>';
+      const csvUrl = csvExportUrl(id, gid);
+
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const data = results.data;
+          const col = config.columnName;
+
+          if (!data || !data.length) {
+            statusEl.textContent = 'No data found in sheet.';
+            return;
+          }
+
+          const counts = {};
+          data.forEach(row => {
+            const v = (row[col] || '').toString().trim();
+            if (v) counts[v] = (counts[v] || 0) + 1;
+          });
+
+          const labels = Object.keys(counts).sort((a,b) => counts[b]-counts[a]);
+          const chartData = labels.map(l => counts[l]);
+
+          if (!labels.length) {
+            statusEl.textContent = `No data in column "${col}".`;
+            return;
+          }
+
+          statusEl.innerHTML = `<strong>✓</strong> Data from ${data.length} Inspected Returns`;
+          productData[productId] = data;
+          renderChart(productId, labels, chartData);
+        },
+        error: function(err) {
+          console.error(err);
+          statusEl.innerHTML = '<span class="error">Error fetching sheet. Check that: 1) URL is correct, 2) Sheet is publicly shared.</span>';
+        }
+      });
+    }
+
+    // Build and load all products
+    window.addEventListener('load', () => {
+      const container = document.getElementById('productsContainer');
+      CONFIG_LIST.forEach((config, idx) => {
+        container.innerHTML += createProductHTML(idx);
+      });
+      CONFIG_LIST.forEach((config, idx) => {
+        loadAndAnalyze(idx);
+      });
+    });
+  </script>
+</body>
+</html>
