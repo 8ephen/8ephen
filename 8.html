@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Timed Background</title>
+  <style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      height: 100vh;
+      transition: background-color 0.5s linear;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function updateBackground() {
+      const now = new Date();
+      const minutes = now.getMinutes();
+      if (minutes < 45) {
+        document.body.style.backgroundColor = '#808080';
+      } else {
+        document.body.style.backgroundColor = '#000000';
+      }
+    }
+    updateBackground();
+    setInterval(updateBackground, 1000);
+  </script>
+</body>
+</html>
