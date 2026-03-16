@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Product Return Reasons — Frequency Pie</title>
+  <title>ARM Engineering Department</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Sora:wght@500;600;700&display=swap');
 
@@ -23,6 +23,9 @@
     body { display:flex; flex-direction:column; align-items:center; }
     .page-shell { width:100%; max-width:1400px; padding:20px; }
     .site-header {
+      position:sticky;
+      top:12px;
+      z-index:900;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -66,7 +69,8 @@
       display:flex;
       align-items:center;
       gap:10px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
+      margin-left:auto;
       justify-content:flex-end;
     }
     .top-nav a {
@@ -78,6 +82,7 @@
       border-radius:999px;
       font-size:0.84rem;
       font-weight:700;
+      white-space:nowrap;
       transition:all 0.2s ease;
     }
     .top-nav a:hover { background:#e9f5ff; border-color:#9ecdf0; }
@@ -223,7 +228,7 @@
     }
     @media (max-width: 900px) {
       .site-header { flex-direction:column; align-items:flex-start; }
-      .top-nav { width:100%; justify-content:flex-start; }
+      .top-nav { width:100%; justify-content:flex-start; flex-wrap:wrap; margin-left:0; }
       .footer-grid { grid-template-columns:1fr; }
     }
   </style>
@@ -312,6 +317,14 @@
         imageColumns: ['Image 1','Image 2','Image 3','Image 4','Image 5','Image 6','Image 7'],
         imageBaseUrl: '',  // If your sheet stores paths like photos/file.jpg, set base URL here.
         productIconUrl: './Icons/Auto%20Juicer%20%5BAuj%5D.ico',
+      },
+      {
+        title: 'RDT',
+        sheetUrl: 'https://docs.google.com/spreadsheets/d/1ijebTbd4saTbICExBXEt9rMr-AHp9fmiivLos-FRqFE/edit?gid=271757173#gid=271757173',
+        columnName: 'Bad Component',
+        imageColumns: ['Image 1','Image 2','Image 3','Image 4','Image 5','Image 6','Image 7'],
+        imageBaseUrl: '',  // If your sheet stores paths like photos/file.jpg, set base URL here.
+        productIconUrl: './Icons/RDT.ico',
       },
     ];
     // ===================================================================
