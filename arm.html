@@ -87,7 +87,7 @@
     }
     .top-nav a:hover { background:#e9f5ff; border-color:#9ecdf0; }
     .hero {
-      margin-top:18px;
+      margin-top:100px;
       border-radius:18px;
       padding:28px;
       background:
@@ -227,8 +227,20 @@
       to { opacity:1; transform:translateY(0); }
     }
     @media (max-width: 900px) {
-      .site-header { flex-direction:column; align-items:flex-start; }
-      .top-nav { width:100%; justify-content:flex-start; flex-wrap:wrap; margin-left:0; }
+      .page-shell { padding-top:86px; }
+      .site-header {
+        position:fixed;
+        top:12px;
+        left:16px;
+        right:16px;
+        width:auto;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:10px 16px;
+      }
+      .top-nav { width:100%; justify-content:flex-start; flex-wrap:wrap; margin-left:0; overflow:hidden; max-height:120px; opacity:1; transition:max-height 0.2s ease, opacity 0.15s ease, padding 0.2s ease; }
+      .top-nav.nav-hidden { max-height:0 !important; opacity:0; pointer-events:none; padding:0; }
+      .site-header.header-compact { padding-top10px; padding-bottom:0px; }
       .footer-grid { grid-template-columns:1fr; }
     }
   </style>
@@ -553,6 +565,29 @@
         }
       });
     }
+
+    // Hide top nav buttons on mobile when scrolled down (hysteresis prevents flicker)
+    (function() {
+      const HIDE_AT = 60;
+      const SHOW_AT = 20;
+      let hidden = false;
+      window.addEventListener('scroll', () => {
+        if (window.innerWidth > 900) return;
+        const nav = document.querySelector('.top-nav');
+        const header = document.querySelector('.site-header');
+        if (!nav || !header) return;
+        const y = window.scrollY;
+        if (!hidden && y > HIDE_AT) {
+          hidden = true;
+          nav.classList.add('nav-hidden');
+          header.classList.add('header-compact');
+        } else if (hidden && y < SHOW_AT) {
+          hidden = false;
+          nav.classList.remove('nav-hidden');
+          header.classList.remove('header-compact');
+        }
+      }, { passive: true });
+    })();
 
     // Build and load all products
     window.addEventListener('load', () => {
