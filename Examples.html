@@ -26,6 +26,7 @@
 
   .row-main {
     display: flex;
+    justify-content: space-between;
   }
 
   .col {
@@ -41,12 +42,20 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
+    max-width: 250px;
+    max-height: 250px;
   }
 
   .center-text {
     padding: 20px;
     text-align: center;
     font-size: 18px;
+    color: black;
+  }
+
+  /* When a row is expanded, make the center text white again */
+  .row.expanded .center-text {
+    color: white;
   }
 
   /* Hover content */
@@ -58,6 +67,26 @@
 
   .hover-grid {
     display: flex;
+  }
+
+  /* Responsive behavior: when viewport is wide enough, fix image columns to 250px
+     and center the three-column group */
+  @media (min-width: 900px) {
+    .row-main {
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .row-main > .col:first-child,
+    .row-main > .col:last-child {
+      flex: 0 0 250px;
+      max-width: 250px;
+    }
+
+    .row-main > .center-text {
+      flex: 0 0 400px;
+      max-width: 60%;
+    }
   }
 
   .hover-col {
@@ -78,12 +107,16 @@
     line-height: 1.4;
   }
 
-  /* Hover behavior */
-  .row:hover .hover-content {
+  /* Click / keyboard toggle behavior */
+  .row {
+    cursor: pointer;
+  }
+
+  .row.expanded .hover-content {
     display: block;
   }
 
-  .row:hover .row-main {
+  .row.expanded .row-main {
     display: none;
   }
 </style>
@@ -159,6 +192,16 @@ fetch(SHEET_URL)
       `;
 
       app.appendChild(el);
+
+      // Make the row focusable and toggle on click or keyboard (Enter/Space)
+      el.tabIndex = 0;
+      el.addEventListener('click', () => el.classList.toggle('expanded'));
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          el.classList.toggle('expanded');
+        }
+      });
     });
   })
   .catch(err => console.error(err));
