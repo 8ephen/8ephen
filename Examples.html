@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Engineering Showcase</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: transparent;
+    background-color: transparent;
+    color: white;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #333;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .row-main {
+    display: flex;
+  }
+
+  .col {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .col img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  .center-text {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  /* Hover content */
+  .hover-content {
+    display: none;
+    padding: 20px;
+    background: #1a1a1a;
+  }
+
+  .hover-grid {
+    display: flex;
+  }
+
+  .hover-col {
+    flex: 1;
+    padding: 10px;
+  }
+
+  .hover-col img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hover-text {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Hover behavior */
+  .row:hover .hover-content {
+    display: block;
+  }
+
+  .row:hover .row-main {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="app"></div>
+
+<script>
+const SHEET_URL = "https://opensheet.elk.sh/19ZgCO-H3ksijgE-a1scuqVFdiW6dGKZiHATvaHfGZt0/Sheet11";
+
+fetch(SHEET_URL)
+  .then(res => res.json())
+  .then(data => {
+    const app = document.getElementById("app");
+
+    data.forEach(row => {
+      const el = document.createElement("div");
+      el.className = "row";
+
+      el.innerHTML = `
+        <!-- Default View -->
+        <div class="row-main">
+          <div class="col">
+            <img src="${row["Image before"]}" />
+          </div>
+
+          <div class="col center-text">
+            ${row["Problem Fixed"]}
+          </div>
+
+          <div class="col">
+            <img src="${row["Image after"]}" />
+          </div>
+        </div>
+
+        <!-- Hover View -->
+        <div class="hover-content">
+          <div class="hover-grid">
+
+            <!-- Problem -->
+            <div class="hover-col">
+              <img src="${row["Image of Problem"]}" />
+              <div class="hover-text">
+                <strong>${row["Problem Fixed"]}</strong><br>
+                ${row["Constraint #1"]}<br>
+                ${row["Constraint #2"]}
+              </div>
+            </div>
+
+            <!-- Execution -->
+            <div class="hover-col">
+              <img src="${row["Image of Execution"]}" />
+              <div class="hover-text">
+                <strong>${row["Execution"]}</strong><br>
+                ${row["Engineering #1"]}<br>
+                ${row["Engineering #2"]}
+              </div>
+            </div>
+
+            <!-- Deliverable -->
+            <div class="hover-col">
+              <img src="${row["Image of Deliverable"]}" />
+              <div class="hover-text">
+                <strong>${row["Deliverables & Metrics"]}</strong><br>
+                ${row["Metrics #1"]}<br>
+                ${row["Metrics #2"]}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      app.appendChild(el);
+    });
+  })
+  .catch(err => console.error(err));
+</script>
+
+</body>
+</html>
