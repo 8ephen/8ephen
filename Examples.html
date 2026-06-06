@@ -8,8 +8,11 @@
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-background-image: url("https://transparenttextures.com/patterns/45-degree-fabric-dark.png");
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  background-image: url('https://transparenttextures.com/patterns/45-degree-fabric-dark.png');
+  background-attachment: fixed;
+
+
+
   }
 
   .container {
@@ -17,16 +20,15 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
   }
 
   .row {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #333;
+
     transition: all 0.3s ease;
     overflow: hidden;
   }
 
   .row-main {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+
   }
 
   .col {
@@ -44,13 +46,21 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
     display: block;
     max-width: 250px;
     max-height: 250px;
+    
+    
   }
 
   .center-text {
-    padding: 20px;
+    max-width: 250px;
+    
+  background-image: url('arrow.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
     text-align: center;
     font-size: 18px;
-    color: black;
+    color: rgb(46, 21, 192);
+      
   }
 
   /* When a row is expanded, make the center text white again */
@@ -61,12 +71,19 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
   /* Hover content */
   .hover-content {
     display: none;
-    padding: 20px;
-    background: #1a1a1a;
+    padding: 0px;
+    /* keep hover content occupying the same centered, fixed-column layout
+       so images don't shift position when toggling expanded state */
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .hover-grid {
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0px;
+    flex-wrap: nowrap;
   }
 
   /* Responsive behavior: when viewport is wide enough, fix image columns to 250px
@@ -74,7 +91,7 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
   @media (min-width: 900px) {
     .row-main {
       justify-content: center;
-      gap: 20px;
+    
     }
 
     .row-main > .col:first-child,
@@ -84,14 +101,17 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
     }
 
     .row-main > .center-text {
-      flex: 0 0 400px;
-      max-width: 60%;
+      flex: 0 0 250px;
+      max-width: 250px;
     }
   }
 
   .hover-col {
     flex: 1;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .hover-col img {
@@ -99,6 +119,8 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
+    max-width: 250px;
+    max-height: 250px;
   }
 
   .hover-text {
@@ -119,11 +141,28 @@ background-image: url("https://transparenttextures.com/patterns/45-degree-fabric
   .row.expanded .row-main {
     display: none;
   }
+
+  /* Make expanded view columns match the same 250px fixed sizing on wide
+     viewports so images stay in-place and text appears below each image */
+  @media (min-width: 900px) {
+    .hover-grid > .hover-col:first-child,
+    .hover-grid > .hover-col:last-child {
+      flex: 0 0 250px;
+      max-width: 250px;
+    }
+
+    .hover-grid > .hover-col:nth-child(2) {
+      flex: 0 0 250px;
+      max-width: 250px;
+    }
+  }
 </style>
 </head>
+
 <body>
 
 <div class="container" id="app"></div>
+
 
 <script>
 const SHEET_URL = "https://opensheet.elk.sh/19ZgCO-H3ksijgE-a1scuqVFdiW6dGKZiHATvaHfGZt0/Sheet11";
