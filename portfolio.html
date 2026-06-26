@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stephen Yoshida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --text:      #f0f0f0;
+      --text-dim:  rgba(240, 240, 240, 0.42);
+      --border:    rgba(240, 240, 240, 0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ──────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, #1c1c1c 0%, #0d0d0d 70%);
+      z-index: 0;
+    }
+
+    /* Un-hide and add <source> when video is ready */
+    .hero-video {
+      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      user-select: none;
+    }
+
+    .hero-name {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      letter-spacing: 0.05em;
+      color: var(--text);
+      line-height: 1.05;
+    }
+
+    .hero-role {
+      margin-top: 1.2rem;
+      font-weight: 300;
+      font-size: clamp(0.75rem, 1.8vw, 1rem);
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-scroll span {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, var(--text-dim), transparent);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 0.9; }
+    }
+
+    /* ─── SHOWCASE ──────────────────────────────────── */
+    .showcase {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Laptop — large faded background, slides in from left */
+    #laptop-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* Starts off-screen to the left */
+      transform: translate(calc(-50% - 130vw), -50%);
+      /* 100vmin = 100% of whichever viewport dimension is smaller */
+      width: 100vmin;
+      height: 100vmin;
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity   0.6s ease;
+    }
+
+    #laptop-bg.slide-in {
+      transform: translate(-50%, -50%);
+      opacity: 0.28;
+    }
+
+    #laptop-bg::part(default-progress-bar) { display: none; }
+
+    /* Info panel — centered, on top */
+    .info-center {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 560px;
+      padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 40px);
+    }
+
+    .software-counter {
+      font-size: 0.75rem;
+      letter-spacing: 0.28em;
+      color: var(--text-dim);
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+
+    .info-content {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      width: 100%;
+    }
+
+    .info-content.out {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .software-category {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.7rem;
+    }
+
+    .software-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.8rem;
+    }
+
+    .software-desc {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 3rem;
+    }
+
+    .software-desc li {
+      font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+      color: rgba(240, 240, 240, 0.68);
+      line-height: 1.65;
+    }
+
+    /* Left / right floating nav buttons */
+    .nav-side {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(13, 13, 13, 0.6);
+      backdrop-filter: blur(6px);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .nav-side:hover {
+      background: rgba(240, 240, 240, 0.12);
+      border-color: rgba(240, 240, 240, 0.3);
+    }
+
+    #prev-btn { left: clamp(12px, 3.5vw, 56px); }
+    #next-btn { right: clamp(12px, 3.5vw, 56px); }
+
+    /* Progress bar at bottom of info */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 240px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      border-radius: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: rgba(240, 240, 240, 0.55);
+      border-radius: 1px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+
+    /* ─── WEBSITES SECTION ──────────────────────────── */
+    .sites-section {
+      padding: clamp(60px, 8vh, 110px) clamp(20px, 5vw, 80px);
+    }
+
+    .sites-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .sites-header h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--text);
+    }
+
+    .sites-header p {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Browser window */
+    .browser-window {
+      max-width: 860px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Title bar (traffic lights + tab) */
+    .browser-bar {
+      background: #1a1a1a;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px 0;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .browser-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .browser-dot.red   { background: #ff5f57; }
+    .browser-dot.amber { background: #febc2e; }
+    .browser-dot.green { background: #28c840; }
+
+    .browser-tab {
+      background: rgba(240, 240, 240, 0.04);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 7px 20px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      cursor: default;
+      user-select: none;
+    }
+
+    .browser-tab.active {
+      background: #0d0d0d;
+      color: var(--text);
+    }
+
+    /* Preview panel */
+    .preview-container {
+      display: none;
+      height: auto;
+      cursor: pointer;
+      position: relative;
+      background: #111;
+    }
+
+    .preview-container.active { display: block; }
+
+    /* Spinner shown while image is loading */
+    .preview-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .preview-loading.hidden { display: none; }
+
+    /* Image sizes to its natural dimensions */
+    .preview-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .preview-img.loaded { opacity: 1; }
+
+    .preview-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 13, 13, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    /* Content list */
+    .browser-content {
+      background: #0d0d0d;
+      max-height: 520px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .browser-content::-webkit-scrollbar       { width: 6px; }
+    .browser-content::-webkit-scrollbar-track  { background: transparent; }
+    .browser-content::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    .site-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s ease;
+    }
+
+    .site-item:last-child { border-bottom: none; }
+
+    .site-item:hover { background: rgba(255, 255, 255, 0.04); }
+
+    .site-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .site-icon img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    .site-details { flex: 1; min-width: 0; }
+
+    .site-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .site-desc {
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .site-tag {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .site-arrow {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .site-item:hover .site-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ─── ARM PROJECTS GRID ─────────────────────────── */
+    .projects-section {
+      padding-top: clamp(60px, 8vh, 100px);
+    }
+
+    .projects-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    .projects-header h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--text);
+    }
+
+    .projects-header p {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .projects-grid {
+      display: grid;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 0;
+      grid-template-columns: repeat(auto-fit, 160px);
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 16px);
+    }
+
+    .project-item {
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+    }
+
+    .project-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .project-caption {
+      padding: 12px 14px 14px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ─── PROJECT MODAL ──────────────────────────────── */
+    .project-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(5px);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .project-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .project-modal-card {
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: clamp(20px, 3vw, 40px);
+      max-width: min(94vw, 920px);
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .project-modal-card::-webkit-scrollbar       { width: 5px; }
+    .project-modal-card::-webkit-scrollbar-track  { background: transparent; }
+    .project-modal-card::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    .project-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(12px, 2.5vw, 28px);
+    }
+
+    .project-modal-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-modal-col img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .project-modal-col p {
+      font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+      color: rgba(240, 240, 240, 0.7);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .project-modal-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .info-center { max-width: 90vw; }
+      #prev-btn { left: 8px; }
+      #next-btn { right: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── HERO ──────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <!-- <source src="./hero.mp4" type="video/mp4"> -->
+      </video>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-name">Stephen Yoshida</h1>
+      <p class="hero-role">Engineer</p>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── SOFTWARE SHOWCASE ────────────────────────── -->
+  <section class="showcase" id="showcase">
+
+    <!-- Laptop: large, faded, slides in as background -->
+    <model-viewer
+      id="laptop-bg"
+      src="./programsLaptop/laptop_dell_xps.glb"
+      tone-mapping="neutral"
+      poster="./Laptop/poster.webp"
+      interaction-prompt="none"
+      loading="eager"
+      disable-zoom
+      disable-tap
+      shadow-intensity="0.8"
+      camera-orbit="245.46deg 85.66deg 16m">
+    </model-viewer>
+
+    <!-- Left nav button -->
+    <button class="nav-side" id="prev-btn" aria-label="Previous">&#8592;</button>
+
+    <!-- Centered info panel -->
+    <div class="info-center">
+      <p class="software-counter">
+        <span id="current-num">01</span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="total-num">12</span>
+      </p>
+
+      <div class="info-content" id="info-content">
+        <p class="software-category" id="software-category"></p>
+        <h2 class="software-title" id="software-title"></h2>
+        <ul class="software-desc" id="software-desc"></ul>
+      </div>
+
+      <div class="progress-row">
+        <span class="progress-label" id="prev-label"></span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-label" id="next-label"></span>
+      </div>
+    </div>
+
+    <!-- Right nav button -->
+    <button class="nav-side" id="next-btn" aria-label="Next">&#8594;</button>
+
+  </section>
+
+  <!-- ─── ARM ENTERPRISES PROJECTS ───────────────────── -->
+  <section class="projects-section">
+    <div class="projects-header">
+      <h2>Quick fixes</h2>
+    </div>
+    <div class="projects-grid" id="projects-grid"></div>
+  </section>
+
+  <!-- Project detail modal (populated by JS) -->
+  <div class="project-modal-overlay" id="project-modal">
+    <div class="project-modal-card" id="project-modal-card">
+      <div class="project-modal-grid" id="project-modal-grid"></div>
+    </div>
+  </div>
+
+  <!-- ─── WEBSITES SECTION ──────────────────────────── -->
+  <section class="sites-section">
+    <div class="sites-header">
+      <h2>Websites</h2>
+      <p>Sites I use &amp; revisit</p>
+    </div>
+
+    <div class="browser-window">
+      <!-- Title bar -->
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="browser-dot red"></div>
+          <div class="browser-dot amber"></div>
+          <div class="browser-dot green"></div>
+        </div>
+        <div class="browser-tab active" id="bookmarks-tab">Bookmarks</div>
+      </div>
+
+      <!-- Link list -->
+      <div class="browser-content">
+
+        <a class="site-item" href="https://www.babbel.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/babbel.ico" alt="Babbel" onerror="this.parentElement.textContent='🗣'"></div>
+          <div class="site-details">
+            <div class="site-name">Babbel</div>
+            <div class="site-desc">Language learning platform with structured lessons</div>
+          </div>
+          <span class="site-tag">Learning</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://chatgpt.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/ChatGPT.ico" alt="ChatGPT" onerror="this.parentElement.textContent='🤖'"></div>
+          <div class="site-details">
+            <div class="site-name">ChatGPT</div>
+            <div class="site-desc">Multipurpose large language model</div>
+          </div>
+          <span class="site-tag">AI</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://coddy.tech/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/Coddy.ico" alt="Coddy" onerror="this.parentElement.textContent='💻'"></div>
+          <div class="site-details">
+            <div class="site-name">Coddy.tech</div>
+            <div class="site-desc">Interactive coding exercises and challenges</div>
+          </div>
+          <span class="site-tag">Learning</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.cta.gallery/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/CtaGallery.avif" alt="CTA Gallery" onerror="this.parentElement.textContent='▶'"></div>
+          <div class="site-details">
+            <div class="site-name">CTA Gallery</div>
+            <div class="site-desc">Call-to-action button and section design gallery</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/Falstad.ico" alt="Falstad" onerror="this.parentElement.textContent='⚡'"></div>
+          <div class="site-details">
+            <div class="site-name">Falstad Circuit Simulator</div>
+            <div class="site-desc">Interactive browser-based circuit simulation</div>
+          </div>
+          <span class="site-tag">Electronics</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.flaticon.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/Flaticon.png" alt="Flaticon" onerror="this.parentElement.textContent='🔷'"></div>
+          <div class="site-details">
+            <div class="site-name">Flaticon</div>
+            <div class="site-desc">Free vector icons and stickers for any project</div>
+          </div>
+          <span class="site-tag">Icons</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://fontmojo.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/FontMojo.ico" alt="FontMojo" onerror="this.parentElement.textContent='𝑓'"></div>
+          <div class="site-details">
+            <div class="site-name">FontMojo</div>
+            <div class="site-desc">Preview and pair fonts live for web projects</div>
+          </div>
+          <span class="site-tag">Typography</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.footer.design/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/footer.png" alt="Footer Design" onerror="this.parentElement.textContent='⬇'"></div>
+          <div class="site-details">
+            <div class="site-name">Footer Design</div>
+            <div class="site-desc">Website footer design inspiration gallery</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://fonts.google.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/GoogleFonts.png" alt="Google Fonts" onerror="this.parentElement.textContent='𝐀'"></div>
+          <div class="site-details">
+            <div class="site-name">Google Fonts</div>
+            <div class="site-desc">Open font library and web typography tools</div>
+          </div>
+          <span class="site-tag">Typography</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.kittl.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/kittle.png" alt="Kittl" onerror="this.parentElement.textContent='🎨'"></div>
+          <div class="site-details">
+            <div class="site-name">Kittl</div>
+            <div class="site-desc">Logo design, mock-ups, and brand visualization</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://minimal.gallery/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/minimal.png" alt="Minimal Gallery" onerror="this.parentElement.textContent='◻'"></div>
+          <div class="site-details">
+            <div class="site-name">Minimal Gallery</div>
+            <div class="site-desc">Curated minimal and clean website design inspiration</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/NordicSemi.webp" alt="Nordic Semi" onerror="this.parentElement.textContent='📡'"></div>
+          <div class="site-details">
+            <div class="site-name">Nordic Semiconductor Academy</div>
+            <div class="site-desc">nRF Connect SDK fundamentals certification course</div>
+          </div>
+          <span class="site-tag">Embedded</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.pacdora.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/pacdora.ico" alt="Pacdora" onerror="this.parentElement.textContent='📦'"></div>
+          <div class="site-details">
+            <div class="site-name">Pacdora</div>
+            <div class="site-desc">Product and packaging 3D mockup generator</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.planyourroom.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/PlanYourRoom.png" alt="PlanYourRoom" onerror="this.parentElement.textContent='🏠'"></div>
+          <div class="site-details">
+            <div class="site-name">PlanYourRoom.com</div>
+            <div class="site-desc">2D furniture layout and room visualizer</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://reactbits.dev" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/ReactBits.ico" alt="ReactBits" onerror="this.parentElement.textContent='⚛️'"></div>
+          <div class="site-details">
+            <div class="site-name">ReactBits.dev</div>
+            <div class="site-desc">Animated React UI components</div>
+          </div>
+          <span class="site-tag">React</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.supahero.io/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/supahero.avif" alt="Supahero" onerror="this.parentElement.textContent='✦'"></div>
+          <div class="site-details">
+            <div class="site-name">Supahero</div>
+            <div class="site-desc">Hero section and background generator for websites</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.templatemaker.nl/en/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/templateMaker.png" alt="Template Maker" onerror="this.parentElement.textContent='📐'"></div>
+          <div class="site-details">
+            <div class="site-name">Template Maker</div>
+            <div class="site-desc">Outline template generator for custom box dielines</div>
+          </div>
+          <span class="site-tag">Packaging</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://textbehindimage.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/TextBehindImage.ico" alt="Text Behind Image" onerror="this.parentElement.textContent='🖊'"></div>
+          <div class="site-details">
+            <div class="site-name">Text Behind Image</div>
+            <div class="site-desc">Place text behind photo subjects for layered effects</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://texturefabrik.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/textureFabrik.png" alt="TextureFabrik" onerror="this.parentElement.textContent='🖼'"></div>
+          <div class="site-details">
+            <div class="site-name">TextureFabrik</div>
+            <div class="site-desc">Free textures, patterns, and graphics for 3D and design</div>
+          </div>
+          <span class="site-tag">3D / Blender</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://texturelabs.org/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/textureLabs.png" alt="TextureLabs" onerror="this.parentElement.textContent='🖼️'"></div>
+          <div class="site-details">
+            <div class="site-name">TextureLabs.org</div>
+            <div class="site-desc">Free surface textures and materials gallery</div>
+          </div>
+          <span class="site-tag">3D / Blender</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://transparenttextures.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/transparenttextures.png" alt="Transparent Textures" onerror="this.parentElement.textContent='▪'"></div>
+          <div class="site-details">
+            <div class="site-name">Transparent Textures</div>
+            <div class="site-desc">CSS background texture and pattern library</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.typing.com/student/lessons" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/Typing.webp" alt="Typing.com" onerror="this.parentElement.textContent='⌨'"></div>
+          <div class="site-details">
+            <div class="site-name">Typing.com</div>
+            <div class="site-desc">Typing speed trainer with structured lessons</div>
+          </div>
+          <span class="site-tag">Learning</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://uiverse.io" target="_blank" rel="noopener" data-preview="./site-previews/uiverse.jpg">
+          <div class="site-icon"><img src="/Site_Photos/uiverse.png" alt="Uiverse" onerror="this.parentElement.textContent='🎨'"></div>
+          <div class="site-details">
+            <div class="site-name">Uiverse.io</div>
+            <div class="site-desc">Open-source HTML & CSS UI component library</div>
+          </div>
+          <span class="site-tag">HTML / CSS</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.unicorn.studio/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/UnicornStudio.png" alt="Unicorn Studio" onerror="this.parentElement.textContent='✦'"></div>
+          <div class="site-details">
+            <div class="site-name">Unicorn Studio</div>
+            <div class="site-desc">Creative studio for interactive digital experiences</div>
+          </div>
+          <span class="site-tag">Design</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+        <a class="site-item" href="https://www.wolframalpha.com/" target="_blank" rel="noopener">
+          <div class="site-icon"><img src="/Site_Photos/wolframalpha.png" alt="WolframAlpha" onerror="this.parentElement.textContent='∑'"></div>
+          <div class="site-details">
+            <div class="site-name">WolframAlpha</div>
+            <div class="site-desc">Symbolic AI for mathematics and science computations</div>
+          </div>
+          <span class="site-tag">Math</span>
+          <span class="site-arrow">↗</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const SOFTWARE = [
+      {
+        title: 'SolidWorks',
+        category: 'Parametric Modeling · Design for Production',
+        descriptions: [
+          'Complex mold generation for prototype seals',
+          'Reverse engineering mesh data to surface geometry',
+          'Engineering drawings and documentation',
+          'Design for plastic injection molding',
+          'Simulation and finite element analysis',
+        ],
+        variantLoading: 'preFormLoading',
+        variantLoaded:  'bambuStudioLoaded',
+      },
+      {
+        title: 'Plasticity',
+        category: 'Direct Modeling · CAD for Artists',
+        descriptions: [
+          'Advanced NURBS surface modeling',
+          'Industrial design and concept development',
+          'Human design and ergonomics',
+        ],
+        variantLoading: 'bambuStudioLoading',
+        variantLoaded:  'plasticityLoaded',
+      },
+      {
+        title: 'MatLab',
+        category: 'Mathematical Computations · Algorithms',
+        descriptions: [
+          'Data analysis and visualization',
+          'Engineering calculations and simulations',
+          'Control systems design',
+          'Robotics control and inverse kinematics',
+        ],
+        variantLoading: 'matLabLoading',
+        variantLoaded:  'matLabLoaded',
+      },
+      {
+        title: 'Blender',
+        category: '3D Animation · Visual Effects',
+        descriptions: [
+          'Product visualization and presentation',
+          'Material and lighting design',
+          'Animation and motion graphics',
+          'Texture baking and UV mapping',
+        ],
+        variantLoading: 'blenderLoading',
+        variantLoaded:  'blenderLoaded',
+      },
+      {
+        title: 'Visual Studio Code',
+        category: 'Source Code Editor · IDE',
+        descriptions: [
+          'Front-end web development',
+          'Python scripting and automation',
+          'Debugging and testing tools',
+          'Live sharing and collaboration',
+        ],
+        variantLoading: 'bambuStudioLoading',
+        variantLoaded:  'visualStudioCodeLoaded',
+      },
+      {
+        title: 'Creality Scan',
+        category: '3D Scanning · Mesh Cloud Generation',
+        descriptions: [
+          'Point cloud processing and mesh generation',
+          'Reverse engineering and CAD integration',
+          'Quality inspection and measurement',
+        ],
+        variantLoading: 'crealityScanLoading',
+        variantLoaded:  'crealityScanLoaded',
+      },
+      {
+        title: 'Bambu Labs',
+        category: 'FDM 3D Printing · Manufacturing',
+        descriptions: [
+          'Printer dimension and quality calibrations',
+          'Transparent printing techniques',
+          'Dissolvable support interfaces for smooth surfaces',
+        ],
+        variantLoading: 'solidworksLoaded',
+        variantLoaded:  'preFormLoaded',
+      },
+      {
+        title: 'Arduino',
+        category: 'Embedded Systems · IoT Development',
+        descriptions: [
+          'Sensor integration and data acquisition',
+          'Control systems: sensor-actuator algorithms',
+          'Radio communication and wireless protocols',
+        ],
+        variantLoading: 'arduinoLoading',
+        variantLoaded:  'arduinoLoaded',
+      },
+      {
+        title: 'PreForm',
+        category: 'SLA 3D Printing · Manufacturing',
+        descriptions: [
+          'Print orientation and layout optimization',
+          'Support structure configuration',
+        ],
+        variantLoading: 'default',
+        variantLoaded:  'solidworksLoading',
+      },
+      {
+        title: 'KiCad',
+        category: 'Electronic Design Automation',
+        descriptions: [
+          'Schematic capture and component libraries',
+          'PCB layout and routing',
+          'Electronic prototyping and manufacturing',
+        ],
+        variantLoading: 'bambuStudioLoading',
+        variantLoaded:  'kiCadLoaded',
+      },
+      {
+        title: 'FreeCAD',
+        category: 'Open-Source Parametric 3D Modeling',
+        descriptions: [
+          'Technical drawing and documentation',
+          'File type conversion and interoperability',
+        ],
+        variantLoading: 'freecadLoading',
+        variantLoaded:  'freecadLoaded',
+      },
+      {
+        title: 'Microsoft Office',
+        category: 'Technical Documentation · Reporting',
+        descriptions: [
+          'Project planning and data analysis',
+          'Technical writing and documentation',
+          'Professional communication and presentations',
+        ],
+        variantLoading: 'microsoftLoading',
+        variantLoaded:  'microsoftLoaded',
+      },
+    ];
+
+    // ── State ──────────────────────────────────────────
+    let current      = 0;
+    let isAnimating  = false;
+    let laptopReady  = false;
+    let variantBusy  = false;
+
+    // ── DOM refs ───────────────────────────────────────
+    const laptopEl   = document.getElementById('laptop-bg');
+    const infoEl     = document.getElementById('info-content');
+    const elTitle    = document.getElementById('software-title');
+    const elCat      = document.getElementById('software-category');
+    const elDesc     = document.getElementById('software-desc');
+    const elCurrent  = document.getElementById('current-num');
+    const elTotal    = document.getElementById('total-num');
+    const elFill     = document.getElementById('progress-fill');
+    const elPrevLbl  = document.getElementById('prev-label');
+    const elNextLbl  = document.getElementById('next-label');
+
+    elTotal.textContent = String(SOFTWARE.length).padStart(2, '0');
+
+    // ── Render info ────────────────────────────────────
+    function render(index) {
+      const item = SOFTWARE[index];
+      const prev = SOFTWARE[(index - 1 + SOFTWARE.length) % SOFTWARE.length];
+      const next = SOFTWARE[(index + 1) % SOFTWARE.length];
+
+      elCurrent.textContent = String(index + 1).padStart(2, '0');
+      elFill.style.width    = ((index + 1) / SOFTWARE.length * 100) + '%';
+      elPrevLbl.textContent = prev.title;
+      elNextLbl.textContent = next.title;
+
+      infoEl.classList.add('out');
+      setTimeout(() => {
+        elCat.textContent   = item.category;
+        elTitle.textContent = item.title;
+        elDesc.innerHTML    = '';
+        item.descriptions.forEach(d => {
+          const li = document.createElement('li');
+          li.textContent = d;
+          elDesc.appendChild(li);
+        });
+        infoEl.classList.remove('out');
+      }, 260);
+    }
+
+    // ── Variant switch ─────────────────────────────────
+    function switchVariant(index) {
+      if (!laptopReady || variantBusy) return;
+      variantBusy = true;
+      try {
+        laptopEl.variantName = SOFTWARE[index].variantLoaded;
+      } catch (_) {}
+      variantBusy = false;
+    }
+
+    // ── Navigate ───────────────────────────────────────
+    function navigate(dir) {
+      if (isAnimating) return;
+      isAnimating = true;
+      current = (current + dir + SOFTWARE.length) % SOFTWARE.length;
+      render(current);
+      switchVariant(current);
+      setTimeout(() => { isAnimating = false; }, 300);
+    }
+
+    document.getElementById('prev-btn').addEventListener('click', () => navigate(-1));
+    document.getElementById('next-btn').addEventListener('click', () => navigate(+1));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  navigate(-1);
+      if (e.key === 'ArrowRight') navigate(+1);
+    });
+
+    // Initial render
+    render(0);
+
+    laptopEl.addEventListener('load', () => {
+      laptopReady = true;
+      switchVariant(0); // show SolidWorks screen on load
+    });
+
+    // ── Scroll-triggered slide-in + rotation ───────────
+    let animated = false;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting || animated) return;
+        animated = true;
+
+        // Trigger CSS slide-in (transform + opacity)
+        laptopEl.classList.add('slide-in');
+
+        // Animate camera orbit: back-facing → front-facing, timed with slide-in
+        const startDeg  = 245.46;
+        const endDeg    = 65.46;
+        const duration  = 2400;
+
+        function doRotate() {
+          const t0 = performance.now();
+          function frame(now) {
+            const raw  = Math.min((now - t0) / duration, 1);
+            const ease = raw < 0.5
+              ? 2 * raw * raw
+              : 1 - Math.pow(-2 * raw + 2, 2) / 2;
+            laptopEl.cameraOrbit = `${startDeg + (endDeg - startDeg) * ease}deg 85.66deg 16m`;
+            if (raw < 1) requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        }
+
+        if (laptopReady) {
+          doRotate();
+        } else {
+          laptopEl.addEventListener('load', doRotate, { once: true });
+        }
+
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(document.getElementById('showcase'));
+  </script>
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+  <script>
+    (function () {
+      const browserWin   = document.querySelector('.browser-window');
+      const browserBar   = document.querySelector('.browser-bar');
+      const bookmarksTab = document.getElementById('bookmarks-tab');
+      const listView     = document.querySelector('.browser-content');
+
+      const previewTab = document.createElement('div');
+      previewTab.className = 'browser-tab';
+      previewTab.style.display = 'none';
+      previewTab.innerHTML = '<span id="ptab-name"></span>';
+      browserBar.appendChild(previewTab);
+
+      const panel = document.createElement('div');
+      panel.className = 'preview-container';
+      panel.innerHTML = `
+        <div class="preview-loading" id="prev-loading">Loading preview…</div>
+        <img class="preview-img" id="prev-img" alt="Website preview">
+        <div class="preview-hint">Click to open ↗</div>
+      `;
+      browserWin.appendChild(panel);
+
+      const loadingEl = document.getElementById('prev-loading');
+      const imgEl     = document.getElementById('prev-img');
+      const tabNameEl = document.getElementById('ptab-name');
+      let   activeUrl = '';
+      let   shown     = false;
+
+      // Run a DOM mutation while keeping the browser window's top viewport
+      // position fixed — compensates scroll for any resulting height change.
+      function anchorTop(fn) {
+        const before = browserWin.getBoundingClientRect().top;
+        fn();
+        requestAnimationFrame(() => {
+          const delta = browserWin.getBoundingClientRect().top - before;
+          if (delta !== 0) window.scrollBy({ top: delta, behavior: 'instant' });
+        });
+      }
+
+      // localSrc: path to a local screenshot image (data-preview attribute).
+      // Falls back to ThumbIO live screenshot when absent.
+      function showPreview(name, url, localSrc) {
+        shown     = true;
+        activeUrl = url;
+
+        // Lock current height so hiding the list can't shrink the box
+        browserWin.style.minHeight = browserWin.offsetHeight + 'px';
+
+        anchorTop(() => {
+          bookmarksTab.classList.remove('active');
+          previewTab.style.display = '';
+          previewTab.classList.add('active');
+          tabNameEl.textContent = name;
+          listView.style.display = 'none';
+          panel.classList.add('active');
+        });
+
+        imgEl.classList.remove('loaded');
+        imgEl.src = '';
+        loadingEl.textContent = 'Loading preview…';
+        loadingEl.classList.remove('hidden');
+
+        const src = localSrc || ('https://image.thum.io/get/width/1280/' + url);
+
+        const tmp = new Image();
+        tmp.onload = () => {
+          anchorTop(() => {
+            browserWin.style.minHeight = '';
+            imgEl.src = tmp.src;
+            imgEl.classList.add('loaded');
+            loadingEl.classList.add('hidden');
+          });
+        };
+        tmp.onerror = () => {
+          loadingEl.textContent = 'Preview unavailable — click anywhere to open site';
+        };
+        tmp.src = src;
+      }
+
+      function reset() {
+        if (!shown) return;
+        shown = false;
+
+        anchorTop(() => {
+          browserWin.style.minHeight = '';
+          previewTab.classList.remove('active');
+          previewTab.style.display = 'none';
+          bookmarksTab.classList.add('active');
+          listView.style.display = '';
+          panel.classList.remove('active');
+          imgEl.classList.remove('loaded');
+          imgEl.src = '';
+        });
+      }
+
+      panel.addEventListener('click', () => {
+        if (activeUrl) window.open(activeUrl, '_blank', 'noopener');
+      });
+
+      bookmarksTab.addEventListener('click', reset);
+
+      document.querySelectorAll('.site-item').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          showPreview(
+            a.querySelector('.site-name').textContent,
+            a.href,
+            a.dataset.preview || null
+          );
+        });
+      });
+    })();
+  </script>
+
+  <!-- ─── ARM PROJECTS CAROUSEL + MODAL ───────────────── -->
+  <script>
+    (function () {
+      // ── Add new project numbers here as you add main photos ──
+      const PROJECT_IDS = [1, 2];
+      const SUB_LETTERS = ['a', 'b', 'c'];
+      const PHOTO_DIR   = './PortfolioPhotos/';
+
+      const pgrid   = document.getElementById('projects-grid');
+      const overlay = document.getElementById('project-modal');
+      const mgrid   = document.getElementById('project-modal-grid');
+
+      // Populate the responsive grid
+      PROJECT_IDS.forEach(async id => {
+        const div = document.createElement('div');
+        div.className = 'project-item';
+
+        const img = document.createElement('img');
+        img.src = `${PHOTO_DIR}${id}.png`;
+        img.alt = `Project ${id}`;
+        div.appendChild(img);
+
+        div.addEventListener('click', () => openModal(id));
+        pgrid.appendChild(div);
+
+        // Append caption once text is fetched (silently skipped if file is empty)
+        const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+        if (text) {
+          const p = document.createElement('p');
+          p.className = 'project-caption';
+          p.textContent = text;
+          div.appendChild(p);
+        }
+      });
+
+      // ── Modal ─────────────────────────────────────────────
+      async function fetchText(path) {
+        try {
+          const res = await fetch(path);
+          return res.ok ? (await res.text()).trim() : '';
+        } catch { return ''; }
+      }
+
+      async function openModal(id) {
+        mgrid.innerHTML = '<p style="color:var(--text-dim);padding:1rem">Loading…</p>';
+        overlay.classList.add('active');
+
+        const cols = await Promise.all(SUB_LETTERS.map(async letter => {
+          const imgSrc = `${PHOTO_DIR}${id}${letter}.png`;
+          const txtSrc = `${PHOTO_DIR}${id}${letter}.txt`;
+          const text   = await fetchText(txtSrc);
+
+          const col = document.createElement('div');
+          col.className = 'project-modal-col';
+
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.alt = `${id}${letter}`;
+
+          col.appendChild(img);
+          if (text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            col.appendChild(p);
+          }
+          return col;
+        }));
+
+        mgrid.innerHTML = '';
+        cols.forEach(col => mgrid.appendChild(col));
+      }
+
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('active');
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') overlay.classList.remove('active');
+      });
+    })();
+  </script>
+</body>
+</html>
