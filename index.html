@@ -1867,39 +1867,27 @@
       msgEl.value = newMsg;
       if (newMsg === renderedMsg) return;
 
-      if (newMsg === '') {
-        displayEl.innerHTML = '';
-        renderedMsg = '';
-        return;
-      }
+      // Find where old and new first differ
+      let commonLen = 0;
+      while (
+        commonLen < renderedMsg.length &&
+        commonLen < newMsg.length &&
+        renderedMsg[commonLen] === newMsg[commonLen]
+      ) { commonLen++; }
 
-      if (newMsg.startsWith(renderedMsg)) {
-        // Append only the new characters
-        const newPart = newMsg.slice(renderedMsg.length);
-        [...newPart].forEach((ch, i) => {
-          const span = document.createElement('span');
-          span.className = 'msg-char';
-          span.textContent = ch === ' ' ? ' ' : ch;
-          span.style.animationDelay = `${i * 18}ms`;
-          displayEl.appendChild(span);
-        });
-      } else if (renderedMsg.startsWith(newMsg)) {
-        // Remove characters from the end
-        const spans = displayEl.querySelectorAll('.msg-char');
-        for (let i = newMsg.length; i < spans.length; i++) {
-          spans[i].remove();
-        }
-      } else {
-        // Full re-render (e.g. user cleared a middle field)
-        displayEl.innerHTML = '';
-        [...newMsg].forEach((ch, i) => {
-          const span = document.createElement('span');
-          span.className = 'msg-char';
-          span.textContent = ch === ' ' ? ' ' : ch;
-          span.style.animationDelay = `${i * 14}ms`;
-          displayEl.appendChild(span);
-        });
-      }
+      // Remove spans after the common prefix
+      const spans = displayEl.querySelectorAll('.msg-char');
+      for (let i = commonLen; i < spans.length; i++) spans[i].remove();
+
+      // Animate only the characters that are new or changed
+      const newPart = newMsg.slice(commonLen);
+      [...newPart].forEach((ch, i) => {
+        const span = document.createElement('span');
+        span.className = 'msg-char';
+        span.textContent = ch;
+        span.style.animationDelay = `${i * 18}ms`;
+        displayEl.appendChild(span);
+      });
 
       renderedMsg = newMsg;
     }
