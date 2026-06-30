@@ -44,9 +44,8 @@
       z-index: 0;
     }
 
-    /* Un-hide and add <source> when video is ready */
     .hero-video {
-      display: none;
+      display: block;
       position: absolute;
       inset: 0;
       width: 100%;
@@ -503,12 +502,15 @@
     /* ─── ARM PROJECTS GRID ─────────────────────────── */
     .projects-section {
       padding-top: clamp(60px, 8vh, 100px);
+      margin-bottom: clamp(80px, 12vh, 140px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .projects-header {
       text-align: center;
       margin-bottom: 2.5rem;
-      padding: 0 clamp(20px, 5vw, 80px);
     }
 
     .projects-header h2 {
@@ -526,28 +528,45 @@
       color: var(--text-dim);
     }
 
+    .projects-grid-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      display: inline-block;
+    }
+
+    .curtain {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: var(--bg);
+      z-index: 10;
+      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .curtain-left  { left: 0; }
+    .curtain-right { right: 0; }
+
+    .projects-grid-wrap.revealed .curtain-left  { transform: translateX(-100%); }
+    .projects-grid-wrap.revealed .curtain-right { transform: translateX(100%); }
+
     .projects-grid {
       display: grid;
-      width: 100%;
-      max-width: 100%;
       box-sizing: border-box;
-      padding: 0;
-      grid-template-columns: repeat(auto-fit, 160px);
-      justify-content: center;
-      gap: clamp(8px, 1.5vw, 16px);
+      padding: clamp(20px, 3vw, 40px);
+      grid-template-columns: repeat(auto-fill, 160px);
+      min-width: calc(2 * 160px + clamp(24px, 3vw, 36px) + 2 * clamp(20px, 3vw, 40px));
+      gap: clamp(24px, 3vw, 36px);
+      background-color: #ffffffa4;
+      background-image: url('./PortfolioPhotos/real-carbon-fibre.png');
+      background-repeat: repeat;
     }
 
     .project-item {
       border-radius: 10px;
       overflow: hidden;
       cursor: pointer;
-      border: 1px solid var(--border);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .project-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
     }
 
     .project-item img {
@@ -556,6 +575,12 @@
       display: block;
       object-fit: cover;
       pointer-events: none;
+      transition: transform 0.3s ease, brightness 0.3s ease;
+    }
+
+    .project-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.08);
     }
 
     .project-caption {
@@ -634,11 +659,376 @@
       .project-modal-grid { grid-template-columns: 1fr; }
     }
 
+    .modal-return-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: clamp(20px, 3vw, 36px);
+    }
+
+    .modal-return-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 32px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .modal-return-btn:hover {
+      background: rgba(240, 240, 240, 0.1);
+      color: var(--text);
+      border-color: rgba(240, 240, 240, 0.3);
+    }
+
     /* ─── RESPONSIVE ────────────────────────────────── */
     @media (max-width: 600px) {
       .info-center { max-width: 90vw; }
       #prev-btn { left: 8px; }
       #next-btn { right: 8px; }
+    }
+
+    /* ─── CONTACT SECTION ───────────────────────────── */
+    .contact-section {
+      padding: clamp(80px, 10vh, 130px) clamp(20px, 5vw, 80px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .contact-header h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--text);
+    }
+
+    .contact-header p {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .contact-card {
+      width: 100%;
+      max-width: 640px;
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: clamp(24px, 4vw, 44px);
+    }
+
+    /* ── Form fields — floating label ── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 28px;
+    }
+
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-control {
+      position: relative;
+      margin: 6px 0 40px;
+      width: 100%;
+    }
+
+    .form-control input {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: 0;
+      transition: border-bottom-color 0.3s;
+    }
+
+    .form-control input:focus,
+    .form-control input:not(:placeholder-shown) {
+      border-bottom-color: rgba(240, 240, 240, 0.45);
+    }
+
+    .form-control label {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .form-control label span {
+      display: inline-block;
+      font-size: 0.87rem;
+      min-width: 5px;
+      color: var(--text-dim);
+      font-family: 'Inter', system-ui, sans-serif;
+      transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .form-control input:focus + label span,
+    .form-control input:not(:placeholder-shown) + label span {
+      color: lightblue;
+      transform: translateY(-30px);
+    }
+
+    /* ── Calendar widget ── */
+    .cal-widget {
+      background: rgba(240,240,240,0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .cal-month-label {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .cal-nav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .cal-nav-btn:hover:not(:disabled) {
+      background: rgba(240,240,240,0.08);
+      color: var(--text);
+      border-color: rgba(240,240,240,0.3);
+    }
+
+    .cal-nav-btn:disabled { opacity: 0.2; cursor: default; }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+
+    .cal-dow {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: center;
+      padding-bottom: 8px;
+    }
+
+    .cal-day {
+      border-radius: 7px;
+      border: 1px solid transparent;
+      padding: 5px 2px 4px;
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      user-select: none;
+      gap: 2px;
+    }
+
+    .cal-day:hover:not(.past):not(.empty) {
+      background: rgba(240,240,240,0.06);
+      border-color: var(--border);
+    }
+
+    .cal-day.empty   { cursor: default; visibility: hidden; }
+    .cal-day.past    { opacity: 0.18; cursor: default; pointer-events: none; }
+
+    .cal-day.today .cal-day-num {
+      background: rgba(240,240,240,0.1);
+      border-radius: 50%;
+    }
+
+    .cal-day.has-pick {
+      background: rgba(240,240,240,0.07);
+      border-color: rgba(240,240,240,0.18);
+    }
+
+    .cal-day.open {
+      background: rgba(240,240,240,0.11);
+      border-color: rgba(240,240,240,0.36);
+    }
+
+    .cal-day-num {
+      font-size: 0.78rem;
+      color: var(--text);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .cal-day-pick {
+      font-size: 0.8rem;
+      color: rgba(240,240,240,0.7);
+      text-align: center;
+      line-height: 1;
+    }
+
+    /* ── Time picker ── */
+    .time-picker {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+
+    .time-picker.visible { display: block; }
+
+    .tp-header {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .tp-header strong {
+      color: var(--text);
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .tp-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+      gap: 5px;
+    }
+
+    .tp-slot {
+      background: rgba(240,240,240,0.03);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 4px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+    }
+
+    .tp-slot:hover {
+      background: rgba(240,240,240,0.09);
+      color: var(--text);
+      border-color: rgba(240,240,240,0.22);
+    }
+
+    .tp-slot.selected {
+      background: rgba(240,240,240,0.14);
+      border-color: rgba(240,240,240,0.44);
+      color: var(--text);
+    }
+
+    /* ── Message textarea ── */
+    .contact-message {
+      width: 100%;
+      background: rgba(240,240,240,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      outline: none;
+      min-height: 120px;
+      transition: border-color 0.2s;
+      margin-top: 20px;
+      cursor: text;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .contact-message:focus { border-color: rgba(240,240,240,0.3); }
+
+    .contact-message:empty::before {
+      content: attr(data-placeholder);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    @keyframes msgCharIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-char {
+      display: inline-block;
+      animation: msgCharIn 0.28s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+    }
+
+    .form-submit {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 12px 32px;
+      border-radius: 20px;
+      cursor: pointer;
+      align-self: center;
+      margin-top: 20px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .form-submit:hover {
+      background: rgba(240,240,240,0.1);
+      color: var(--text);
+      border-color: rgba(240,240,240,0.3);
+    }
+
+    .form-status {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      min-height: 1.2em;
     }
   </style>
 </head>
@@ -648,7 +1038,7 @@
   <section class="hero">
     <div class="hero-bg">
       <video class="hero-video" autoplay muted loop playsinline>
-        <!-- <source src="./hero.mp4" type="video/mp4"> -->
+        <source src="./PortfolioPhotos/HeroVideo.mov" type="video/mp4">
       </video>
     </div>
     <div class="hero-overlay"></div>
@@ -713,22 +1103,29 @@
   <!-- ─── ARM ENTERPRISES PROJECTS ───────────────────── -->
   <section class="projects-section">
     <div class="projects-header">
-      <h2>Quick fixes</h2>
+      <h2>Projects and Remedies</h2>
     </div>
-    <div class="projects-grid" id="projects-grid"></div>
+    <div class="projects-grid-wrap">
+      <div class="curtain curtain-left"></div>
+      <div class="curtain curtain-right"></div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
   </section>
 
   <!-- Project detail modal (populated by JS) -->
   <div class="project-modal-overlay" id="project-modal">
     <div class="project-modal-card" id="project-modal-card">
       <div class="project-modal-grid" id="project-modal-grid"></div>
+      <div class="modal-return-wrap">
+        <button class="modal-return-btn" id="modal-return-btn">Return</button>
+      </div>
     </div>
   </div>
 
   <!-- ─── WEBSITES SECTION ──────────────────────────── -->
   <section class="sites-section">
     <div class="sites-header">
-      <h2>Websites</h2>
+      <h2>Recommended Sites</h2>
       <p>Sites I use &amp; revisit</p>
     </div>
 
@@ -1006,7 +1403,7 @@
         title: 'SolidWorks',
         category: 'Parametric Modeling · Design for Production',
         descriptions: [
-          '4 Years Personal | ★★★☆☆ | 1 Year Professional',
+          '4 Years Personal | 1 Year Professional',
           'Reverse Engineering',
           'Drawings and documentation',
           'Design From AI Concepts',
@@ -1019,10 +1416,10 @@
         title: 'Plasticity',
         category: 'Direct Modeling · CAD for Artists',
         descriptions: [
-          '1 Years Personal | ★☆☆☆☆ | 0 Year Professional',
+          '1 Years Personal | 0 Year Professional',
           'Advanced Surface Modeling',
           'Industrial Design',
-          'ergonomic Product Design',
+          'Amazing for Editing STEP files',
         ],
         variantLoading: 'bambuStudioLoading',
         variantLoaded:  'plasticityLoaded',
@@ -1031,7 +1428,7 @@
         title: 'MatLab',
         category: 'Mathematical Computations · Algorithms',
         descriptions: [
-          '5 Years Personal | ★★★☆☆ | 0 Year Professional',
+          '5 Years Personal | 0 Year Professional',
           'Data analysis and visualization',
           'Engineering calculations and simulations',
           'Control systems design',
@@ -1044,7 +1441,7 @@
         title: 'Blender',
         category: '3D Animation · Visual Effects',
         descriptions: [
-          '1 Years Personal | ★☆☆☆☆ | 1 Year Professional',
+          '1 Years Personal | 1 Year Professional',
           'Product visualization and presentation',
           'Material and lighting design',
           'Animation and motion graphics',
@@ -1057,7 +1454,7 @@
         title: 'Visual Studio Code',
         category: 'Source Code Editor · IDE',
         descriptions: [
-          '2 Years Personal | ★☆☆☆☆ | 1 Year Professional',
+          '2 Years Personal | 1 Year Professional',
           'Front-End Web Development',
           'Python Scripting and Automation',
           'Debugging and Testing Tools',
@@ -1070,7 +1467,7 @@
         title: 'Creality Scan',
         category: '3D Scanning · Mesh Cloud Generation',
         descriptions: [
-          '2 Years Personal | ★★★☆☆ | 1 Year Professional',
+          '2 Years Personal | 1 Year Professional',
           'Point cloud processing and mesh generation',
           'Reverse engineering',
           'Tolerance Inspections',
@@ -1082,7 +1479,7 @@
         title: 'Bambu Labs',
         category: 'FDM 3D Printing · Manufacturing',
         descriptions: [
-          '2 Years Personal | ★★★★☆ | 1 Year Professional',
+          '2 Years Personal | 1 Year Professional',
           'Printer Calibrations',
           'Transparent printing techniques',
           'Engineering Materials Experience',
@@ -1094,7 +1491,7 @@
         title: 'Arduino',
         category: 'Embedded Systems · IoT Development',
         descriptions: [
-          '4 Years Personal | ★★☆☆☆ | 0.5 Year Professional',
+          '4 Years Personal | 0.5 Year Professional',
           'Sensor integration and data acquisition',
           'Control Systems Algorithms',
           'Radio communication and wireless protocols',
@@ -1106,7 +1503,7 @@
         title: 'PreForm',
         category: 'SLA 3D Printing · Manufacturing',
         descriptions: [
-          '0 Years Personal | ★★★★☆ | 1 Year Professional',
+          '0 Years Personal | 1 Year Professional',
           'Print orientation and layout optimization',
           'Support structure configuration',
         ],
@@ -1117,7 +1514,7 @@
         title: 'KiCad',
         category: 'Electronic Design Automation',
         descriptions: [
-          '0.5 Years Personal | ★☆☆☆☆ | 0 Year Professional',
+          '0.5 Years Personal | 0 Year Professional',
           'Basic Component Schematic Design',
           'PCB layout and routing',
           'PCB Fabrication',
@@ -1129,7 +1526,7 @@
         title: 'FreeCAD',
         category: 'Open-Source Parametric 3D Modeling',
         descriptions: [
-          '1 Years Personal | ★★☆☆☆ | 0 Year Professional',
+          '1 Years Personal | 0 Year Professional',
           'Technical drawing and documentation',
           'Gear Generation',
           'File type conversion for Blender',
@@ -1141,7 +1538,7 @@
         title: 'Microsoft Office',
         category: 'Technical Documentation · Reporting',
         descriptions: [
-          '5 Years Personal | ★★★★☆ | 1 Year Professional',
+          '5 Years Personal | 1 Year Professional',
           'Project planning and data analysis',
           'Technical writing and documentation',
           'Professional communication and presentations',
@@ -1276,6 +1673,335 @@
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
   <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Floating label letter animation ──────────────
+    document.querySelectorAll('.form-control label').forEach(label => {
+      const text = label.textContent;
+      label.innerHTML = '';
+      [...text].forEach((ch, i) => {
+        const span = document.createElement('span');
+        span.textContent = ch === ' ' ? ' ' : ch;
+        span.style.transitionDelay = `${i * 35}ms`;
+        label.appendChild(span);
+      });
+    });
+
+  (function () {
+    const MONTHS = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    // 9:00 AM → 9:00 PM in 30-min steps (25 slots)
+    const TIME_SLOTS = [];
+    for (let h = 9; h <= 21; h++) {
+      for (let m = 0; m < 60; m += 30) {
+        if (h === 21 && m > 0) break;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        const h12  = h > 12 ? h - 12 : h;
+        TIME_SLOTS.push(`${h12}:${String(m).padStart(2, '0')} ${ampm}`);
+      }
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const state = {
+      year:    today.getFullYear(),
+      month:   today.getMonth(),
+      openKey: null,   // day key currently showing in time picker
+      picks:   {},     // { "Y-M-D": { label: "Monday, June 30", time: "2:30 PM" } }
+    };
+
+    const gridEl    = document.getElementById('cal-grid');
+    const labelEl   = document.getElementById('cal-month-label');
+    const prevBtn   = document.getElementById('cal-prev');
+    const nextBtn   = document.getElementById('cal-next');
+    const tpEl      = document.getElementById('time-picker');
+    const tpDateEl  = document.getElementById('tp-date-label');
+    const tpSlotsEl = document.getElementById('tp-slots');
+    const msgEl     = document.getElementById('cf-message');
+    const displayEl = document.getElementById('cf-message-display');
+    const nameEl    = document.getElementById('cf-name');
+    const companyEl = document.getElementById('cf-company');
+    const emailEl   = document.getElementById('cf-email');
+    const subjectEl = document.getElementById('cf-subject');
+    let   renderedMsg = '';
+
+    function dayKey(y, m, d) { return `${y}-${m}-${d}`; }
+
+    function friendlyLabel(y, m, d) {
+      const dow = FULL_DAYS[new Date(y, m, d).getDay()];
+      return `${dow}, ${MONTHS[m]} ${d}`;
+    }
+
+    // ── Render calendar grid ──────────────────────────
+    function renderCal() {
+      const { year, month } = state;
+      const firstDow     = new Date(year, month, 1).getDay();
+      const daysInMonth  = new Date(year, month + 1, 0).getDate();
+
+      labelEl.textContent = `${MONTHS[month]} ${year}`;
+      prevBtn.disabled = (year === today.getFullYear() && month === today.getMonth());
+
+      gridEl.innerHTML = '';
+
+      // Day-of-week headers
+      DAYS.forEach(d => {
+        const el = document.createElement('div');
+        el.className = 'cal-dow';
+        el.textContent = d;
+        gridEl.appendChild(el);
+      });
+
+      // Empty cells before 1st
+      for (let i = 0; i < firstDow; i++) {
+        const el = document.createElement('div');
+        el.className = 'cal-day empty';
+        gridEl.appendChild(el);
+      }
+
+      // Day cells
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date   = new Date(year, month, d);
+        const key    = dayKey(year, month, d);
+        const isPast = date < today;
+        const isToday  = date.getTime() === today.getTime();
+        const hasPick  = !!state.picks[key];
+        const isOpen   = state.openKey === key;
+
+        const cell = document.createElement('div');
+        cell.className = ['cal-day',
+          isPast   ? 'past'     : '',
+          isToday  ? 'today'    : '',
+          hasPick  ? 'has-pick' : '',
+          isOpen   ? 'open'     : '',
+        ].filter(Boolean).join(' ');
+
+        const numEl = document.createElement('div');
+        numEl.className = 'cal-day-num';
+        numEl.textContent = d;
+        cell.appendChild(numEl);
+
+        if (hasPick) {
+          const pickEl = document.createElement('div');
+          pickEl.className = 'cal-day-pick';
+          pickEl.textContent = '*';
+          cell.appendChild(pickEl);
+        }
+
+        if (!isPast) {
+          cell.addEventListener('click', () => onDayClick(year, month, d, key));
+        }
+
+        gridEl.appendChild(cell);
+      }
+    }
+
+    // ── Day click ─────────────────────────────────────
+    function onDayClick(y, m, d, key) {
+      if (state.openKey === key) {
+        state.openKey = null;
+        tpEl.classList.remove('visible');
+      } else {
+        state.openKey = key;
+        tpDateEl.textContent = friendlyLabel(y, m, d);
+        renderTimeSlots(key);
+        tpEl.classList.add('visible');
+      }
+      renderCal();
+    }
+
+    // ── Time slots ────────────────────────────────────
+    function renderTimeSlots(key) {
+      tpSlotsEl.innerHTML = '';
+      const selected = state.picks[key] ? state.picks[key].times : [];
+      TIME_SLOTS.forEach(slot => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tp-slot' + (selected.includes(slot) ? ' selected' : '');
+        btn.textContent = slot;
+        btn.addEventListener('click', () => onTimeClick(key, slot));
+        tpSlotsEl.appendChild(btn);
+      });
+    }
+
+    // ── Time click ────────────────────────────────────
+    function onTimeClick(key, slot) {
+      const [ys, ms, ds] = key.split('-').map(Number);
+      if (!state.picks[key]) {
+        state.picks[key] = { label: friendlyLabel(ys, ms, ds), times: [] };
+      }
+      const idx = state.picks[key].times.indexOf(slot);
+      if (idx >= 0) {
+        state.picks[key].times.splice(idx, 1);
+        if (state.picks[key].times.length === 0) delete state.picks[key];
+      } else {
+        state.picks[key].times.push(slot);
+      }
+      renderTimeSlots(key);
+      renderCal();
+      buildMessage();
+    }
+
+    // ── Month navigation ──────────────────────────────
+    prevBtn.addEventListener('click', () => {
+      if (state.month === 0) { state.month = 11; state.year--; }
+      else { state.month--; }
+      state.openKey = null;
+      tpEl.classList.remove('visible');
+      renderCal();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (state.month === 11) { state.month = 0; state.year++; }
+      else { state.month++; }
+      state.openKey = null;
+      tpEl.classList.remove('visible');
+      renderCal();
+    });
+
+    // ── Animate message characters ────────────────────
+    function animateMessage(newMsg) {
+      msgEl.value = newMsg;
+      if (newMsg === renderedMsg) return;
+
+      if (newMsg === '') {
+        displayEl.innerHTML = '';
+        renderedMsg = '';
+        return;
+      }
+
+      if (newMsg.startsWith(renderedMsg)) {
+        // Append only the new characters
+        const newPart = newMsg.slice(renderedMsg.length);
+        [...newPart].forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'msg-char';
+          span.textContent = ch === ' ' ? ' ' : ch;
+          span.style.animationDelay = `${i * 18}ms`;
+          displayEl.appendChild(span);
+        });
+      } else if (renderedMsg.startsWith(newMsg)) {
+        // Remove characters from the end
+        const spans = displayEl.querySelectorAll('.msg-char');
+        for (let i = newMsg.length; i < spans.length; i++) {
+          spans[i].remove();
+        }
+      } else {
+        // Full re-render (e.g. user cleared a middle field)
+        displayEl.innerHTML = '';
+        [...newMsg].forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'msg-char';
+          span.textContent = ch === ' ' ? ' ' : ch;
+          span.style.animationDelay = `${i * 14}ms`;
+          displayEl.appendChild(span);
+        });
+      }
+
+      renderedMsg = newMsg;
+    }
+
+    // Sync manual edits back to the hidden textarea
+    displayEl.addEventListener('input', () => {
+      msgEl.value = displayEl.textContent;
+      renderedMsg = displayEl.textContent;
+    });
+
+    // ── Auto-fill message (progressive — stops at first empty field) ──
+    function buildMessage() {
+      const name    = nameEl.value.trim();
+      const company = companyEl.value.trim();
+      const email   = emailEl.value.trim();
+      const subject = subjectEl.value.trim();
+
+      if (!name)    { animateMessage(''); return; }
+      let msg = `Hi, this is ${name}`;
+
+      if (!company) { animateMessage(msg); return; }
+      msg += ` from ${company}`;
+
+      if (!email)   { animateMessage(msg); return; }
+      msg += `. I can be reached at ${email}`;
+
+      if (!subject) { animateMessage(msg); return; }
+      msg += `. I wanted to discuss a ${subject}`;
+
+      const sortedKeys = Object.keys(state.picks).sort((a, b) => {
+        const [ay, am, ad] = a.split('-').map(Number);
+        const [by, bm, bd] = b.split('-').map(Number);
+        return new Date(ay, am, ad) - new Date(by, bm, bd);
+      });
+
+      if (sortedKeys.length > 0) {
+        const dateList = sortedKeys.map(k => {
+          const p = state.picks[k];
+          const indices = p.times.map(t => TIME_SLOTS.indexOf(t)).sort((a, b) => a - b);
+          const runs = [];
+          let rs = indices[0], re = indices[0];
+          for (let i = 1; i < indices.length; i++) {
+            if (indices[i] === re + 1) { re = indices[i]; }
+            else { runs.push([rs, re]); rs = indices[i]; re = indices[i]; }
+          }
+          runs.push([rs, re]);
+          const timeStr = runs.map(([s, e]) =>
+            s === e ? TIME_SLOTS[s] : `${TIME_SLOTS[s]} to ${TIME_SLOTS[e]}`
+          ).join(', ');
+          return `${p.label} at ${timeStr}`;
+        });
+        msg += `. I am free to meet at ${dateList.join(', ')}`;
+      }
+
+      animateMessage(msg + '.');
+    }
+
+    [nameEl, companyEl, emailEl, subjectEl].forEach(el => {
+      el.addEventListener('input', buildMessage);
+    });
+
+    // ── Formspree AJAX submit ─────────────────────────
+    const form   = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          status.textContent = "Message sent — I'll get back to you soon.";
+          form.reset();
+          displayEl.innerHTML = '';
+          renderedMsg = '';
+          state.picks  = {};
+          state.openKey = null;
+          tpEl.classList.remove('visible');
+          renderCal();
+        } else {
+          status.textContent = 'Something went wrong. Please try again.';
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+      }
+      btn.disabled = false;
+    });
+
+    // Initial render
+    renderCal();
+  })();
+
+  }); // end DOMContentLoaded
+  </script>
+
+  <script>
     (function () {
       const browserWin   = document.querySelector('.browser-window');
       const browserBar   = document.querySelector('.browser-bar');
@@ -1389,6 +2115,63 @@
     })();
   </script>
 
+  <!-- ─── CONTACT SECTION ─────────────────────────────── -->
+  <section class="contact-section" id="contact">
+    <div class="contact-header">
+      <h2>Let's Connect</h2>
+      <p>Schedule a meeting or send a message</p>
+    </div>
+
+    <div class="contact-card">
+      <!-- Formspree form — replace YOUR_FORM_ID after signing up at formspree.io -->
+      <form class="contact-form" action="https://formspree.io/f/xgojlrpn" method="POST" id="contact-form">
+
+        <div class="form-row">
+          <div class="form-control">
+            <input type="text" name="name" id="cf-name" placeholder=" " required>
+            <label for="cf-name">Your Name</label>
+          </div>
+          <div class="form-control">
+            <input type="text" name="company" id="cf-company" placeholder=" ">
+            <label for="cf-company">Company</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-control">
+            <input type="email" name="email" id="cf-email" placeholder=" " required>
+            <label for="cf-email">Email Address</label>
+          </div>
+          <div class="form-control">
+            <input type="text" name="subject" id="cf-subject" placeholder=" ">
+            <label for="cf-subject">Subject</label>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="cal-widget">
+          <div class="cal-header">
+            <button type="button" class="cal-nav-btn" id="cal-prev">&#8592;</button>
+            <span class="cal-month-label" id="cal-month-label"></span>
+            <button type="button" class="cal-nav-btn" id="cal-next">&#8594;</button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="time-picker" id="time-picker">
+            <p class="tp-header">Select a time for <strong id="tp-date-label"></strong></p>
+            <div class="tp-slots" id="tp-slots"></div>
+          </div>
+        </div>
+
+        <div id="cf-message-display" class="contact-message" contenteditable="true" spellcheck="false"
+          data-placeholder="Hi, this is..."></div>
+        <textarea name="message" id="cf-message" style="display:none"></textarea>
+
+        <button type="submit" class="form-submit">Send Message</button>
+        <p class="form-status" id="form-status"></p>
+
+      </form>
+    </div>
+  </section>
+
   <!-- ─── ARM PROJECTS CAROUSEL + MODAL ───────────────── -->
   <script>
     (function () {
@@ -1397,9 +2180,15 @@
       const SUB_LETTERS = ['a', 'b', 'c'];
       const PHOTO_DIR   = './PortfolioPhotos/';
 
-      const pgrid   = document.getElementById('projects-grid');
-      const overlay = document.getElementById('project-modal');
-      const mgrid   = document.getElementById('project-modal-grid');
+      const pgrid      = document.getElementById('projects-grid');
+      const overlay    = document.getElementById('project-modal');
+      const mgrid      = document.getElementById('project-modal-grid');
+      const returnBtn  = document.getElementById('modal-return-btn');
+
+      function closeModal() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
 
       // Populate the responsive grid
       PROJECT_IDS.forEach(async id => {
@@ -1435,6 +2224,7 @@
       async function openModal(id) {
         mgrid.innerHTML = '<p style="color:var(--text-dim);padding:1rem">Loading…</p>';
         overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
 
         const cols = await Promise.all(SUB_LETTERS.map(async letter => {
           const imgSrc = `${PHOTO_DIR}${id}${letter}.png`;
@@ -1462,12 +2252,25 @@
       }
 
       overlay.addEventListener('click', e => {
-        if (e.target === overlay) overlay.classList.remove('active');
+        if (e.target === overlay) closeModal();
       });
 
+      returnBtn.addEventListener('click', closeModal);
+
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') overlay.classList.remove('active');
+        if (e.key === 'Escape') closeModal();
       });
+
+      // ── Curtain reveal ────────────────────────────────
+      const gridWrap = document.querySelector('.projects-grid-wrap');
+      const curtainObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          gridWrap.classList.add('revealed');
+          curtainObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+      curtainObserver.observe(gridWrap);
     })();
   </script>
 </body>
