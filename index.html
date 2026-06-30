@@ -586,7 +586,7 @@
       display: grid;
       box-sizing: border-box;
       padding: clamp(20px, 3vw, 40px);
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(200px, calc(50% - clamp(12px, 1.5vw, 18px))), 1fr));
       gap: clamp(24px, 3vw, 36px);
     }
 
@@ -784,7 +784,7 @@
 
     .form-control {
       position: relative;
-      margin: 6px 0 40px;
+      margin: 3px 0 24px;
       width: 100%;
     }
 
@@ -794,7 +794,7 @@
       border-bottom: 1px solid var(--border);
       display: block;
       width: 100%;
-      padding: 14px 0;
+      padding: 9px 0;
       font-size: 0.9rem;
       color: var(--text);
       font-family: 'Inter', system-ui, sans-serif;
@@ -809,7 +809,7 @@
 
     .form-control label {
       position: absolute;
-      top: 14px;
+      top: 9px;
       left: 0;
       pointer-events: none;
     }
@@ -826,7 +826,7 @@
     .form-control input:focus + label span,
     .form-control input:not(:placeholder-shown) + label span {
       color: lightblue;
-      transform: translateY(-30px);
+      transform: translateY(-26px);
     }
 
     /* ── Calendar widget ── */
@@ -1067,6 +1067,76 @@
       color: var(--text-dim);
       min-height: 1.2em;
     }
+
+    /* ── Meeting type toggle ── */
+    .meeting-toggle-wrap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 12px;
+    }
+
+    .meeting-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      user-select: none;
+    }
+
+    .toggle-opt {
+      font-size: 0.82rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text-dim);
+      transition: color 0.25s;
+      white-space: nowrap;
+    }
+
+    .meeting-toggle.phone .toggle-opt:first-child        { color: lightblue; }
+    .meeting-toggle.in-person .toggle-opt:last-child     { color: lightblue; }
+
+    .contact-detail-neutral label { visibility: hidden; }
+
+    .toggle-track {
+      width: 40px;
+      height: 22px;
+      border-radius: 11px;
+      border: 1px solid rgba(240,240,240,0.18);
+      background: rgba(240,240,240,0.04);
+      position: relative;
+      flex-shrink: 0;
+      transition: border-color 0.25s, background 0.25s;
+    }
+
+    .meeting-toggle.phone .toggle-track,
+    .meeting-toggle.in-person .toggle-track {
+      border-color: rgba(240,240,240,0.32);
+      background: rgba(240,240,240,0.1);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 13px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(240,240,240,0.25);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s;
+    }
+
+    .meeting-toggle.phone .toggle-thumb {
+      transform: translateX(-10px);
+      background: var(--text);
+    }
+
+    .meeting-toggle.in-person .toggle-thumb {
+      transform: translateX(10px);
+      background: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -1075,7 +1145,7 @@
   <section class="hero">
     <div class="hero-bg">
       <video class="hero-video" autoplay muted loop playsinline>
-        <source src="./PortfolioPhotos/HeroVideo.mp4" type="video/mp4">
+        <source src="./ExperienceCount/HeroVideo.mp4" type="video/mp4">
       </video>
     </div>
     <div class="hero-overlay"></div>
@@ -1140,7 +1210,7 @@
   <!-- ─── ARM ENTERPRISES PROJECTS ───────────────────── -->
   <section class="projects-section">
     <div class="projects-header">
-      <h2>Projects and Remedies</h2>
+      <h2>Professional Experience Count</h2>
       <p>New Product Development &amp; Adjustments</p>
     </div>
     <div class="projects-grid-wrap">
@@ -1784,10 +1854,16 @@
     const tpSlotsEl = document.getElementById('tp-slots');
     const msgEl     = document.getElementById('cf-message');
     const displayEl = document.getElementById('cf-message-display');
-    const nameEl    = document.getElementById('cf-name');
-    const companyEl = document.getElementById('cf-company');
-    const emailEl   = document.getElementById('cf-email');
-    const subjectEl = document.getElementById('cf-subject');
+    const nameEl           = document.getElementById('cf-name');
+    const companyEl        = document.getElementById('cf-company');
+    const emailEl          = document.getElementById('cf-email');
+    const subjectEl        = document.getElementById('cf-subject');
+    const meetingToggleEl   = document.getElementById('meeting-toggle');
+    const phoneInputEl      = document.getElementById('cf-phone');
+    const addressInputEl    = document.getElementById('cf-address');
+    const phoneControlEl    = document.getElementById('phone-control');
+    const addressControlEl  = document.getElementById('address-control');
+    const contactDetailWrap = document.getElementById('contact-detail-wrap');
     let   renderedMsg = '';
 
     function dayKey(y, m, d) { return `${y}-${m}-${d}`; }
@@ -1961,10 +2037,14 @@
 
     // ── Auto-fill message (progressive — stops at first empty field) ──
     function buildMessage() {
-      const name    = nameEl.value.trim();
-      const company = companyEl.value.trim();
-      const email   = emailEl.value.trim();
-      const subject = subjectEl.value.trim();
+      const name       = nameEl.value.trim();
+      const company    = companyEl.value.trim();
+      const email      = emailEl.value.trim();
+      const subject    = subjectEl.value.trim();
+      const isPhone    = meetingToggleEl.classList.contains('phone');
+      const isInPerson = meetingToggleEl.classList.contains('in-person');
+      const phone      = phoneInputEl.value.trim();
+      const address    = addressInputEl.value.trim();
 
       if (!name)    { animateMessage(''); return; }
       let msg = `Hi, this is ${name}`;
@@ -1977,6 +2057,10 @@
 
       if (!subject) { animateMessage(msg); return; }
       msg += `. I wanted to discuss a ${subject}`;
+      if (isPhone)    msg += ` over the phone`;
+      if (isInPerson) msg += ` in person`;
+      if (isPhone && phone)       msg += `, my phone number is ${phone}`;
+      if (isInPerson && address)  msg += `, my address is ${address}`;
 
       const sortedKeys = Object.keys(state.picks).sort((a, b) => {
         const [ay, am, ad] = a.split('-').map(Number);
@@ -2000,14 +2084,50 @@
           ).join(', ');
           return `${p.label} at ${timeStr}`;
         });
-        msg += `. I am free to meet at ${dateList.join(', ')}`;
+        msg += `. I am free to meet on ${dateList.join(', ')}`;
       }
 
       animateMessage(msg + '.');
     }
 
-    [nameEl, companyEl, emailEl, subjectEl].forEach(el => {
+    [nameEl, companyEl, emailEl, subjectEl, phoneInputEl, addressInputEl].forEach(el => {
       el.addEventListener('input', buildMessage);
+    });
+
+    function selectPhone() {
+      meetingToggleEl.classList.add('phone');
+      meetingToggleEl.classList.remove('in-person');
+      contactDetailWrap.classList.remove('contact-detail-neutral');
+      phoneControlEl.style.display   = '';
+      phoneInputEl.disabled          = false;
+      addressControlEl.style.display = 'none';
+      addressInputEl.disabled        = true;
+      buildMessage();
+    }
+
+    function selectInPerson() {
+      meetingToggleEl.classList.add('in-person');
+      meetingToggleEl.classList.remove('phone');
+      contactDetailWrap.classList.remove('contact-detail-neutral');
+      phoneControlEl.style.display   = 'none';
+      phoneInputEl.disabled          = true;
+      addressControlEl.style.display = '';
+      addressInputEl.disabled        = false;
+      buildMessage();
+    }
+
+    meetingToggleEl.addEventListener('click', e => {
+      const phoneOpt  = document.getElementById('toggle-phone-opt');
+      const personOpt = document.getElementById('toggle-person-opt');
+      if (phoneOpt.contains(e.target))       selectPhone();
+      else if (personOpt.contains(e.target)) selectInPerson();
+      else {
+        const isPhone    = meetingToggleEl.classList.contains('phone');
+        const isInPerson = meetingToggleEl.classList.contains('in-person');
+        if (isInPerson) selectPhone();
+        else if (isPhone) selectInPerson();
+        else selectPhone();
+      }
     });
 
     // ── Formspree AJAX submit ─────────────────────────
@@ -2034,6 +2154,13 @@
           state.openKey = null;
           tpEl.classList.remove('visible');
           renderCal();
+          meetingToggleEl.classList.remove('in-person');
+          meetingToggleEl.classList.remove('phone');
+          contactDetailWrap.classList.add('contact-detail-neutral');
+          phoneControlEl.style.display   = '';
+          phoneInputEl.disabled          = false;
+          addressControlEl.style.display = 'none';
+          addressInputEl.disabled        = true;
         } else {
           status.textContent = 'Something went wrong. Please try again.';
         }
@@ -2231,6 +2358,25 @@
             <label for="cf-subject">Subject</label>
           </div>
         </div>
+        <div class="form-row">
+          <div class="meeting-toggle-wrap">
+            <button type="button" class="meeting-toggle" id="meeting-toggle">
+              <span class="toggle-opt" id="toggle-phone-opt">On Phone</span>
+              <div class="toggle-track"><div class="toggle-thumb"></div></div>
+              <span class="toggle-opt" id="toggle-person-opt">In Person</span>
+            </button>
+          </div>
+          <div id="contact-detail-wrap" class="contact-detail-neutral">
+            <div class="form-control" id="phone-control">
+              <input type="tel" name="phone" id="cf-phone" placeholder=" ">
+              <label for="cf-phone">Phone Number</label>
+            </div>
+            <div class="form-control" id="address-control" style="display:none">
+              <input type="text" name="address" id="cf-address" placeholder=" " disabled>
+              <label for="cf-address">Physical Address</label>
+            </div>
+          </div>
+        </div>
 
         <!-- Calendar -->
         <div class="cal-widget">
@@ -2261,7 +2407,7 @@
   <script>
     (function () {
       const SUB_LETTERS = ['a', 'b', 'c'];
-      const PHOTO_DIR   = './PortfolioPhotos/';
+      const PHOTO_DIR   = './ExperienceCount/';
 
       const pgrid      = document.getElementById('projects-grid');
       const overlay    = document.getElementById('project-modal');
