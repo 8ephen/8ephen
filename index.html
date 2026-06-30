@@ -278,10 +278,36 @@
     /* ─── WEBSITES SECTION ──────────────────────────── */
     .sites-section {
       padding: clamp(60px, 8vh, 110px) clamp(20px, 5vw, 80px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .sites-header {
       text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid transparent;
+      border-radius: 0;
+      padding: 0;
+      transition: background 0.2s ease, border-color 0.2s ease, border-radius 0.25s ease, padding 0.25s ease;
+    }
+
+    .sites-header.is-btn {
+      border-color: rgba(240, 240, 240, 0.1);
+      border-radius: 20px;
+      padding: clamp(14px, 2vw, 20px) clamp(32px, 5vw, 72px);
+      margin-bottom: 0;
+    }
+
+    .sites-header.is-btn:hover {
+      background: rgba(240, 240, 240, 0.05);
+      border-color: rgba(240, 240, 240, 0.28);
+    }
+
+.sites-header.is-open {
+      width: 100%;
+      max-width: 860px;
       margin-bottom: 3rem;
     }
 
@@ -303,11 +329,13 @@
     /* Browser window */
     .browser-window {
       max-width: 860px;
+      width: 100%;
       margin: 0 auto;
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     /* Title bar (traffic lights + tab) */
@@ -558,9 +586,7 @@
       grid-template-columns: repeat(auto-fill, 160px);
       min-width: calc(2 * 160px + clamp(24px, 3vw, 36px) + 2 * clamp(20px, 3vw, 40px));
       gap: clamp(24px, 3vw, 36px);
-      background-color: #ffffffa4;
-      background-image: url('./PortfolioPhotos/real-carbon-fibre.png');
-      background-repeat: repeat;
+      
     }
 
     .project-item {
@@ -1104,6 +1130,7 @@
   <section class="projects-section">
     <div class="projects-header">
       <h2>Projects and Remedies</h2>
+      <p>New Product Development &amp; Adjustments (Coming Soon)</p>
     </div>
     <div class="projects-grid-wrap">
       <div class="curtain curtain-left"></div>
@@ -1122,10 +1149,33 @@
     </div>
   </div>
 
+  <!-- ─── PERSONAL PROJECTS ───────────────────────────── -->
+  <section class="projects-section">
+    <div class="projects-header">
+      <h2>Personal Projects and Tools</h2>
+      <p>Skill Development (Coming Soon)</p>
+    </div>
+    <div class="projects-grid-wrap" id="personal-projects-grid-wrap">
+      <div class="curtain curtain-left"></div>
+      <div class="curtain curtain-right"></div>
+      <div class="projects-grid" id="personal-projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- Personal project detail modal (populated by JS) -->
+  <div class="project-modal-overlay" id="personal-project-modal">
+    <div class="project-modal-card" id="personal-project-modal-card">
+      <div class="project-modal-grid" id="personal-project-modal-grid"></div>
+      <div class="modal-return-wrap">
+        <button class="modal-return-btn" id="personal-modal-return-btn">Return</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── WEBSITES SECTION ──────────────────────────── -->
   <section class="sites-section">
     <div class="sites-header">
-      <h2>Recommended Sites</h2>
+      <h2>Web Tools Catalog</h2>
       <p>Sites I use &amp; revisit</p>
     </div>
 
@@ -2103,6 +2153,42 @@
     })();
   </script>
 
+  <script>
+  (function () {
+    const header     = document.querySelector('.sites-header');
+    const browserWin = document.querySelector('.browser-window');
+
+    // Start collapsed — header looks like a button, browser hidden
+    header.classList.add('is-btn');
+    browserWin.style.display   = 'none';
+    browserWin.style.opacity   = '0';
+    browserWin.style.transform = 'translateY(-10px)';
+
+    let isOpen = false;
+
+    header.addEventListener('click', () => {
+      if (!isOpen) {
+        isOpen = true;
+        header.classList.remove('is-btn');
+        header.classList.add('is-open');
+        browserWin.style.display = '';
+        // Double rAF ensures display change renders before transition fires
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          browserWin.style.opacity   = '1';
+          browserWin.style.transform = 'translateY(0)';
+        }));
+      } else {
+        isOpen = false;
+        header.classList.remove('is-open');
+        header.classList.add('is-btn');
+        browserWin.style.opacity   = '0';
+        browserWin.style.transform = 'translateY(-10px)';
+        setTimeout(() => { if (!isOpen) browserWin.style.display = 'none'; }, 300);
+      }
+    });
+  })();
+  </script>
+
   <!-- ─── CONTACT SECTION ─────────────────────────────── -->
   <section class="contact-section" id="contact">
     <div class="contact-header">
@@ -2251,6 +2337,104 @@
 
       // ── Curtain reveal ────────────────────────────────
       const gridWrap = document.querySelector('.projects-grid-wrap');
+      const curtainObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          gridWrap.classList.add('revealed');
+          curtainObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+      curtainObserver.observe(gridWrap);
+    })();
+  </script>
+
+  <!-- ─── PERSONAL PROJECTS CAROUSEL + MODAL ──────────── -->
+  <script>
+    (function () {
+      // ── Add new project numbers here as you add main photos ──
+      const PROJECT_IDS = [1, 2];
+      const SUB_LETTERS = ['a', 'b', 'c'];
+      const PHOTO_DIR   = './PersonalProjectPhotos/';
+
+      const pgrid     = document.getElementById('personal-projects-grid');
+      const overlay   = document.getElementById('personal-project-modal');
+      const mgrid     = document.getElementById('personal-project-modal-grid');
+      const returnBtn = document.getElementById('personal-modal-return-btn');
+
+      function closeModal() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      PROJECT_IDS.forEach(async id => {
+        const div = document.createElement('div');
+        div.className = 'project-item';
+
+        const img = document.createElement('img');
+        img.src = `${PHOTO_DIR}${id}.png`;
+        img.alt = `Personal Project ${id}`;
+        div.appendChild(img);
+
+        div.addEventListener('click', () => openModal(id));
+        pgrid.appendChild(div);
+
+        const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+        if (text) {
+          const p = document.createElement('p');
+          p.className = 'project-caption';
+          p.textContent = text;
+          div.appendChild(p);
+        }
+      });
+
+      async function fetchText(path) {
+        try {
+          const res = await fetch(path);
+          return res.ok ? (await res.text()).trim() : '';
+        } catch { return ''; }
+      }
+
+      async function openModal(id) {
+        mgrid.innerHTML = '<p style="color:var(--text-dim);padding:1rem">Loading…</p>';
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        const cols = await Promise.all(SUB_LETTERS.map(async letter => {
+          const imgSrc = `${PHOTO_DIR}${id}${letter}.png`;
+          const txtSrc = `${PHOTO_DIR}${id}${letter}.txt`;
+          const text   = await fetchText(txtSrc);
+
+          const col = document.createElement('div');
+          col.className = 'project-modal-col';
+
+          const img = document.createElement('img');
+          img.src = imgSrc;
+          img.alt = `${id}${letter}`;
+
+          col.appendChild(img);
+          if (text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            col.appendChild(p);
+          }
+          return col;
+        }));
+
+        mgrid.innerHTML = '';
+        cols.forEach(col => mgrid.appendChild(col));
+      }
+
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal();
+      });
+
+      returnBtn.addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      const gridWrap = document.getElementById('personal-projects-grid-wrap');
       const curtainObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
