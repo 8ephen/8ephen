@@ -560,7 +560,10 @@
       position: relative;
       overflow: hidden;
       border-radius: 16px;
-      display: inline-block;
+      display: block;
+      width: 100%;
+      max-width: 828px;
+      margin: 0 auto;
     }
 
     .curtain {
@@ -583,10 +586,8 @@
       display: grid;
       box-sizing: border-box;
       padding: clamp(20px, 3vw, 40px);
-      grid-template-columns: repeat(auto-fill, 160px);
-      min-width: calc(2 * 160px + clamp(24px, 3vw, 36px) + 2 * clamp(20px, 3vw, 40px));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: clamp(24px, 3vw, 36px);
-      
     }
 
     .project-item {
@@ -595,17 +596,27 @@
       cursor: pointer;
     }
 
+    .project-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .project-item img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
       pointer-events: none;
-      transition: transform 0.3s ease, brightness 0.3s ease;
+      transform: scale(0.93);
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .project-item:hover img {
-      transform: scale(1.05);
+      transform: scale(1.0);
       filter: brightness(1.08);
     }
 
@@ -1130,7 +1141,7 @@
   <section class="projects-section">
     <div class="projects-header">
       <h2>Projects and Remedies</h2>
-      <p>New Product Development &amp; Adjustments (Coming Soon)</p>
+      <p>New Product Development &amp; Adjustments</p>
     </div>
     <div class="projects-grid-wrap">
       <div class="curtain curtain-left"></div>
@@ -1153,7 +1164,7 @@
   <section class="projects-section">
     <div class="projects-header">
       <h2>Personal Projects and Tools</h2>
-      <p>Skill Development (Coming Soon)</p>
+      <p>Skill Development</p>
     </div>
     <div class="projects-grid-wrap" id="personal-projects-grid-wrap">
       <div class="curtain curtain-left"></div>
@@ -2249,8 +2260,6 @@
   <!-- ─── ARM PROJECTS CAROUSEL + MODAL ───────────────── -->
   <script>
     (function () {
-      // ── Add new project numbers here as you add main photos ──
-      const PROJECT_IDS = [1, 2];
       const SUB_LETTERS = ['a', 'b', 'c'];
       const PHOTO_DIR   = './PortfolioPhotos/';
 
@@ -2264,28 +2273,46 @@
         document.body.style.overflow = '';
       }
 
-      // Populate the responsive grid
-      PROJECT_IDS.forEach(async id => {
-        const div = document.createElement('div');
-        div.className = 'project-item';
-
-        const img = document.createElement('img');
-        img.src = `${PHOTO_DIR}${id}.png`;
-        img.alt = `Project ${id}`;
-        div.appendChild(img);
-
-        div.addEventListener('click', () => openModal(id));
-        pgrid.appendChild(div);
-
-        // Append caption once text is fetched (silently skipped if file is empty)
-        const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
-        if (text) {
-          const p = document.createElement('p');
-          p.className = 'project-caption';
-          p.textContent = text;
-          div.appendChild(p);
+      async function detectIds() {
+        const ids = [];
+        let i = 1;
+        while (true) {
+          const res = await fetch(`${PHOTO_DIR}${i}.png`, { method: 'HEAD' });
+          if (!res.ok) break;
+          ids.push(i);
+          i++;
         }
-      });
+        return ids;
+      }
+
+      async function init() {
+        const ids = await detectIds();
+        for (const id of ids) {
+          const div = document.createElement('div');
+          div.className = 'project-item';
+
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'project-img-wrap';
+          const img = document.createElement('img');
+          img.src = `${PHOTO_DIR}${id}.png`;
+          img.alt = `Project ${id}`;
+          imgWrap.appendChild(img);
+          div.appendChild(imgWrap);
+
+          div.addEventListener('click', () => openModal(id));
+          pgrid.appendChild(div);
+
+          const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+          if (text) {
+            const p = document.createElement('p');
+            p.className = 'project-caption';
+            p.textContent = text;
+            div.appendChild(p);
+          }
+        }
+      }
+
+      init();
 
       // ── Modal ─────────────────────────────────────────────
       async function fetchText(path) {
@@ -2351,8 +2378,6 @@
   <!-- ─── PERSONAL PROJECTS CAROUSEL + MODAL ──────────── -->
   <script>
     (function () {
-      // ── Add new project numbers here as you add main photos ──
-      const PROJECT_IDS = [1, 2];
       const SUB_LETTERS = ['a', 'b', 'c'];
       const PHOTO_DIR   = './PersonalProjectPhotos/';
 
@@ -2366,26 +2391,46 @@
         document.body.style.overflow = '';
       }
 
-      PROJECT_IDS.forEach(async id => {
-        const div = document.createElement('div');
-        div.className = 'project-item';
-
-        const img = document.createElement('img');
-        img.src = `${PHOTO_DIR}${id}.png`;
-        img.alt = `Personal Project ${id}`;
-        div.appendChild(img);
-
-        div.addEventListener('click', () => openModal(id));
-        pgrid.appendChild(div);
-
-        const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
-        if (text) {
-          const p = document.createElement('p');
-          p.className = 'project-caption';
-          p.textContent = text;
-          div.appendChild(p);
+      async function detectIds() {
+        const ids = [];
+        let i = 1;
+        while (true) {
+          const res = await fetch(`${PHOTO_DIR}${i}.png`, { method: 'HEAD' });
+          if (!res.ok) break;
+          ids.push(i);
+          i++;
         }
-      });
+        return ids;
+      }
+
+      async function init() {
+        const ids = await detectIds();
+        for (const id of ids) {
+          const div = document.createElement('div');
+          div.className = 'project-item';
+
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'project-img-wrap';
+          const img = document.createElement('img');
+          img.src = `${PHOTO_DIR}${id}.png`;
+          img.alt = `Personal Project ${id}`;
+          imgWrap.appendChild(img);
+          div.appendChild(imgWrap);
+
+          div.addEventListener('click', () => openModal(id));
+          pgrid.appendChild(div);
+
+          const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+          if (text) {
+            const p = document.createElement('p');
+            p.className = 'project-caption';
+            p.textContent = text;
+            div.appendChild(p);
+          }
+        }
+      }
+
+      init();
 
       async function fetchText(path) {
         try {
