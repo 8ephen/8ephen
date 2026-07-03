@@ -35,12 +35,15 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      z-index: 5;
     }
 
     .hero-bg {
       position: absolute;
       inset: 0;
       background: radial-gradient(ellipse at 50% 40%, #1c1c1c 0%, #0d0d0d 70%);
+      overflow: hidden;
+      border-radius: 0;
       z-index: 0;
     }
 
@@ -127,26 +130,20 @@
       justify-content: center;
     }
 
-    /* Laptop — large faded background, slides in from left */
+    /* Laptop — large faded background. Starts pinned to the viewport,
+       facing backward and as big as the screen (hidden behind the hero
+       background); JS shrinks/rotates it in step with scroll and hands
+       it off to its resting position/size inside the showcase section. */
     #laptop-bg {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
-      /* Starts off-screen to the left */
-      transform: translate(calc(-50% - 130vw), -50%);
-      /* 100vmin = 100% of whichever viewport dimension is smaller */
-      width: 100vmin;
-      height: 100vmin;
-      opacity: 0;
-      pointer-events: none;
-      transition:
-        transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        opacity   0.6s ease;
-    }
-
-    #laptop-bg.slide-in {
       transform: translate(-50%, -50%);
+      width: 170vmin;
+      height: 170vmin;
       opacity: 0.28;
+      z-index: 1;
+      pointer-events: none;
     }
 
     #laptop-bg::part(default-progress-bar) { display: none; }
@@ -573,6 +570,31 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
+    }
+
+    /* Typewriter reveal for the professional-experience heading */
+    .heading-char {
+      display: inline-block;
+      opacity: 0;
+      animation: msgCharIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+    }
+
+    /* Subheading stays transparent until it scrolls to the vertical
+       midpoint of the viewport */
+    .fade-half-subheading {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .fade-half-subheading.visible {
+      opacity: 1;
+    }
+
+    /* Background box behind each professional-experience grid image only */
+    #projects-grid .project-img-wrap {
+      background-color: var(--text-dim);
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
 
     .projects-grid-wrap {
@@ -1166,8 +1188,8 @@
       <video class="hero-video" autoplay muted loop playsinline>
         <source src="./ExperienceCount/HeroVideo.mp4" type="video/mp4">
       </video>
+      <div class="hero-overlay"></div>
     </div>
-    <div class="hero-overlay"></div>
 
     <div class="hero-content">
       <h1 class="hero-name">Stephen Yoshida</h1>
@@ -1229,8 +1251,8 @@
   <!-- ─── ARM ENTERPRISES PROJECTS ───────────────────── -->
   <section class="projects-section">
     <div class="projects-header">
-      <h2>Professional Experience Count</h2>
-      <p>New Product Development &amp; Adjustments</p>
+      <h2 class="typewriter-heading">Professional Experience Count</h2>
+      <p class="fade-half-subheading">New Product Development &amp; Adjustments</p>
     </div>
     <div class="projects-grid-wrap">
       <div class="curtain curtain-left"></div>
@@ -1252,8 +1274,8 @@
   <!-- ─── PERSONAL PROJECTS ───────────────────────────── -->
   <section class="projects-section">
     <div class="projects-header">
-      <h2>Personal Projects and Tools</h2>
-      <p>Skill Development</p>
+      <h2 class="typewriter-heading">Personal Projects and Tools</h2>
+      <p class="fade-half-subheading">Skill Development</p>
     </div>
     <div class="projects-grid-wrap" id="personal-projects-grid-wrap">
       <div class="curtain curtain-left"></div>
@@ -1782,52 +1804,131 @@
       switchVariant(0); // show SolidWorks screen on load
     });
 
-    // ── Scroll-triggered slide-in + rotation ───────────
-    let animated = false;
+    // ── Scroll-linked hero shrink + laptop reveal/rotate ───────────
+    const heroBgEl = document.querySelector('.hero-bg');
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting || animated) return;
-        animated = true;
+    const ORBIT_START     = 245.46; // deg — backward-facing, at page load
+    const ORBIT_END       = 65.46;  // deg — resting, front-facing
+    const SIZE_START      = 170;    // vmin — viewport-covering
+    const SIZE_END        = 100;    // vmin — resting size (current layout)
+    const HERO_MARGIN_MAX = 32;     // px — space above/sides once shrunk
+    const HERO_RADIUS_MAX = 28;     // px — corner rounding once shrunk
+    const HERO_SHRINK_SPAN = 0.15;  // fraction of viewport height to fully shrink hero over (4x speed vs. laptop)
+    const SMOOTHING = 0.09;  // per-frame lerp factor — lower = smoother/laggier
 
-        // Trigger CSS slide-in (transform + opacity)
-        laptopEl.classList.add('slide-in');
+    function easeInOutQuad(t) {
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
 
-        // Animate camera orbit: back-facing → front-facing, timed with slide-in
-        const startDeg  = 245.46;
-        const endDeg    = 65.46;
-        const duration  = 2400;
+    // Raw scroll targets (jump straight to the scroll position).
+    let heroTargetT   = 0;
+    let laptopTargetT = 0;
 
-        function doRotate() {
-          const t0 = performance.now();
-          function frame(now) {
-            const raw  = Math.min((now - t0) / duration, 1);
-            const ease = raw < 0.5
-              ? 2 * raw * raw
-              : 1 - Math.pow(-2 * raw + 2, 2) / 2;
-            laptopEl.cameraOrbit = `${startDeg + (endDeg - startDeg) * ease}deg 85.66deg 16m`;
-            if (raw < 1) requestAnimationFrame(frame);
-          }
-          requestAnimationFrame(frame);
-        }
+    // Displayed values — eased toward the targets every frame so the
+    // laptop's motion feels smooth/damped rather than snapping 1:1 to
+    // scroll input.
+    let heroCurrentT   = 0;
+    let laptopCurrentT = 0;
 
-        if (laptopReady) {
-          doRotate();
-        } else {
-          laptopEl.addEventListener('load', doRotate, { once: true });
-        }
+    function computeTargets() {
+      const vh = window.innerHeight;
+      const y  = window.scrollY;
 
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.2 });
+      // Hero background shrinks inward with rounded corners while it's
+      // still on screen, over just the first sliver of the scroll.
+      heroTargetT = Math.min(y / (vh * HERO_SHRINK_SPAN), 1);
 
-    observer.observe(document.getElementById('showcase'));
+      // Laptop shrinks + rotates from back-facing/viewport-size down to
+      // its resting size over one full viewport height of scroll.
+      laptopTargetT = Math.min(y / vh, 1);
+    }
+
+    function renderFrame() {
+      heroCurrentT += (heroTargetT - heroCurrentT) * SMOOTHING;
+      if (Math.abs(heroTargetT - heroCurrentT) < 0.0005) heroCurrentT = heroTargetT;
+
+      // Size/rotation always ease smoothly toward the target, even after
+      // the position handoff below has already fired — so a fast scroll
+      // past the threshold locks the laptop in place immediately, but it
+      // keeps visibly shrinking/rotating into its final look afterward.
+      laptopCurrentT += (laptopTargetT - laptopCurrentT) * SMOOTHING;
+      if (Math.abs(laptopTargetT - laptopCurrentT) < 0.0005) laptopCurrentT = laptopTargetT;
+
+      const margin = heroCurrentT * HERO_MARGIN_MAX;
+      const radius = heroCurrentT * HERO_RADIUS_MAX;
+      heroBgEl.style.inset        = `${margin}px ${margin}px 0 ${margin}px`;
+      heroBgEl.style.borderRadius = `${radius}px`;
+
+      const eased = easeInOutQuad(laptopCurrentT);
+      const size  = SIZE_START + (SIZE_END - SIZE_START) * eased;
+      laptopEl.style.width  = size + 'vmin';
+      laptopEl.style.height = size + 'vmin';
+      laptopEl.cameraOrbit  = `${ORBIT_START + (ORBIT_END - ORBIT_START) * eased}deg 85.66deg 16m`;
+
+      // Driven by the raw scroll target (not the eased value) so the mode
+      // switch always matches where the showcase section actually is.
+      laptopEl.style.position = laptopTargetT < 1 ? 'fixed' : 'absolute';
+
+      requestAnimationFrame(renderFrame);
+    }
+
+    window.addEventListener('scroll', computeTargets, { passive: true });
+    window.addEventListener('resize', computeTargets);
+
+    computeTargets();
+    heroCurrentT   = heroTargetT;
+    laptopCurrentT = laptopTargetT;
+    requestAnimationFrame(renderFrame);
   </script>
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Section headings: typewriter reveal on scroll ──────────────────
+    document.querySelectorAll('.typewriter-heading').forEach(heading => {
+      const headingText = heading.textContent;
+      heading.textContent = '';
+
+      const headingObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          [...headingText].forEach((ch, i) => {
+            const span = document.createElement('span');
+            span.className = 'heading-char';
+            span.textContent = ch === ' ' ? ' ' : ch;
+            span.style.animationDelay = `${i * 45}ms`;
+            heading.appendChild(span);
+          });
+          headingObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.4 });
+
+      headingObserver.observe(heading);
+    });
+
+    // ── Section subheadings: fade in once they cross the vertical ──────
+    // ── midpoint of the viewport ─────────────────────────────────────────
+    const fadeSubheadings = document.querySelectorAll('.fade-half-subheading');
+    if (fadeSubheadings.length) {
+      let subheadingTicking = false;
+      function updateSubheadingVisibility() {
+        fadeSubheadings.forEach(sub => {
+          const rect = sub.getBoundingClientRect();
+          sub.classList.toggle('visible', rect.top < window.innerHeight / 2);
+        });
+        subheadingTicking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!subheadingTicking) {
+          requestAnimationFrame(updateSubheadingVisibility);
+          subheadingTicking = true;
+        }
+      }, { passive: true });
+      window.addEventListener('resize', updateSubheadingVisibility);
+      updateSubheadingVisibility();
+    }
 
     // ── Floating label letter animation ──────────────
     document.querySelectorAll('.form-control label').forEach(label => {
