@@ -272,307 +272,745 @@
       white-space: nowrap;
     }
 
-    /* ─── WEBSITES SECTION ──────────────────────────── */
-    .sites-section {
-      padding: clamp(60px, 8vh, 110px) clamp(20px, 5vw, 80px);
+    /* ─── SITE NAV ───────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: clamp(12px, 2vh, 20px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      width: min(94vw, 780px);
+    }
+
+    .site-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(10px, 2vw, 20px);
+      background: rgba(13, 13, 13, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 8px 8px 22px;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .site-nav.is-scrolled .site-nav-inner {
+      background: rgba(13, 13, 13, 0.85);
+      border-color: rgba(240, 240, 240, 0.16);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .site-nav-brand {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .site-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .site-nav-menu-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(240, 240, 240, 0.04);
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .sites-header {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: clamp(16px, 3vw, 36px);
-      text-align: center;
+      gap: 4px;
       cursor: pointer;
-      user-select: none;
-      border: 1px solid transparent;
-      border-radius: 0;
-      padding: 0;
-      transition: background 0.2s ease, border-color 0.2s ease, border-radius 0.25s ease, padding 0.25s ease;
-    }
-
-    .sites-header-arrow {
-      font-size: 1.1rem;
-      color: var(--text-dim);
       flex-shrink: 0;
-      transition: transform 0.3s ease, color 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .sites-header:hover .sites-header-arrow {
+    .site-nav-menu-btn:hover {
+      background: rgba(240, 240, 240, 0.1);
+      border-color: rgba(240, 240, 240, 0.3);
+    }
+
+    .site-nav-menu-btn span {
+      width: 15px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .site-nav-menu-btn.is-open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .site-nav-menu-btn.is-open span:nth-child(2) { opacity: 0; }
+    .site-nav-menu-btn.is-open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .site-nav-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 210px;
+      background: rgba(13, 13, 13, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .site-nav-dropdown.is-open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .site-nav-dropdown a,
+    .site-nav-dropdown button {
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .site-nav-dropdown a:hover,
+    .site-nav-dropdown button:hover {
+      background: rgba(240, 240, 240, 0.08);
       color: var(--text);
     }
 
-    .sites-header.is-open .sites-header-arrow {
-      transform: rotate(180deg);
+    .site-nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240, 240, 240, 0.1);
+      border: 1px solid rgba(240, 240, 240, 0.2);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.8rem;
+      text-decoration: none;
+      padding: 8px 8px 8px 16px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .sites-header.is-btn {
-      border-color: rgba(240, 240, 240, 0.1);
-      border-radius: 20px;
-      padding: clamp(14px, 2vw, 20px) clamp(32px, 5vw, 72px);
-      margin-bottom: 0;
+    .site-nav-cta:hover {
+      background: rgba(240, 240, 240, 0.18);
+      border-color: rgba(240, 240, 240, 0.35);
     }
 
-    .sites-header.is-btn:hover {
-      background: rgba(240, 240, 240, 0.05);
-      border-color: rgba(240, 240, 240, 0.28);
+    .site-nav-cta-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--text);
+      color: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      flex-shrink: 0;
     }
 
-.sites-header.is-open {
+    #showcase, #experience, .ptools-section, #contact {
+      scroll-margin-top: 90px;
+    }
+
+    /* ─── WEB TOOLS CATALOG (nav-only overlay) ────────── */
+    .catalog-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(70px, 10vh, 110px) clamp(16px, 4vw, 40px) clamp(24px, 4vh, 48px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .catalog-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .catalog-modal {
       width: 100%;
-      max-width: 860px;
-      margin-bottom: 3rem;
+      max-width: 1180px;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: clamp(24px, 4vw, 44px);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .sites-header h2 {
+    .catalog-overlay.is-open .catalog-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .catalog-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: clamp(24px, 4vh, 36px);
+    }
+
+    .catalog-modal-title {
       font-family: 'Nanum Myeongjo', serif;
       font-weight: 400;
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-size: clamp(1.5rem, 3.2vw, 2.15rem);
       color: var(--text);
     }
 
-    .sites-header p {
-      margin-top: 0.6rem;
-      font-size: 0.8rem;
+    .catalog-modal-sub {
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
 
-    /* Browser window */
-    .browser-window {
-      max-width: 860px;
-      width: 100%;
-      margin: 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Title bar (traffic lights + tab) */
-    .browser-bar {
-      background: #1a1a1a;
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px 0;
-      display: flex;
-      align-items: flex-end;
-      gap: 12px;
-    }
-
-    .browser-dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      padding-bottom: 12px;
-      flex-shrink: 0;
-    }
-
-    .browser-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-    }
-
-    .browser-dot.red   { background: #ff5f57; }
-    .browser-dot.amber { background: #febc2e; }
-    .browser-dot.green { background: #28c840; }
-
-    .browser-tab {
-      background: rgba(240, 240, 240, 0.04);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-      padding: 7px 20px;
-      font-size: 0.78rem;
+    .catalog-modal-count {
+      margin-top: 0.8rem;
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
       color: var(--text-dim);
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-      cursor: default;
-      user-select: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
     }
 
-    .browser-tab.active {
-      background: #0d0d0d;
+    .catalog-close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(240, 240, 240, 0.04);
       color: var(--text);
-    }
-
-    /* Preview panel */
-    .preview-container {
-      display: none;
-      height: auto;
+      font-size: 1rem;
       cursor: pointer;
-      position: relative;
-      background: #111;
-    }
-
-    .preview-container.active { display: block; }
-
-    /* Spinner shown while image is loading */
-    .preview-loading {
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 260px;
-      color: var(--text-dim);
-      font-size: 0.78rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
     }
 
-    .preview-loading.hidden { display: none; }
-
-    /* Image sizes to its natural dimensions */
-    .preview-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+    .catalog-close-btn:hover {
+      background: rgba(240, 240, 240, 0.12);
+      border-color: rgba(240, 240, 240, 0.3);
+      transform: rotate(90deg);
     }
 
-    .preview-img.loaded { opacity: 1; }
-
-    .preview-hint {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(13, 13, 13, 0.85);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-      white-space: nowrap;
-    }
-
-    /* Content list */
-    .browser-content {
-      background: #0d0d0d;
-      max-height: 520px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.1) transparent;
-    }
-
-    .browser-content::-webkit-scrollbar       { width: 6px; }
-    .browser-content::-webkit-scrollbar-track  { background: transparent; }
-    .browser-content::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 3px; }
-
-    .site-item {
+    /* Filter chips */
+    .catalog-filters {
       display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: clamp(28px, 4vw, 44px);
+    }
+
+    .catalog-chip {
+      background: rgba(240, 240, 240, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .catalog-chip:hover {
+      color: var(--text);
+      border-color: rgba(240, 240, 240, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .catalog-chip.is-active {
+      background: rgba(240, 240, 240, 0.14);
+      border-color: rgba(240, 240, 240, 0.4);
+      color: var(--text);
+    }
+
+    /* Card grid */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: clamp(16px, 2vw, 26px);
+    }
+
+    .catalog-card {
+      display: block;
       text-decoration: none;
       color: var(--text);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s ease;
+      perspective: 900px;
+      opacity: 0;
+      transform: translateY(28px) scale(0.96);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .site-item:last-child { border-bottom: none; }
+    .catalog-grid.is-revealed .catalog-card {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
-    .site-item:hover { background: rgba(255, 255, 255, 0.04); }
+    .catalog-card.is-filtered-out {
+      opacity: 0 !important;
+      transform: scale(0.85) !important;
+      pointer-events: none;
+      transition-delay: 0ms !important;
+    }
 
-    .site-icon {
-      width: 36px;
-      height: 36px;
+    .catalog-card-inner {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #111;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .catalog-card:hover .catalog-card-inner {
+      border-color: rgba(240, 240, 240, 0.3);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+    }
+
+    .catalog-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, rgba(240,240,240,0.06), rgba(240,240,240,0.01));
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .catalog-thumb-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .catalog-thumb-fallback img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      opacity: 0.5;
+      filter: grayscale(1);
+    }
+
+    .catalog-thumb-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0;
+      transform: scale(1.06);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .catalog-thumb-img.is-loaded { opacity: 1; }
+
+    .catalog-card:hover .catalog-thumb-img { transform: scale(1.12); }
+
+    .catalog-thumb-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
+    }
+
+    .catalog-card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .catalog-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .catalog-icon-chip {
+      width: 26px;
+      height: 26px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      border-radius: 8px;
+      border-radius: 7px;
       background: #fff;
       overflow: hidden;
     }
 
-    .site-icon img {
-      width: 26px;
-      height: 26px;
+    .catalog-icon-chip img {
+      width: 18px;
+      height: 18px;
       object-fit: contain;
     }
 
-    .site-details { flex: 1; min-width: 0; }
+    .catalog-tag-pill {
+      font-size: 0.64rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+      color: var(--tag-color, var(--text-dim));
+      background: var(--tag-bg, rgba(240, 240, 240, 0.06));
+      border: 1px solid var(--tag-border, var(--border));
+    }
 
-    .site-name {
-      font-size: 0.88rem;
-      font-weight: 500;
+    .catalog-card:hover .catalog-tag-pill {
+      animation: pillPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pillPulse {
+      0%, 100% { filter: brightness(1); }
+      50%      { filter: brightness(1.5); }
+    }
+
+    .catalog-card-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: 1.05rem;
       color: var(--text);
-      margin-bottom: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.3;
     }
 
-    .site-desc {
-      font-size: 0.76rem;
+    .catalog-card-desc {
+      font-size: 0.78rem;
       color: var(--text-dim);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.55;
+      flex: 1;
     }
 
-    .site-tag {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .site-arrow {
-      color: var(--text-dim);
-      font-size: 0.9rem;
-      flex-shrink: 0;
+    .catalog-card-arrow {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(13, 13, 13, 0.75);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 0;
-      transform: translateX(-4px);
-      transition: opacity 0.15s, transform 0.15s;
+      transform: translate(-6px, 6px) scale(0.8);
+      transition: opacity 0.2s, transform 0.2s;
+      backdrop-filter: blur(6px);
     }
 
-    .site-item:hover .site-arrow {
+    .catalog-card:hover .catalog-card-arrow {
       opacity: 1;
-      transform: translateX(0);
+      transform: translate(0, 0) scale(1);
     }
 
-    /* ─── ARM PROJECTS GRID ─────────────────────────── */
-    .projects-section {
-      padding-top: clamp(60px, 8vh, 100px);
-      margin-bottom: clamp(80px, 12vh, 140px);
+    /* ─── PROFESSIONAL EXPERIENCE HERO ──────────────────── */
+    .exp-section {
+      position: relative;
+    }
+
+    .exp-track {
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .exp-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+
+    .exp-box-shadow {
+      position: absolute;
+      inset: 48vh 48vw;
+      border-radius: 300px;
+      box-shadow: 0 50px 140px rgb(0, 0, 0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .exp-box {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      will-change: clip-path;
+      background-color: rgba(240, 240, 240, 0.14);
+     }
+
+    .exp-box-images {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.35s ease-out;
+    }
+
+    .exp-box-images img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1), transform 6s linear;
+    }
+
+    .exp-box-images img.is-active {
+      opacity: 1;
+      transform: scale(1.14);
+    }
+
+    .exp-box-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.72) 100%),
+        linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%);
+      pointer-events: none;
+    }
+
+    .exp-hud {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .exp-hud.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .exp-counter {
+      position: absolute;
+      top: clamp(24px, 5vh, 56px);
+      left: clamp(20px, 5vw, 64px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .exp-counter-num {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .exp-counter-total {
+      color: var(--text-dim);
+      font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    }
+
+    .exp-counter-track {
+      width: clamp(60px, 8vw, 110px);
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-counter-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      background: var(--text);
+      transition: width 0.2s linear;
+    }
+
+    .exp-body {
+      position: absolute;
+      left: clamp(20px, 5vw, 64px);
+      bottom: clamp(56px, 10vh, 120px);
+      max-width: min(560px, 44vw);
+      pointer-events: auto;
+    }
+
+    .exp-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.3rem;
+    }
+
+    .exp-items {
+      position: relative;
+      min-height: clamp(140px, 22vh, 220px);
+    }
+
+    .exp-item {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .exp-item.is-active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .exp-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .exp-stat-num {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      text-shadow: 0 0 28px rgba(173, 216, 230, 0.35);
+    }
+
+    .exp-stat-label {
+      font-size: clamp(0.8rem, 1.3vw, 0.92rem);
+      color: rgba(240, 240, 240, 0.72);
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+    }
+
+    .exp-stat-line {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      color: rgba(240, 240, 240, 0.85);
+    }
+
+    .exp-view-btn {
+      display: none;
+      margin-top: 1.8rem;
+      background: rgba(240, 240, 240, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 11px 26px;
+      border-radius: 24px;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .exp-view-btn.is-visible {
+      display: inline-flex;
+    }
+
+    .exp-view-btn:hover {
+      background: rgba(240, 240, 240, 0.14);
+      border-color: rgba(240, 240, 240, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .exp-scroll-cue {
+      position: absolute;
+      bottom: clamp(24px, 5vh, 48px);
+      right: clamp(20px, 5vw, 64px);
+      z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 10px;
+      opacity: 0.85;
+      transition: opacity 0.3s ease;
     }
 
-    .projects-header {
-      text-align: center;
-      margin-bottom: 2.5rem;
+    .exp-scroll-cue.is-hidden {
+      opacity: 0;
     }
 
-    .projects-header h2 {
-      font-family: 'Nanum Myeongjo', serif;
-      font-weight: 400;
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-      color: var(--text);
-    }
-
-    .projects-header p {
-      margin-top: 0.6rem;
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
+    .exp-scroll-cue span {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
 
-    /* Typewriter reveal for the professional-experience heading */
+    .exp-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-dim), transparent);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+
+    @media (max-width: 760px) {
+      .exp-body { max-width: calc(100vw - 40px); }
+      .exp-scroll-cue { display: none; }
+    }
+
+    /* Typewriter reveal for section headings */
     .heading-char {
       display: inline-block;
       opacity: 0;
@@ -590,83 +1028,206 @@
       opacity: 1;
     }
 
-    /* Background box behind each professional-experience grid image only */
-    #projects-grid .project-img-wrap {
-      background-color: var(--text-dim);
-      border-radius: 10px;
-      margin-bottom: 10px;
+    /* ─── PERSONAL PROJECTS GRID ──────────────────────── */
+    .ptools-section {
+      padding-top: 78px;
+      padding-bottom: clamp(20px, 4vh, 48px);
+      margin-bottom: clamp(80px, 12vh, 140px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .projects-grid-wrap {
-      position: relative;
-      overflow: hidden;
-      border-radius: 16px;
-      display: block;
-      width: 100%;
-      max-width: 828px;
-      margin: 0 auto;
+    .ptools-header {
+      text-align: center;
+      margin-bottom: clamp(28px, 4vh, 40px);
     }
 
-    .curtain {
-      position: absolute;
-      top: 0;
-      width: 50%;
-      height: 100%;
-      background: var(--bg);
-      z-index: 10;
-      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+    .ptools-header h2 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--text);
     }
 
-    .curtain-left  { left: 0; }
-    .curtain-right { right: 0; }
-
-    .projects-grid-wrap.revealed .curtain-left  { transform: translateX(-100%); }
-    .projects-grid-wrap.revealed .curtain-right { transform: translateX(100%); }
-
-    .projects-grid {
-      display: grid;
-      box-sizing: border-box;
-      padding: clamp(20px, 3vw, 40px);
-      grid-template-columns: repeat(auto-fill, minmax(min(200px, calc(50% - clamp(12px, 1.5vw, 18px))), 1fr));
-      gap: clamp(24px, 3vw, 36px);
+    .ptools-header p {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
     }
 
-    .project-item {
-      border-radius: 10px;
-      overflow: hidden;
-      cursor: pointer;
+    .ptools-hint {
+      position: sticky;
+      top: 18px;
+      z-index: 6;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 auto clamp(20px, 3vh, 32px);
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 16px 8px 18px;
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
     }
 
-    .project-img-wrap {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
+    .ptools-hint.is-visible { opacity: 1; transform: translateY(0); }
+
+    .ptools-hint-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(240, 240, 240, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.7rem;
     }
 
-    .project-item img {
+    .ptools-grid {
+      position: relative;
+      width: 100%;
+      max-width: 1180px;
+      padding: 0 clamp(16px, 3vw, 40px);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-rows: 240px;
+      gap: clamp(14px, 2vw, 24px);
+    }
+
+    .ptools-card {
+      position: relative;
+      grid-column: span 1;
+      grid-row: span 1;
+      border-radius: clamp(16px, 2vw, 24px);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #111;
+      opacity: 0;
+      transform: translateY(28px) scale(0.97);
+      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ptools-card.is-revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .ptools-card:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .ptools-card:hover {
+      border-color: rgba(240, 240, 240, 0.3);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    }
+
+    .ptools-card-media {
+      position: absolute;
+      inset: 0;
+    }
+
+    .ptools-card-media img,
+    .ptools-card-media video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      display: block;
-      object-fit: contain;
+      object-fit: cover;
+      transition: opacity 0.5s ease, transform 8s ease-out;
+    }
+
+    .ptools-card:hover .ptools-card-media img { transform: scale(1.08); }
+
+    .ptools-card-media video {
+      opacity: 0;
       pointer-events: none;
-      transform: scale(0.93);
-      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
-    .project-item:hover img {
-      transform: scale(1.0);
-      filter: brightness(1.08);
+    .ptools-card-media video.is-active { opacity: 1; }
+
+    .ptools-card-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.8) 100%);
+      pointer-events: none;
     }
 
-    .project-caption {
-      padding: 12px 14px 14px;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      line-height: 1.65;
-      margin: 0;
+    .ptools-card-caption {
+      position: absolute;
+      left: clamp(14px, 2vw, 22px);
+      right: clamp(14px, 2vw, 22px);
+      bottom: clamp(14px, 2vw, 20px);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ptools-card-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ptools-card-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(240, 240, 240, 0.1);
+      border: 1px solid var(--border);
+      font-size: 0.66rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .ptools-card-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 1.6vw, 1.3rem);
+      color: var(--text);
+    }
+
+    .ptools-card:first-child .ptools-card-title {
+      font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+    }
+
+    .ptools-card-desc {
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: rgba(240, 240, 240, 0.75);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+    }
+
+    .ptools-card:hover .ptools-card-desc {
+      max-height: 6em;
+      opacity: 1;
+    }
+
+    .ptools-desc-char {
+      display: inline-block;
+      opacity: 0;
+      animation: msgCharIn 0.28s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+    }
+
+    @media (max-width: 700px) {
+      .ptools-card:first-child { grid-column: span 1; grid-row: span 1; }
+      .ptools-grid { grid-auto-rows: 220px; }
     }
 
     /* ─── PROJECT MODAL ──────────────────────────────── */
@@ -1182,8 +1743,73 @@
 </head>
 <body>
 
+  <!-- ─── SITE NAV ──────────────────────────────────── -->
+  <nav class="site-nav" id="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="#top">SY</a>
+      <div class="site-nav-right">
+        <button class="site-nav-menu-btn" id="site-nav-menu-btn" type="button" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <a class="site-nav-cta" href="#contact">
+          Get In Touch
+          <span class="site-nav-cta-icon">&#8599;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="site-nav-dropdown" id="site-nav-dropdown">
+      <a href="#top">Home</a>
+      <a href="#showcase">Software</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <button type="button" id="nav-web-tools-btn">Web Tools</button>
+    </div>
+  </nav>
+
+  <script>
+    (function () {
+      const navEl      = document.getElementById('site-nav');
+      const menuBtn    = document.getElementById('site-nav-menu-btn');
+      const dropdownEl = document.getElementById('site-nav-dropdown');
+
+      function updateNavState() {
+        navEl.classList.toggle('is-scrolled', window.scrollY > 40);
+      }
+      window.addEventListener('scroll', updateNavState, { passive: true });
+      updateNavState();
+
+      // ── Hamburger dropdown ──────────────────────────
+      let menuOpen = false;
+      function closeMenu() {
+        if (!menuOpen) return;
+        menuOpen = false;
+        menuBtn.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        dropdownEl.classList.remove('is-open');
+      }
+      function toggleMenu() {
+        menuOpen = !menuOpen;
+        menuBtn.classList.toggle('is-open', menuOpen);
+        menuBtn.setAttribute('aria-expanded', String(menuOpen));
+        dropdownEl.classList.toggle('is-open', menuOpen);
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+      dropdownEl.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', closeMenu);
+      });
+      document.addEventListener('click', e => {
+        if (menuOpen && !navEl.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
+
   <!-- ─── HERO ──────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" id="top">
     <div class="hero-bg">
       <video class="hero-video" autoplay muted loop playsinline>
         <source src="./ExperienceCount/HeroVideo.mp4" type="video/mp4">
@@ -1248,20 +1874,42 @@
 
   </section>
 
-  <!-- ─── ARM ENTERPRISES PROJECTS ───────────────────── -->
-  <section class="projects-section">
-    <div class="projects-header">
-      <h2 class="typewriter-heading">Professional Experience Count</h2>
-      <p class="fade-half-subheading">New Product Development &amp; Adjustments</p>
-    </div>
-    <div class="projects-grid-wrap">
-      <div class="curtain curtain-left"></div>
-      <div class="curtain curtain-right"></div>
-      <div class="projects-grid" id="projects-grid"></div>
+  <!-- ─── PROFESSIONAL EXPERIENCE ─────────────────────── -->
+  <section class="exp-section" id="experience">
+    <div class="exp-track" id="exp-track">
+      <div class="exp-stage" id="exp-stage">
+
+        <div class="exp-box-shadow" id="exp-box-shadow"></div>
+
+        <div class="exp-box" id="exp-box">
+          <div class="exp-box-images" id="exp-box-images"></div>
+          <div class="exp-box-scrim"></div>
+        </div>
+
+        <div class="exp-hud" id="exp-hud">
+          <div class="exp-counter">
+            <span class="exp-counter-num" id="exp-counter-current">01</span>
+            <span class="exp-counter-track"><span class="exp-counter-fill" id="exp-counter-fill"></span></span>
+            <span class="exp-counter-num exp-counter-total" id="exp-counter-total">02</span>
+          </div>
+
+          <div class="exp-body">
+            <p class="exp-eyebrow">Professional Experience</p>
+            <div class="exp-items" id="exp-items"></div>
+            <button class="exp-view-btn" id="exp-view-btn">View Project <span>&#8599;</span></button>
+          </div>
+        </div>
+
+        <div class="exp-scroll-cue" id="exp-scroll-cue">
+          <span>Scroll</span>
+          <div class="exp-scroll-line"></div>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- Project detail modal (populated by JS) -->
+  <!-- Experience detail modal (populated by JS) -->
   <div class="project-modal-overlay" id="project-modal">
     <div class="project-modal-card" id="project-modal-card">
       <div class="project-modal-grid" id="project-modal-grid"></div>
@@ -1272,306 +1920,33 @@
   </div>
 
   <!-- ─── PERSONAL PROJECTS ───────────────────────────── -->
-  <section class="projects-section">
-    <div class="projects-header">
+  <section class="ptools-section" id="projects">
+    <div class="ptools-header">
       <h2 class="typewriter-heading">Personal Projects and Tools</h2>
       <p class="fade-half-subheading">Skill Development</p>
     </div>
-    <div class="projects-grid-wrap" id="personal-projects-grid-wrap">
-      <div class="curtain curtain-left"></div>
-      <div class="curtain curtain-right"></div>
-      <div class="projects-grid" id="personal-projects-grid"></div>
+    <div class="ptools-hint" id="ptools-hint">
+      <span class="ptools-hint-icon">&#8599;</span>
+      Hover on any project
     </div>
+    <div class="ptools-grid" id="ptools-grid"></div>
   </section>
 
-  <!-- Personal project detail modal (populated by JS) -->
-  <div class="project-modal-overlay" id="personal-project-modal">
-    <div class="project-modal-card" id="personal-project-modal-card">
-      <div class="project-modal-grid" id="personal-project-modal-grid"></div>
-      <div class="modal-return-wrap">
-        <button class="modal-return-btn" id="personal-modal-return-btn">Return</button>
+  <!-- ─── WEB TOOLS CATALOG (opened only from the nav) ── -->
+  <div class="catalog-overlay" id="catalog-overlay">
+    <div class="catalog-modal">
+      <div class="catalog-modal-header">
+        <div>
+          <h2 class="catalog-modal-title">Web Tools Catalog</h2>
+          <p class="catalog-modal-sub">Sites I use &amp; revisit</p>
+          <span class="catalog-modal-count" id="catalog-modal-count"></span>
+        </div>
+        <button class="catalog-close-btn" id="catalog-close-btn" type="button" aria-label="Close">&#10005;</button>
       </div>
+      <div class="catalog-filters" id="catalog-filters"></div>
+      <div class="catalog-grid" id="catalog-grid"></div>
     </div>
   </div>
-
-  <!-- ─── WEBSITES SECTION ──────────────────────────── -->
-  <section class="sites-section">
-    <div class="sites-header">
-      <span class="sites-header-arrow sites-header-arrow-left">&#8595;</span>
-      <div class="sites-header-text">
-        <h2>Web Tools Catalog</h2>
-        <p>Sites I use &amp; revisit</p>
-      </div>
-      <span class="sites-header-arrow sites-header-arrow-right">&#8595;</span>
-    </div>
-
-    <div class="browser-window">
-      <!-- Title bar -->
-      <div class="browser-bar">
-        <div class="browser-dots">
-          <div class="browser-dot red"></div>
-          <div class="browser-dot amber"></div>
-          <div class="browser-dot green"></div>
-        </div>
-        <div class="browser-tab active" id="bookmarks-tab">Bookmarks</div>
-      </div>
-
-      <!-- Link list -->
-      <div class="browser-content">
-
-        <a class="site-item" href="https://www.babbel.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/babbel.ico" alt="Babbel" onerror="this.parentElement.textContent='🗣'"></div>
-          <div class="site-details">
-            <div class="site-name">Babbel</div>
-            <div class="site-desc">Language learning platform with structured lessons</div>
-          </div>
-          <span class="site-tag">Learning</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://chatgpt.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/ChatGPT.ico" alt="ChatGPT" onerror="this.parentElement.textContent='🤖'"></div>
-          <div class="site-details">
-            <div class="site-name">ChatGPT</div>
-            <div class="site-desc">Multipurpose large language model</div>
-          </div>
-          <span class="site-tag">AI</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://coddy.tech/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/Coddy.ico" alt="Coddy" onerror="this.parentElement.textContent='💻'"></div>
-          <div class="site-details">
-            <div class="site-name">Coddy.tech</div>
-            <div class="site-desc">Interactive coding exercises and challenges</div>
-          </div>
-          <span class="site-tag">Learning</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.cta.gallery/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/CtaGallery.avif" alt="CTA Gallery" onerror="this.parentElement.textContent='▶'"></div>
-          <div class="site-details">
-            <div class="site-name">CTA Gallery</div>
-            <div class="site-desc">Call-to-action button and section design gallery</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.falstad.com/circuit/circuitjs.html" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/Falstad.ico" alt="Falstad" onerror="this.parentElement.textContent='⚡'"></div>
-          <div class="site-details">
-            <div class="site-name">Falstad Circuit Simulator</div>
-            <div class="site-desc">Interactive browser-based circuit simulation</div>
-          </div>
-          <span class="site-tag">Electronics</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.flaticon.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/Flaticon.png" alt="Flaticon" onerror="this.parentElement.textContent='🔷'"></div>
-          <div class="site-details">
-            <div class="site-name">Flaticon</div>
-            <div class="site-desc">Free vector icons and stickers for any project</div>
-          </div>
-          <span class="site-tag">Icons</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://fontmojo.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/FontMojo.ico" alt="FontMojo" onerror="this.parentElement.textContent='𝑓'"></div>
-          <div class="site-details">
-            <div class="site-name">FontMojo</div>
-            <div class="site-desc">Preview and pair fonts live for web projects</div>
-          </div>
-          <span class="site-tag">Typography</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.footer.design/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/footer.png" alt="Footer Design" onerror="this.parentElement.textContent='⬇'"></div>
-          <div class="site-details">
-            <div class="site-name">Footer Design</div>
-            <div class="site-desc">Website footer design inspiration gallery</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://fonts.google.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/GoogleFonts.png" alt="Google Fonts" onerror="this.parentElement.textContent='𝐀'"></div>
-          <div class="site-details">
-            <div class="site-name">Google Fonts</div>
-            <div class="site-desc">Open font library and web typography tools</div>
-          </div>
-          <span class="site-tag">Typography</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.kittl.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/kittle.png" alt="Kittl" onerror="this.parentElement.textContent='🎨'"></div>
-          <div class="site-details">
-            <div class="site-name">Kittl</div>
-            <div class="site-desc">Logo design, mock-ups, and brand visualization</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://minimal.gallery/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/minimal.png" alt="Minimal Gallery" onerror="this.parentElement.textContent='◻'"></div>
-          <div class="site-details">
-            <div class="site-name">Minimal Gallery</div>
-            <div class="site-desc">Curated minimal and clean website design inspiration</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/NordicSemi.webp" alt="Nordic Semi" onerror="this.parentElement.textContent='📡'"></div>
-          <div class="site-details">
-            <div class="site-name">Nordic Semiconductor Academy</div>
-            <div class="site-desc">nRF Connect SDK fundamentals certification course</div>
-          </div>
-          <span class="site-tag">Embedded</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.pacdora.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/pacdora.ico" alt="Pacdora" onerror="this.parentElement.textContent='📦'"></div>
-          <div class="site-details">
-            <div class="site-name">Pacdora</div>
-            <div class="site-desc">Product and packaging 3D mockup generator</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.planyourroom.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/PlanYourRoom.png" alt="PlanYourRoom" onerror="this.parentElement.textContent='🏠'"></div>
-          <div class="site-details">
-            <div class="site-name">PlanYourRoom.com</div>
-            <div class="site-desc">2D furniture layout and room visualizer</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://reactbits.dev" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/ReactBits.ico" alt="ReactBits" onerror="this.parentElement.textContent='⚛️'"></div>
-          <div class="site-details">
-            <div class="site-name">ReactBits.dev</div>
-            <div class="site-desc">Animated React UI components</div>
-          </div>
-          <span class="site-tag">React</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.supahero.io/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/supahero.avif" alt="Supahero" onerror="this.parentElement.textContent='✦'"></div>
-          <div class="site-details">
-            <div class="site-name">Supahero</div>
-            <div class="site-desc">Hero section and background generator for websites</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.templatemaker.nl/en/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/templateMaker.png" alt="Template Maker" onerror="this.parentElement.textContent='📐'"></div>
-          <div class="site-details">
-            <div class="site-name">Template Maker</div>
-            <div class="site-desc">Outline template generator for custom box dielines</div>
-          </div>
-          <span class="site-tag">Packaging</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://textbehindimage.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/TextBehindImage.ico" alt="Text Behind Image" onerror="this.parentElement.textContent='🖊'"></div>
-          <div class="site-details">
-            <div class="site-name">Text Behind Image</div>
-            <div class="site-desc">Place text behind photo subjects for layered effects</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://texturefabrik.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/textureFabrik.png" alt="TextureFabrik" onerror="this.parentElement.textContent='🖼'"></div>
-          <div class="site-details">
-            <div class="site-name">TextureFabrik</div>
-            <div class="site-desc">Free textures, patterns, and graphics for 3D and design</div>
-          </div>
-          <span class="site-tag">3D / Blender</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://texturelabs.org/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/textureLabs.png" alt="TextureLabs" onerror="this.parentElement.textContent='🖼️'"></div>
-          <div class="site-details">
-            <div class="site-name">TextureLabs.org</div>
-            <div class="site-desc">Free surface textures and materials gallery</div>
-          </div>
-          <span class="site-tag">3D / Blender</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://transparenttextures.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/transparenttextures.png" alt="Transparent Textures" onerror="this.parentElement.textContent='▪'"></div>
-          <div class="site-details">
-            <div class="site-name">Transparent Textures</div>
-            <div class="site-desc">CSS background texture and pattern library</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.typing.com/student/lessons" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/Typing.webp" alt="Typing.com" onerror="this.parentElement.textContent='⌨'"></div>
-          <div class="site-details">
-            <div class="site-name">Typing.com</div>
-            <div class="site-desc">Typing speed trainer with structured lessons</div>
-          </div>
-          <span class="site-tag">Learning</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://uiverse.io" target="_blank" rel="noopener" data-preview="./site-previews/uiverse.jpg">
-          <div class="site-icon"><img src="/Site_Photos/uiverse.png" alt="Uiverse" onerror="this.parentElement.textContent='🎨'"></div>
-          <div class="site-details">
-            <div class="site-name">Uiverse.io</div>
-            <div class="site-desc">Open-source HTML & CSS UI component library</div>
-          </div>
-          <span class="site-tag">HTML / CSS</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.unicorn.studio/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/UnicornStudio.png" alt="Unicorn Studio" onerror="this.parentElement.textContent='✦'"></div>
-          <div class="site-details">
-            <div class="site-name">Unicorn Studio</div>
-            <div class="site-desc">Creative studio for interactive digital experiences</div>
-          </div>
-          <span class="site-tag">Design</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-        <a class="site-item" href="https://www.wolframalpha.com/" target="_blank" rel="noopener">
-          <div class="site-icon"><img src="/Site_Photos/wolframalpha.png" alt="WolframAlpha" onerror="this.parentElement.textContent='∑'"></div>
-          <div class="site-details">
-            <div class="site-name">WolframAlpha</div>
-            <div class="site-desc">Symbolic AI for mathematics and science computations</div>
-          </div>
-          <span class="site-tag">Math</span>
-          <span class="site-arrow">↗</span>
-        </a>
-
-      </div>
-    </div>
-  </section>
 
   <script>
     const SOFTWARE = [
@@ -2301,152 +2676,174 @@
   }); // end DOMContentLoaded
   </script>
 
-  <script>
-    (function () {
-      const browserWin   = document.querySelector('.browser-window');
-      const browserBar   = document.querySelector('.browser-bar');
-      const bookmarksTab = document.getElementById('bookmarks-tab');
-      const listView     = document.querySelector('.browser-content');
-
-      const previewTab = document.createElement('div');
-      previewTab.className = 'browser-tab';
-      previewTab.style.display = 'none';
-      previewTab.innerHTML = '<span id="ptab-name"></span>';
-      browserBar.appendChild(previewTab);
-
-      const panel = document.createElement('div');
-      panel.className = 'preview-container';
-      panel.innerHTML = `
-        <div class="preview-loading" id="prev-loading">Loading preview…</div>
-        <img class="preview-img" id="prev-img" alt="Website preview">
-        <div class="preview-hint">Click to open ↗</div>
-      `;
-      browserWin.appendChild(panel);
-
-      const loadingEl = document.getElementById('prev-loading');
-      const imgEl     = document.getElementById('prev-img');
-      const tabNameEl = document.getElementById('ptab-name');
-      let   activeUrl = '';
-      let   shown     = false;
-
-      // Run a DOM mutation while keeping the browser window's top viewport
-      // position fixed — compensates scroll for any resulting height change.
-      function anchorTop(fn) {
-        const before = browserWin.getBoundingClientRect().top;
-        fn();
-        requestAnimationFrame(() => {
-          const delta = browserWin.getBoundingClientRect().top - before;
-          if (delta !== 0) window.scrollBy({ top: delta, behavior: 'instant' });
-        });
-      }
-
-      // localSrc: path to a local screenshot image (data-preview attribute).
-      // Falls back to ThumbIO live screenshot when absent.
-      function showPreview(name, url, localSrc) {
-        shown     = true;
-        activeUrl = url;
-
-        // Lock current height so hiding the list can't shrink the box
-        browserWin.style.minHeight = browserWin.offsetHeight + 'px';
-
-        anchorTop(() => {
-          bookmarksTab.classList.remove('active');
-          previewTab.style.display = '';
-          previewTab.classList.add('active');
-          tabNameEl.textContent = name;
-          listView.style.display = 'none';
-          panel.classList.add('active');
-        });
-
-        imgEl.classList.remove('loaded');
-        imgEl.src = '';
-        loadingEl.textContent = 'Loading preview…';
-        loadingEl.classList.remove('hidden');
-
-        const src = localSrc || ('https://image.thum.io/get/width/1280/' + url);
-
-        const tmp = new Image();
-        tmp.onload = () => {
-          anchorTop(() => {
-            browserWin.style.minHeight = '';
-            imgEl.src = tmp.src;
-            imgEl.classList.add('loaded');
-            loadingEl.classList.add('hidden');
-          });
-        };
-        tmp.onerror = () => {
-          loadingEl.textContent = 'Preview unavailable — click anywhere to open site';
-        };
-        tmp.src = src;
-      }
-
-      function reset() {
-        if (!shown) return;
-        shown = false;
-
-        anchorTop(() => {
-          browserWin.style.minHeight = '';
-          previewTab.classList.remove('active');
-          previewTab.style.display = 'none';
-          bookmarksTab.classList.add('active');
-          listView.style.display = '';
-          panel.classList.remove('active');
-          imgEl.classList.remove('loaded');
-          imgEl.src = '';
-        });
-      }
-
-      panel.addEventListener('click', () => {
-        if (activeUrl) window.open(activeUrl, '_blank', 'noopener');
-      });
-
-      bookmarksTab.addEventListener('click', reset);
-
-      document.querySelectorAll('.site-item').forEach(a => {
-        a.addEventListener('click', e => {
-          e.preventDefault();
-          showPreview(
-            a.querySelector('.site-name').textContent,
-            a.href,
-            a.dataset.preview || null
-          );
-        });
-      });
-    })();
-  </script>
-
+  <!-- ─── WEB TOOLS CATALOG ───────────────────────────── -->
   <script>
   (function () {
-    const header     = document.querySelector('.sites-header');
-    const browserWin = document.querySelector('.browser-window');
+    const SITES = [
+      { name: 'Babbel', url: 'https://www.babbel.com/', icon: '/Site_Photos/babbel.ico', desc: 'Language learning platform with structured lessons', tag: 'Learning' },
+      { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: '/Site_Photos/ChatGPT.ico', desc: 'Multipurpose large language model', tag: 'AI' },
+      { name: 'Coddy.tech', url: 'https://coddy.tech/', icon: '/Site_Photos/Coddy.ico', desc: 'Interactive coding exercises and challenges', tag: 'Learning' },
+      { name: 'CTA Gallery', url: 'https://www.cta.gallery/', icon: '/Site_Photos/CtaGallery.avif', desc: 'Call-to-action button and section design gallery', tag: 'Design' },
+      { name: 'Falstad Circuit Simulator', url: 'https://www.falstad.com/circuit/circuitjs.html', icon: '/Site_Photos/Falstad.ico', desc: 'Interactive browser-based circuit simulation', tag: 'Electronics' },
+      { name: 'Flaticon', url: 'https://www.flaticon.com/', icon: '/Site_Photos/Flaticon.png', desc: 'Free vector icons and stickers for any project', tag: 'Icons' },
+      { name: 'FontMojo', url: 'https://fontmojo.com/', icon: '/Site_Photos/FontMojo.ico', desc: 'Preview and pair fonts live for web projects', tag: 'Typography' },
+      { name: 'Footer Design', url: 'https://www.footer.design/', icon: '/Site_Photos/footer.png', desc: 'Website footer design inspiration gallery', tag: 'Design' },
+      { name: 'Google Fonts', url: 'https://fonts.google.com/', icon: '/Site_Photos/GoogleFonts.png', desc: 'Open font library and web typography tools', tag: 'Typography' },
+      { name: 'Kittl', url: 'https://www.kittl.com/', icon: '/Site_Photos/kittle.png', desc: 'Logo design, mock-ups, and brand visualization', tag: 'Design' },
+      { name: 'Minimal Gallery', url: 'https://minimal.gallery/', icon: '/Site_Photos/minimal.png', desc: 'Curated minimal and clean website design inspiration', tag: 'Design' },
+      { name: 'Nordic Semiconductor Academy', url: 'https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/', icon: '/Site_Photos/NordicSemi.webp', desc: 'nRF Connect SDK fundamentals certification course', tag: 'Embedded' },
+      { name: 'Pacdora', url: 'https://www.pacdora.com/', icon: '/Site_Photos/pacdora.ico', desc: 'Product and packaging 3D mockup generator', tag: 'Design' },
+      { name: 'PlanYourRoom.com', url: 'https://www.planyourroom.com/', icon: '/Site_Photos/PlanYourRoom.png', desc: '2D furniture layout and room visualizer', tag: 'Design' },
+      { name: 'ReactBits.dev', url: 'https://reactbits.dev', icon: '/Site_Photos/ReactBits.ico', desc: 'Animated React UI components', tag: 'React' },
+      { name: 'Supahero', url: 'https://www.supahero.io/', icon: '/Site_Photos/supahero.avif', desc: 'Hero section and background generator for websites', tag: 'Design' },
+      { name: 'Template Maker', url: 'https://www.templatemaker.nl/en/', icon: '/Site_Photos/templateMaker.png', desc: 'Outline template generator for custom box dielines', tag: 'Packaging' },
+      { name: 'Text Behind Image', url: 'https://textbehindimage.com/', icon: '/Site_Photos/TextBehindImage.ico', desc: 'Place text behind photo subjects for layered effects', tag: 'Design' },
+      { name: 'TextureFabrik', url: 'https://texturefabrik.com/', icon: '/Site_Photos/textureFabrik.png', desc: 'Free textures, patterns, and graphics for 3D and design', tag: '3D / Blender' },
+      { name: 'TextureLabs.org', url: 'https://texturelabs.org/', icon: '/Site_Photos/textureLabs.png', desc: 'Free surface textures and materials gallery', tag: '3D / Blender' },
+      { name: 'Transparent Textures', url: 'https://transparenttextures.com/', icon: '/Site_Photos/transparenttextures.png', desc: 'CSS background texture and pattern library', tag: 'Design' },
+      { name: 'Typing.com', url: 'https://www.typing.com/student/lessons', icon: '/Site_Photos/Typing.webp', desc: 'Typing speed trainer with structured lessons', tag: 'Learning' },
+      { name: 'Uiverse.io', url: 'https://uiverse.io', icon: '/Site_Photos/uiverse.png', desc: 'Open-source HTML & CSS UI component library', tag: 'HTML / CSS', preview: './site-previews/uiverse.jpg' },
+      { name: 'Unicorn Studio', url: 'https://www.unicorn.studio/', icon: '/Site_Photos/UnicornStudio.png', desc: 'Creative studio for interactive digital experiences', tag: 'Design' },
+      { name: 'WolframAlpha', url: 'https://www.wolframalpha.com/', icon: '/Site_Photos/wolframalpha.png', desc: 'Symbolic AI for mathematics and science computations', tag: 'Math' },
+    ];
 
-    // Start collapsed — header looks like a button, browser hidden
-    header.classList.add('is-btn');
-    browserWin.style.display   = 'none';
-    browserWin.style.opacity   = '0';
-    browserWin.style.transform = 'translateY(-10px)';
+    const navBtn     = document.getElementById('nav-web-tools-btn');
+    const overlayEl  = document.getElementById('catalog-overlay');
+    const closeBtn   = document.getElementById('catalog-close-btn');
+    const countEl    = document.getElementById('catalog-modal-count');
+    const filtersEl  = document.getElementById('catalog-filters');
+    const gridEl     = document.getElementById('catalog-grid');
 
-    let isOpen = false;
+    countEl.textContent = `${SITES.length} Tools`;
 
-    header.addEventListener('click', () => {
-      if (!isOpen) {
-        isOpen = true;
-        header.classList.remove('is-btn');
-        header.classList.add('is-open');
-        browserWin.style.display = '';
-        // Double rAF ensures display change renders before transition fires
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          browserWin.style.opacity   = '1';
-          browserWin.style.transform = 'translateY(0)';
-        }));
-      } else {
-        isOpen = false;
-        header.classList.remove('is-open');
-        header.classList.add('is-btn');
-        browserWin.style.opacity   = '0';
-        browserWin.style.transform = 'translateY(-10px)';
-        setTimeout(() => { if (!isOpen) browserWin.style.display = 'none'; }, 300);
+    // ── Deterministic hue per tag, for colored pills ──
+    function tagHue(tag) {
+      let h = 0;
+      for (let i = 0; i < tag.length; i++) h = (h * 31 + tag.charCodeAt(i)) % 360;
+      return h;
+    }
+
+    // ── Build filter chips ─────────────────────────────
+    const tags = ['All', ...new Set(SITES.map(s => s.tag))];
+    let activeTag = 'All';
+
+    tags.forEach(tag => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'catalog-chip' + (tag === 'All' ? ' is-active' : '');
+      chip.textContent = tag;
+      chip.addEventListener('click', () => {
+        activeTag = tag;
+        filtersEl.querySelectorAll('.catalog-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+        applyFilter();
+      });
+      filtersEl.appendChild(chip);
+    });
+
+    function applyFilter() {
+      gridEl.querySelectorAll('.catalog-card').forEach(card => {
+        const match = activeTag === 'All' || card.dataset.tag === activeTag;
+        if (match) {
+          card.style.display = '';
+          requestAnimationFrame(() => card.classList.remove('is-filtered-out'));
+        } else {
+          card.classList.add('is-filtered-out');
+          setTimeout(() => {
+            if (card.classList.contains('is-filtered-out')) card.style.display = 'none';
+          }, 300);
+        }
+      });
+    }
+
+    // ── Build cards ─────────────────────────────────────
+    const thumbObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        loadThumb(entry.target);
+        thumbObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.1, rootMargin: '250px' });
+
+    function loadThumb(thumbEl) {
+      const img = thumbEl.querySelector('.catalog-thumb-img');
+      const src = thumbEl.dataset.preview || ('https://image.thum.io/get/width/640/' + thumbEl.dataset.url);
+      const tmp = new Image();
+      tmp.onload = () => { img.src = tmp.src; img.classList.add('is-loaded'); };
+      tmp.src = src;
+    }
+
+    SITES.forEach((site, idx) => {
+      const hue = tagHue(site.tag);
+
+      const card = document.createElement('a');
+      card.className = 'catalog-card';
+      card.href = site.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.dataset.tag = site.tag;
+      card.style.transitionDelay = ((idx % 8) * 55) + 'ms';
+
+      card.innerHTML = `
+        <div class="catalog-card-inner">
+          <div class="catalog-thumb" data-url="${site.url}" ${site.preview ? `data-preview="${site.preview}"` : ''}>
+            <div class="catalog-thumb-fallback"><img src="${site.icon}" alt=""></div>
+            <img class="catalog-thumb-img" alt="">
+            <div class="catalog-thumb-scrim"></div>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-top">
+              <div class="catalog-icon-chip"><img src="${site.icon}" alt="" onerror="this.parentElement.style.display='none'"></div>
+              <span class="catalog-tag-pill" style="--tag-color:hsl(${hue} 75% 75%); --tag-bg:hsla(${hue},70%,50%,0.14); --tag-border:hsla(${hue},70%,60%,0.35)">${site.tag}</span>
+            </div>
+            <h3 class="catalog-card-title">${site.name}</h3>
+            <p class="catalog-card-desc">${site.desc}</p>
+          </div>
+          <span class="catalog-card-arrow">&#8599;</span>
+        </div>
+      `;
+
+      gridEl.appendChild(card);
+      thumbObserver.observe(card.querySelector('.catalog-thumb'));
+
+      // 3D tilt on hover (pointer devices only)
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const inner = card.querySelector('.catalog-card-inner');
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top) / rect.height;
+          const rx = (0.5 - py) * 10;
+          const ry = (px - 0.5) * 12;
+          inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+        card.addEventListener('mouseleave', () => { inner.style.transform = ''; });
       }
+    });
+
+    // ── Reveal grid cards the first time the overlay opens ──
+    let revealed = false;
+    function revealGrid() {
+      if (revealed) return;
+      revealed = true;
+      requestAnimationFrame(() => gridEl.classList.add('is-revealed'));
+    }
+
+    // ── Open / close overlay — reachable only from the nav bar ──
+    function openCatalog() {
+      overlayEl.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      revealGrid();
+    }
+    function closeCatalog() {
+      overlayEl.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    navBtn.addEventListener('click', openCatalog);
+    closeBtn.addEventListener('click', closeCatalog);
+    overlayEl.addEventListener('click', e => { if (e.target === overlayEl) closeCatalog(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlayEl.classList.contains('is-open')) closeCatalog();
     });
   })();
   </script>
@@ -2527,69 +2924,56 @@
     </div>
   </section>
 
-  <!-- ─── ARM PROJECTS CAROUSEL + MODAL ───────────────── -->
+  <!-- ─── PROFESSIONAL EXPERIENCE HERO + MODAL ────────── -->
   <script>
     (function () {
       const SUB_LETTERS = ['a', 'b', 'c'];
       const PHOTO_DIR   = './ExperienceCount/';
 
-      const pgrid      = document.getElementById('projects-grid');
+      // ── DOM refs ────────────────────────────────────
+      const sectionEl  = document.getElementById('experience');
+      const trackEl    = document.getElementById('exp-track');
+      const stageEl    = document.getElementById('exp-stage');
+      const boxEl      = document.getElementById('exp-box');
+      const shadowEl   = document.getElementById('exp-box-shadow');
+      const imagesEl   = document.getElementById('exp-box-images');
+      const hudEl      = document.getElementById('exp-hud');
+      const cueEl      = document.getElementById('exp-scroll-cue');
+      const itemsEl    = document.getElementById('exp-items');
+      const curNumEl   = document.getElementById('exp-counter-current');
+      const totNumEl   = document.getElementById('exp-counter-total');
+      const fillEl     = document.getElementById('exp-counter-fill');
+      const viewBtn    = document.getElementById('exp-view-btn');
+
       const overlay    = document.getElementById('project-modal');
       const mgrid      = document.getElementById('project-modal-grid');
       const returnBtn  = document.getElementById('modal-return-btn');
 
+      // ── Fetch helpers ───────────────────────────────
+      async function head(url) {
+        try { const res = await fetch(url, { method: 'HEAD' }); return res.ok; }
+        catch { return false; }
+      }
+      async function fetchText(url) {
+        try {
+          const res = await fetch(url);
+          return res.ok ? (await res.text()).trim() : '';
+        } catch { return ''; }
+      }
+
+      function parseStats(raw) {
+        return raw.split(/\||\n/).map(s => s.trim()).filter(Boolean).map(seg => {
+          const m = seg.match(/^(.*?):\s*([\d.,]+)\s*$/);
+          return m
+            ? { label: m[1].trim(), value: m[2].trim(), isStat: true }
+            : { label: seg, isStat: false };
+        });
+      }
+
+      // ── Modal ────────────────────────────────────────
       function closeModal() {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
-      }
-
-      async function detectIds() {
-        const ids = [];
-        let i = 1;
-        while (true) {
-          const res = await fetch(`${PHOTO_DIR}${i}.png`, { method: 'HEAD' });
-          if (!res.ok) break;
-          ids.push(i);
-          i++;
-        }
-        return ids;
-      }
-
-      async function init() {
-        const ids = await detectIds();
-        for (const id of ids) {
-          const div = document.createElement('div');
-          div.className = 'project-item';
-
-          const imgWrap = document.createElement('div');
-          imgWrap.className = 'project-img-wrap';
-          const img = document.createElement('img');
-          img.src = `${PHOTO_DIR}${id}.png`;
-          img.alt = `Project ${id}`;
-          imgWrap.appendChild(img);
-          div.appendChild(imgWrap);
-
-          div.addEventListener('click', () => openModal(id));
-          pgrid.appendChild(div);
-
-          const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
-          if (text) {
-            const p = document.createElement('p');
-            p.className = 'project-caption';
-            p.textContent = text;
-            div.appendChild(p);
-          }
-        }
-      }
-
-      init();
-
-      // ── Modal ─────────────────────────────────────────────
-      async function fetchText(path) {
-        try {
-          const res = await fetch(path);
-          return res.ok ? (await res.text()).trim() : '';
-        } catch { return ''; }
       }
 
       async function openModal(id) {
@@ -2622,142 +3006,323 @@
         cols.forEach(col => mgrid.appendChild(col));
       }
 
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) closeModal();
-      });
-
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
       returnBtn.addEventListener('click', closeModal);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeModal();
-      });
+      // ── Build item data ──────────────────────────────
+      const ITEMS = [];
+      let current = -1;
 
-      // ── Curtain reveal ────────────────────────────────
-      const gridWrap = document.querySelector('.projects-grid-wrap');
-      const curtainObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          gridWrap.classList.add('revealed');
-          curtainObserver.unobserve(entry.target);
+      async function detectIds() {
+        const ids = [];
+        let i = 1;
+        while (await head(`${PHOTO_DIR}${i}.png`)) { ids.push(i); i++; }
+        return ids;
+      }
+
+      async function init() {
+        const ids = await detectIds();
+        if (!ids.length) { sectionEl.style.display = 'none'; return; }
+
+        for (const id of ids) {
+          const raw       = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+          const hasDetail = await head(`${PHOTO_DIR}${id}a.png`);
+          ITEMS.push({ id, stats: raw ? parseStats(raw) : [], hasDetail });
+        }
+        build();
+      }
+
+      function build() {
+        totNumEl.textContent = String(ITEMS.length).padStart(2, '0');
+
+        ITEMS.forEach((item, idx) => {
+          const img = document.createElement('img');
+          img.src = `${PHOTO_DIR}${item.id}.png`;
+          img.alt = `Experience ${idx + 1}`;
+          imagesEl.appendChild(img);
+          item.imgEl = img;
+
+          const wrap = document.createElement('div');
+          wrap.className = 'exp-item';
+          item.stats.forEach(st => {
+            const row = document.createElement('div');
+            row.className = 'exp-stat';
+            row.innerHTML = st.isStat
+              ? `<span class="exp-stat-num" data-target="${st.value}">0</span><span class="exp-stat-label">${st.label}</span>`
+              : `<span class="exp-stat-label exp-stat-line">${st.label}</span>`;
+            wrap.appendChild(row);
+          });
+          itemsEl.appendChild(wrap);
+          item.el = wrap;
         });
-      }, { threshold: 0.3 });
-      curtainObserver.observe(gridWrap);
+
+        setActive(0);
+        computeLayout();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', () => { computeLayout(); onScroll(); });
+        stageEl.addEventListener('mousemove', onMouseMove);
+        onScroll();
+      }
+
+      // ── Count-up numbers ─────────────────────────────
+      function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+      function animateCount(el) {
+        if (el.dataset.animated === '1') return;
+        el.dataset.animated = '1';
+        const raw    = el.dataset.target;
+        const target = parseFloat(raw.replace(/,/g, ''));
+        if (Number.isNaN(target)) { el.textContent = raw; return; }
+        const isInt  = Number.isInteger(target);
+        const start  = performance.now();
+        const dur    = 900;
+        function step(now) {
+          const t   = Math.min((now - start) / dur, 1);
+          const val = target * easeOutExpo(t);
+          el.textContent = isInt ? Math.round(val).toLocaleString() : val.toFixed(1);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      function setActive(idx) {
+        if (idx === current) return;
+        current = idx;
+        ITEMS.forEach((item, i) => {
+          item.imgEl.classList.toggle('is-active', i === idx);
+          item.el.classList.toggle('is-active', i === idx);
+        });
+        const item = ITEMS[idx];
+        curNumEl.textContent = String(idx + 1).padStart(2, '0');
+        viewBtn.classList.toggle('is-visible', item.hasDetail);
+        viewBtn.onclick = () => openModal(item.id);
+        item.el.querySelectorAll('.exp-stat-num').forEach((el, i) => {
+          setTimeout(() => animateCount(el), i * 120);
+        });
+      }
+
+      // ── Mouse parallax (only while pinned) ───────────
+      function onMouseMove(e) {
+        if (stageEl.style.position !== 'fixed') return;
+        const relX = (e.clientX / window.innerWidth  - 0.5) * 2;
+        const relY = (e.clientY / window.innerHeight - 0.5) * 2;
+        imagesEl.style.transform = `translate(${relX * -10}px, ${relY * -10}px)`;
+      }
+
+      // ── Scroll-driven pin + grow + item switching ────
+      const GROW_FRAC    = 0.275; // dot → card
+      const FLATTEN_FRAC = 0.175; // card → full-bleed
+      const ITEM_FRAC    = 0.85; // scroll per item
+
+      function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      function easeOutCubic(t)   { return 1 - Math.pow(1 - t, 3); }
+      function lerp(a, b, t)     { return a + (b - a) * t; }
+
+      let growPx = 0, flattenPx = 0, itemPx = 0, contentPx = 0;
+
+      function computeLayout() {
+        const vh = window.innerHeight;
+        growPx    = GROW_FRAC * vh;
+        flattenPx = FLATTEN_FRAC * vh;
+        itemPx    = ITEM_FRAC * vh;
+        contentPx = ITEMS.length * itemPx;
+        trackEl.style.height = (vh + growPx + flattenPx + contentPx) + 'px';
+      }
+
+      let ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+      }
+
+      function update() {
+        const vh       = window.innerHeight;
+        const trackRect = trackEl.getBoundingClientRect();
+        const trackTop  = trackRect.top + window.scrollY;
+        const trackH    = trackEl.offsetHeight;
+        const pinStart  = trackTop;
+        const pinEnd    = trackTop + trackH - vh;
+        const scrollY   = window.scrollY;
+
+        if (scrollY < pinStart) {
+          stageEl.style.position = 'absolute';
+          stageEl.style.top = '0';
+        } else if (scrollY > pinEnd) {
+          stageEl.style.position = 'absolute';
+          stageEl.style.top = (trackH - vh) + 'px';
+        } else {
+          stageEl.style.position = 'fixed';
+          stageEl.style.top = '0';
+        }
+
+        const scrolled = Math.min(Math.max(scrollY - pinStart, 0), trackH - vh);
+
+        // The grow animation starts a bit early — while the box is still
+        // scrolling into view from below, during the tail end of the
+        // previous section — instead of sitting static as a tiny dot for
+        // a full screen's worth of scroll before the pin formally begins.
+        const leadIn  = vh * 0.6;
+        const p1      = Math.min(Math.max((scrollY - (pinStart - leadIn)) / (leadIn + growPx), 0), 1);
+        const p2 = Math.min(Math.max((scrolled - growPx) / flattenPx, 0), 1);
+        const p3 = Math.min(Math.max((scrolled - growPx - flattenPx) / contentPx, 0), 1);
+
+        // Box clip shape: dot → card → full-bleed
+        let insetV, insetH, radius;
+        if (p1 < 1) {
+          const e = easeOutCubic(p1);
+          insetV = lerp(48, 3, e);
+          insetH = lerp(48, 3, e);
+          radius = lerp(300, 28, e);
+        } else {
+          const e = easeInOutCubic(p2);
+          insetV = lerp(3, 0, e);
+          insetH = lerp(3, 0, e);
+          radius = lerp(28, 0, e);
+        }
+        boxEl.style.clipPath = `inset(${insetV}vh ${insetH}vw round ${radius}px)`;
+
+        shadowEl.style.inset        = `${insetV}vh ${insetH}vw`;
+        shadowEl.style.borderRadius = `${radius}px`;
+        shadowEl.style.opacity      = String(p1 < 1 ? p1 * 0.9 : (1 - easeInOutCubic(p2)));
+
+        hudEl.classList.toggle('is-visible', p1 > 0.55);
+        cueEl.classList.toggle('is-hidden', p1 > 0.04);
+
+        fillEl.style.width = (p3 * 100) + '%';
+        let idx = Math.floor(p3 * ITEMS.length);
+        idx = Math.min(idx, ITEMS.length - 1);
+        setActive(idx);
+      }
+
+      init();
     })();
   </script>
 
-  <!-- ─── PERSONAL PROJECTS CAROUSEL + MODAL ──────────── -->
+  <!-- ─── PERSONAL PROJECTS GRID ───────────────────────── -->
   <script>
     (function () {
-      const SUB_LETTERS = ['a', 'b', 'c'];
-      const PHOTO_DIR   = './PersonalProjectPhotos/';
+      const PHOTO_DIR = './PersonalProjectPhotos/';
+      const gridEl    = document.getElementById('ptools-grid');
+      const hintEl    = document.getElementById('ptools-hint');
 
-      const pgrid     = document.getElementById('personal-projects-grid');
-      const overlay   = document.getElementById('personal-project-modal');
-      const mgrid     = document.getElementById('personal-project-modal-grid');
-      const returnBtn = document.getElementById('personal-modal-return-btn');
-
-      function closeModal() {
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
+      async function head(url) {
+        try { const res = await fetch(url, { method: 'HEAD' }); return res.ok; }
+        catch { return false; }
+      }
+      async function fetchText(url) {
+        try {
+          const res = await fetch(url);
+          return res.ok ? (await res.text()).trim() : '';
+        } catch { return ''; }
       }
 
       async function detectIds() {
         const ids = [];
         let i = 1;
-        while (true) {
-          const res = await fetch(`${PHOTO_DIR}${i}.png`, { method: 'HEAD' });
-          if (!res.ok) break;
-          ids.push(i);
-          i++;
-        }
+        while (await head(`${PHOTO_DIR}${i}.png`)) { ids.push(i); i++; }
         return ids;
+      }
+
+      // Typewriter reveal — same char-stagger technique as the "Let's
+      // Connect" message field and the section headings.
+      function typeIn(el, text) {
+        el.innerHTML = '';
+        [...text].forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'ptools-desc-char';
+          span.textContent = ch === ' ' ? ' ' : ch;
+          span.style.animationDelay = `${i * 16}ms`;
+          el.appendChild(span);
+        });
       }
 
       async function init() {
         const ids = await detectIds();
-        for (const id of ids) {
-          const div = document.createElement('div');
-          div.className = 'project-item';
+        if (!ids.length) { gridEl.closest('.ptools-section').style.display = 'none'; return; }
 
-          const imgWrap = document.createElement('div');
-          imgWrap.className = 'project-img-wrap';
-          const img = document.createElement('img');
-          img.src = `${PHOTO_DIR}${id}.png`;
-          img.alt = `Personal Project ${id}`;
-          imgWrap.appendChild(img);
-          div.appendChild(imgWrap);
+        const cards = [];
 
-          div.addEventListener('click', () => openModal(id));
-          pgrid.appendChild(div);
+        ids.forEach((id, idx) => {
+          const card = document.createElement('div');
+          card.className = 'ptools-card';
+          card.innerHTML = `
+            <div class="ptools-card-media">
+              <img src="${PHOTO_DIR}${id}.png" alt="">
+            </div>
+            <div class="ptools-card-scrim"></div>
+            <div class="ptools-card-caption">
+              <div class="ptools-card-top">
+                <span class="ptools-card-num">${String(idx + 1).padStart(2, '0')}</span>
+                <span class="ptools-card-title"></span>
+              </div>
+              <p class="ptools-card-desc"></p>
+            </div>
+          `;
+          gridEl.appendChild(card);
+          cards.push({ id, card, typed: false });
+        });
 
-          const text = await fetchText(`${PHOTO_DIR}${id}d.txt`);
-          if (text) {
-            const p = document.createElement('p');
-            p.className = 'project-caption';
-            p.textContent = text;
-            div.appendChild(p);
-          }
+        // Optional per-project video slot: PersonalProjectPhotos/{id}.mp4 —
+        // drop a matching video in and it autoplays on hover; falls back to
+        // the still image when no video exists yet.
+        for (const item of cards) {
+          const hasVideo = await head(`${PHOTO_DIR}${item.id}.mp4`);
+          if (!hasVideo) continue;
+          const video = document.createElement('video');
+          video.muted = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.preload = 'none';
+          video.innerHTML = `<source src="${PHOTO_DIR}${item.id}.mp4" type="video/mp4">`;
+          item.card.querySelector('.ptools-card-media').appendChild(video);
+          item.video = video;
+
+          item.card.addEventListener('mouseenter', () => {
+            video.currentTime = 0;
+            video.classList.add('is-active');
+            video.play().catch(() => {});
+          });
+          item.card.addEventListener('mouseleave', () => {
+            video.classList.remove('is-active');
+            video.pause();
+          });
         }
+
+        for (const { id, card, video } of cards) {
+          const title = await fetchText(`${PHOTO_DIR}${id}d.txt`);
+          const desc  = await fetchText(`${PHOTO_DIR}${id}e.txt`);
+          card.querySelector('.ptools-card-title').textContent = title || `Project ${id}`;
+          card.querySelector('.ptools-card-media img').alt = title;
+          if (video) video.setAttribute('aria-label', title);
+          card.dataset.desc = desc;
+        }
+
+        cards.forEach(item => {
+          item.card.addEventListener('mouseenter', () => {
+            if (item.typed || !item.card.dataset.desc) return;
+            item.typed = true;
+            typeIn(item.card.querySelector('.ptools-card-desc'), item.card.dataset.desc);
+          });
+        });
+
+        const revealObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-revealed');
+            revealObserver.unobserve(entry.target);
+          });
+        }, { threshold: 0.2 });
+        cards.forEach(({ card }) => revealObserver.observe(card));
+
+        const hintObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => hintEl.classList.toggle('is-visible', entry.isIntersecting));
+        }, { threshold: 0.15 });
+        hintObserver.observe(gridEl);
       }
 
       init();
-
-      async function fetchText(path) {
-        try {
-          const res = await fetch(path);
-          return res.ok ? (await res.text()).trim() : '';
-        } catch { return ''; }
-      }
-
-      async function openModal(id) {
-        mgrid.innerHTML = '<p style="color:var(--text-dim);padding:1rem">Loading…</p>';
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        const cols = await Promise.all(SUB_LETTERS.map(async letter => {
-          const imgSrc = `${PHOTO_DIR}${id}${letter}.png`;
-          const txtSrc = `${PHOTO_DIR}${id}${letter}.txt`;
-          const text   = await fetchText(txtSrc);
-
-          const col = document.createElement('div');
-          col.className = 'project-modal-col';
-
-          const img = document.createElement('img');
-          img.src = imgSrc;
-          img.alt = `${id}${letter}`;
-
-          col.appendChild(img);
-          if (text) {
-            const p = document.createElement('p');
-            p.textContent = text;
-            col.appendChild(p);
-          }
-          return col;
-        }));
-
-        mgrid.innerHTML = '';
-        cols.forEach(col => mgrid.appendChild(col));
-      }
-
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) closeModal();
-      });
-
-      returnBtn.addEventListener('click', closeModal);
-
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeModal();
-      });
-
-      const gridWrap = document.getElementById('personal-projects-grid-wrap');
-      const curtainObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          gridWrap.classList.add('revealed');
-          curtainObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.3 });
-      curtainObserver.observe(gridWrap);
     })();
   </script>
 </body>
