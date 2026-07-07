@@ -1,0 +1,1 @@
+A 3D-printed RC chassis engineered from scratch to house the steering servo, drive motor, and wiring in a single lightweight shell.
