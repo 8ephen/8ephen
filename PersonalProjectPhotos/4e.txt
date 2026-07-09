@@ -1,0 +1,1 @@
+N8N automation to take and store notes and photos of returned products for quality assesments and design modifications. Reduced quality assesment lead time by 32 hours per month.
