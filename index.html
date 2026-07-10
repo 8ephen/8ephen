@@ -136,7 +136,7 @@
        it off to its resting position/size inside the showcase section. */
     #laptop-bg {
       position: fixed;
-      top: 50%;
+      top: 67%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 170vmin;
@@ -1663,6 +1663,37 @@
       border-color: rgba(240,240,240,0.3);
     }
 
+    .form-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .form-consent input[type="checkbox"] {
+      margin-top: 2px;
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      accent-color: lightblue;
+      cursor: pointer;
+    }
+
+    .form-consent label {
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+
+    .form-consent label a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .form-consent label a:hover { color: lightblue; }
+
     .form-status {
       text-align: center;
       font-size: 0.8rem;
@@ -1739,6 +1770,89 @@
       transform: translateX(10px);
       background: var(--text);
     }
+
+    /* ─── SITE FOOTER / PRIVACY ─────────────────────── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: clamp(32px, 5vh, 56px) clamp(20px, 5vw, 80px) clamp(24px, 4vh, 40px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .footer-privacy {
+      max-width: 640px;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+    }
+
+    .footer-privacy summary {
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .footer-privacy summary::-webkit-details-marker { display: none; }
+
+    .footer-privacy summary:hover { color: var(--text); }
+
+    .footer-privacy summary::after {
+      content: '+';
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+    }
+
+    .footer-privacy[open] summary::after { transform: rotate(45deg); }
+
+    .footer-privacy-body {
+      margin-top: 14px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-privacy-body h3 {
+      font-family: 'Nanum Myeongjo', serif;
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-top: 6px;
+    }
+
+    .footer-privacy-body a { color: var(--text-dim); }
+    .footer-privacy-body a:hover { color: var(--text); }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+    }
+
+    .footer-meta a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-meta a:hover { color: var(--text); }
+
+    .footer-meta-dot { opacity: 0.4; }
   </style>
 </head>
 <body>
@@ -2186,6 +2300,8 @@
     const ORBIT_END       = 65.46;  // deg — resting, front-facing
     const SIZE_START      = 170;    // vmin — viewport-covering
     const SIZE_END        = 100;    // vmin — resting size (current layout)
+    const TOP_START       = 67;     // % — low on screen, at page load
+    const TOP_END         = 50;     // % — resting, vertically centered
     const HERO_MARGIN_MAX = 32;     // px — space above/sides once shrunk
     const HERO_RADIUS_MAX = 28;     // px — corner rounding once shrunk
     const HERO_SHRINK_SPAN = 0.15;  // fraction of viewport height to fully shrink hero over (4x speed vs. laptop)
@@ -2236,8 +2352,10 @@
 
       const eased = easeInOutQuad(laptopCurrentT);
       const size  = SIZE_START + (SIZE_END - SIZE_START) * eased;
+      const top   = TOP_START + (TOP_END - TOP_START) * eased;
       laptopEl.style.width  = size + 'vmin';
       laptopEl.style.height = size + 'vmin';
+      laptopEl.style.top    = top + '%';
       laptopEl.cameraOrbit  = `${ORBIT_START + (ORBIT_END - ORBIT_START) * eased}deg 85.66deg 16m`;
 
       // Driven by the raw scroll target (not the eased value) so the mode
@@ -2917,12 +3035,47 @@
           data-placeholder="Hi, this is..."></div>
         <textarea name="message" id="cf-message" style="display:none"></textarea>
 
+        <div class="form-consent">
+          <input type="checkbox" id="cf-consent" name="consent" required>
+          <label for="cf-consent">I agree to the <a href="#privacy-policy">Privacy Policy</a> and consent to my information being used to respond to this inquiry.</label>
+        </div>
+
         <button type="submit" class="form-submit">Send Message</button>
         <p class="form-status" id="form-status"></p>
 
       </form>
     </div>
   </section>
+
+  <!-- ─── FOOTER / RIGHTS & PRIVACY ───────────────────── -->
+  <footer class="site-footer">
+    <details class="footer-privacy" id="privacy-policy">
+      <summary>Privacy Policy</summary>
+      <div class="footer-privacy-body">
+        <h3>Information We Collect</h3>
+        <p>The contact form on this site collects information you choose to submit: your name, email address, and optionally your company, subject, phone number, physical address, and message. This data is provided voluntarily when you contact me.</p>
+
+        <h3>How It's Used</h3>
+        <p>Submitted information is used solely to respond to your inquiry and, if requested, to arrange a meeting. It is not sold, rented, or used for advertising.</p>
+
+        <h3>Third-Party Processing</h3>
+        <p>Form submissions are processed by <a href="https://formspree.io" target="_blank" rel="noopener noreferrer">Formspree</a>, a third-party form backend service. See <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree's Privacy Policy</a> for details on how they handle data in transit and storage.</p>
+
+        <h3>Cookies &amp; Tracking</h3>
+        <p>This site does not use analytics or tracking cookies of its own.</p>
+
+        <h3>Your Rights</h3>
+        <p>You may request access to, correction of, or deletion of any information you've submitted by reaching out through the contact form above.</p>
+
+        <p style="margin-top: 4px; opacity: 0.7;">Effective Date: July 10, 2026</p>
+      </div>
+    </details>
+
+    <div class="footer-meta">
+      <span>&copy; <span id="footer-year"></span> Stephen Yoshida. All rights reserved.</span>
+    </div>
+  </footer>
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 
   <!-- ─── PROFESSIONAL EXPERIENCE HERO + MODAL ────────── -->
   <script>
